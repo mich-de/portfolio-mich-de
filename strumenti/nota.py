@@ -86,7 +86,7 @@ _RE_DEF_NOTA = re.compile(r"^\[\^([a-z0-9-]{1,20})\]:(.*)$")
 _RE_RIF_NOTA = re.compile(r"\[\^([a-z0-9-]{1,20})\]")
 _RE_SEPARATORE = re.compile(r"^\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)*\|?$")
 _RE_RIQUADRO = re.compile(r"^\[!([^\]]+)\]$")
-_ESCAPABILI = set("\\*_`[]()#>-!~=|^.")
+_ESCAPABILI = set("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")   # tutta la punteggiatura ASCII
 
 
 class ErroreNota(Exception):

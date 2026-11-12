@@ -163,6 +163,8 @@ class InLinea(unittest.TestCase):
 
     def test_escape(self):
         self.assertEqual(corpo(r"\*non grassetto\* e \\"), r"<p>*non grassetto* e \</p>")
+        self.assertEqual(corpo(r"Pass\@3 a 2\$ e \% \{x\}"), "<p>Pass@3 a 2$ e % {x}</p>")
+        self.assertEqual(corpo(r"\è resta"), "<p>\\è resta</p>".replace("\\\\", "\\"))
 
     def test_link(self):
         self.assertEqual(corpo("[sito](https://mdeangelis.me/diario/?a=1&b=2#x)"),

@@ -1155,9 +1155,18 @@ main,
 
 /* Il testo del post */
 .nota {
-  max-width: 70ch;
   font-size: 1rem;
   line-height: 1.8;
+}
+
+/* il testo resta su righe comode; tabelle e gallerie possono allargarsi */
+.nota > * {
+  max-width: 70ch;
+}
+
+.nota > .tabella,
+.nota > .galleria {
+  max-width: 62rem;
 }
 
 .nota-titolo {

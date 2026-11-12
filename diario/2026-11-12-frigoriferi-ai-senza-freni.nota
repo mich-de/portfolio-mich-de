@@ -1,0 +1,86 @@
+titolo: Frigoriferi a 50 gradi e AI senza freni: chi protegge chi sta nel mezzo?
+data: 2026-11-12
+tipo: cronaca
+tag: cybersecurity, ai, pmi, reti, geopolitica
+sommario: Dallo tsunami dell'Ottobre Nero al feudalesimo cibernetico di Project Glasswing: perché le PMI e i cittadini sono rimasti schiacciati tra gli sciami di agenti autonomi e i super-scudi per pochi eletti.
+---
+
+Negli ultimi giorni il confine tra attacco informatico e sabotaggio del mondo fisico è definitivamente saltato. Non parliamo più di semplici disservizi temporanei: in diverse catene di supermercati e centri commerciali in Europa e qui in Italia qualcuno è entrato da remoto nei sistemi di controllo del freddo, ha manomesso il ciclo di sbrinamento e ha portato i banchi frigo a *circa 50 gradi*, costringendo a buttare tonnellate di carne, pesce e surgelati. Pochi giorni prima, sull'exchange *Binance*, si consumava il furto più grande della storia con *6 miliardi di dollari* volatilizzati in un colpo solo.
+
+E questo è solo il culmine di quello che gli addetti ai lavori hanno battezzato l'«Ottobre Nero» della sicurezza informatica: quattordici giorni di fuoco in cui sono state attaccate grandi banche americane (*JPMorgan*, *Morgan Stanley*, *Bank of America*) ed è stata bucata *Quest Diagnostics*, esponendo i dati clinici dei pazienti di metà degli ospedali statunitensi.
+
+Guardando sotto il cofano di questa tempesta perfetta, si capisce che non siamo davanti alla solita ondata di criminalità informatica, ma a un cambio di paradigma brutale.
+
+# 1. Il buco nelle fondamenta: PHP, Node.js e la supply chain del cloud
+
+Il primo elemento di fragilità sta nelle fondamenta stesse su cui poggia internet. Durante l'Ottobre Nero sono venuti giù i due pilastri che reggono la stragrande maggioranza dei servizi web e aziendali:
+
+- *La falla decennale su PHP (`PHP-to-shell`)*: dentro PHP — il linguaggio che fa girare circa il *70% dei siti web mondiali*, incluso tutto l'ecosistema WordPress — si nascondeva da oltre dieci anni una vulnerabilità critica. Chiunque la sfruttasse poteva aprire una _reverse shell_ ed entrare direttamente nel server con permessi di *Amministratore assoluto (`admin`)*, copiando database e password e uscendo senza lasciare la minima traccia nei log. La falla è apparsa così devastante che le autorità governative hanno consigliato di staccare la spina e mettere offline i server PHP non ancora aggiornati.
+- *L'attacco a `Node.js` e ai provider di inferenza AI*: in contemporanea, un'offensiva coordinata ha colpito `Node.js` (usato per gran parte delle web-app moderne) e l'intera filiera del cloud. Hanno modificato i binari di *LiteLLM* per rubare le credenziali a chi fa inferenza sui modelli linguistici; hanno bucato *OpenCode* e manomesso su GitHub i file del programma da riga di comando del colosso europeo *OVHcloud*; e sono entrati nei sistemi di *Railway*, accedendo direttamente alle *variabili d'ambiente* — la cassaforte dove gli sviluppatori custodiscono API key, accessi ai database e certificati — costringendo migliaia di sistemisti a svegliarsi nel cuore della notte con i servizi down e a ruotare a mano ogni singola chiave di sicurezza.
+
+Il dramma delle falle nel codice sorgente dei framework di base (PHP, Node.js, C) è che ==nessuno sa di essere vulnerabile finché la falla non viene scoperta e resa pubblica==. E nell'istante in cui esce la notizia, parte il cronometro tra chi corre ad aggiornare e chi corre a bucare.
+
+# 2. Dalla «banda del buco» agli sciami di 10.000 cloni
+
+Perché una vulnerabilità su PHP o su un pannello industriale oggi fa molti più danni rispetto a tre anni fa? Perché dall'altra parte della tastiera non ci sono più solo esseri umani.
+
+I nuovi modelli AI di frontiera — come *Fable 5.2* appena rilasciato da Anthropic o il cinese *Kimi K3.1 Pro* di Moonshot AI — hanno superato la fase del semplice chatbot: sono *agenti autonomi* capaci di usare il terminale e il computer da soli.
+
+Per capire la scala di potenza: con un singolo prompt, Fable 5.2 ha sviluppato in 8 ore un intero videogioco tripla A in 3D (spendendo 550 dollari di API per generare modelli, luci, fisica e suoni); in un altro test ha orchestrato *1.000 sotto-agenti in parallelo* per scrivere da zero, partendo da una cartella vuota, un *sistema operativo completo* capace di fare bootstrap su un portatile e gestire rete, file system, webcam e stampanti. In 30 ore ha persino formalizzato al 100% l'Ultimo Teorema di Fermat.
+
+Ora ribaltiamo questa potenza sul lato oscuro. Se prima serviva un gruppo hacker organizzato e mesi di studio per colpire un bersaglio, oggi un singolo malintenzionato può prendere un modello aperto, rimuovere i blocchi morali e lanciare *10.000 agenti autonomi in parallelo* che scandagliano l'intera rete mondiale al millisecondo, scrivono gli exploit in automatico ed entrano nei server prima ancora che un amministratore di sistema abbia finito di leggere il bollettino di sicurezza.
+
+---
+
+# 3. Il feudalesimo degli scudi: Mythos 5.2, GPT-6 Cyber e la Cina
+
+Per difendersi da uno sciame di diecimila agenti ostili non puoi usare il modello AI «educato» e pieno di _guardrail_ che vendono al pubblico a 20 dollari al mese: un modello che si rifiuta per policy di generare un payload malevolo non può nemmeno fare _red teaming_ sulla tua rete per trovare le falle prima dei criminali.
+
+Così i giganti tecnologici hanno diviso l'Intelligenza Artificiale in due classi sociali:
+
+| Modello / Progetto | Origine | Caratteristiche Cyber | Chi può usarlo |
+|--------------------|:-------:|-----------------------|----------------|
+| *Mythos 5.2* | USA (Anthropic) | Stesso modello di Fable 5.2, ma senza le protezioni aggiuntive per cybersecurity e biologia: pensato per attacco/difesa ad altissimo livello. | Solo i giganti ammessi nel consorzio riservato *Project Glasswing*. |
+| *GPT-6 Cyber* | USA (OpenAI) | Ha scovato da solo *81 zero-day gravi su Firefox* e decine di _privilege escalation_ sul kernel *Linux*. | Riservato a enti governativi e infrastrutture selezionate. |
+| *Kimi K3.1 Pro* (API vs Open) | Cina (Moonshot) | MoE da 2,8 trilioni di parametri; *90,5%* nel test di attacco xdev-bench-hard (prima della pulizia dei dati cyber). | Piena potenza via API controllata; *castrato* nella versione _open-weight_. |
+| *Mistral Large* (Sovereign) | Europa / Italia | Modelli _open-weight_ portati in casa senza blocchi commerciali e addestrati su Threat Intelligence. | NATO, difesa, grandi telco e supercomputer nazionali (es. Tecnopolo Bologna / Leonardo). |
+
+Il caso cinese di *Kimi K3.1 Pro* è emblematico: costa cinque volte meno dei rivali americani (2\$ in input e 10\$ in output per milione di token contro i 10\$/50\$ dei modelli USA), ma quando Moonshot AI ha visto quanto era letale negli attacchi informatici ha deciso, per la prima volta nella storia, di applicare una *«lobotomia preventiva»* alla versione scaricabile gratuitamente (_open-weight_). Hanno rimosso i corpus di dati relativi alla cybersecurity da entrambi gli stadi di training, facendo scendere le sue capacità offensive dal 90,5% all'81%.
+
+> [!nota]
+> Contemporaneamente, gli USA hanno alzato barricate di *anti-distillazione* su Fable e Mythos — monitorando geolocalizzazione e pattern delle query — per impedire che laboratori ostili usino centinaia di migliaia di account falsi per «rubare» le risposte dei modelli americani e addestrare i propri, un fenomeno ormai classificato come rischio di sicurezza nazionale.
+
+Il problema è che la «castrazione» dei modelli open-weight ferma solo i pesci piccoli: un'organizzazione criminale strutturata può scaricare i pesi di Kimi o di GLM, rimuovere ogni residuo di allineamento (_uncensored_) e fare qualche giorno di _fine-tuning_ sui propri dataset di exploit e vulnerabilità zero-day, riattivando un'arma offensiva letale che risponde solo a loro.
+
+# 4. La trappola di chi sta «Nel Mezzo»: le PMI italiane e i cittadini
+
+Se guardiamo la mappa del potere dall'alto, la situazione per il nostro tessuto economico è drammatica:
+
+1. *In cima ci sono le Super Enterprise e le Infrastrutture Critiche*: le grandi banche d'affari, i cloud provider globali e, in Italia, colossi come Enel, Terna, Snam, Leonardo o le grandi telco. Loro hanno accesso a _Project Glasswing_, a _Mythos 5.2_, a _GPT-6 Cyber_ o alle istanze sovrane di _Mistral_ che girano sui supercomputer nazionali (come il progetto *IT4LIA* dell'ACN a Bologna o il cluster _davinci-1_). Hanno SOC attivi H24 e usano il fuoco per combattere il fuoco.
+2. *Fuori dalle mura ci sono i Predoni*: gruppi criminali e APT che lanciano flotte da 10.000 agenti _uncensored_ a costo quasi zero.
+3. *Nel mezzo c'è il 99% del Paese*: le *Piccole e Medie Imprese (PMI)* manifatturiere, l'artigianato, gli studi professionali, la logistica, i supermercati, la piccola *Banca di Credito Cooperativo* sotto casa, i Comuni, le ASL e i singoli cittadini.
+
+Chi sta nel mezzo è chiuso fuori dal castello. Una PMI italiana non ha il permesso di acquistare Mythos 5.2 o GPT-6 Cyber per blindare i propri server; può solo usare i modelli commerciali «castrati» che si rifiutano di simulare un attacco reale. Spesso ha un unico tecnico IT (o un consulente esterno che segue decine di ditte) e un budget ridotto all'osso.
+
+Quando viene pubblicata una CVE critica su PHP o su un firewall perimetrale, la cronologia è una sentenza già scritta:
+- *Minuto 5*: le grandi infrastrutture critiche hanno già applicato la patch in automatico grazie ai loro sistemi AI dedicati.
+- *Minuto 10*: gli sciami di agenti _uncensored_ degli hacker hanno già scritto l'exploit e iniziato a bucare a tappeto chiunque sia ancora esposto.
+- *Giorno 4 (o Giorno 7)*: il tecnico della PMI italiana o del fornitore locale legge la notizia e pianifica la finestra di manutenzione per aggiornare il server senza fermare gli uffici. *Ma è già troppo tardi*: gli agenti ostili sono entrati quattro giorni prima con permessi di amministratore, hanno esfiltrato l'intero database, modificato gli IBAN sulle fatture nei flussi mail (_BEC_) o mandato a 50 gradi i frigoriferi del magazzino.
+
+---
+
+# 5. Le tre vie d'uscita e l'ombra del Grande Reset
+
+Davanti a una guerra automatizzata in cui l'attacco viaggia alla velocità del silicio e la difesa d'élite è un privilegio per pochi, restano solo tre strade possibili:
+
+- *Opzione 1 — Il Trattato di Disarmo e la democratizzazione degli scudi*: un accordo globale tra USA, Cina ed Europa per limitare strutturalmente a livello di pre-training le capacità offensive dei modelli rilasciati, accompagnato dalla creazione di sistemi di difesa AI automatici e accessibili anche alle PMI, alle banche del territorio e agli ospedali di provincia.
+- *Opzione 2 — La Cupola del Grande Fratello*: la creazione di una sovrastruttura nazionale o sovranazionale in cui mega-agenti AI governativi ispezionano e filtrano a monte tutto il traffico internet prima che arrivi ai router delle aziende e dei cittadini. Ci salverebbe dagli hacker, ma al prezzo di consegnare l'intera nostra vita digitale a un apparato di sorveglianza e ispezione di massa permanente.
+- *Opzione 3 — Spegnere tutto e ricominciare da capo (Il Grande Reset della Rete)*: ed è qui che torna alla mente la lucida profezia di *Fabio Ghioni*[^ghioni]. Quando vedi attacchi devastanti — come lo scongelamento doloso dei banchi frigo nei supermercati o il blocco di intere piattaforme — in cui *nessuno chiede un riscatto*, capisci che il movente non è il denaro, ma la demolizione del sistema.
+
+Avendo delegato ogni aspetto della nostra vita (anagrafe, sanità, risparmi, cibo) a una catena infinita di fornitori tecnologici privati vulnerabili, e avendo stratificato quarant'anni di software su protocolli insicuri, abbiamo costruito un gigante dai piedi d'argilla che, come diceva Ghioni, ==«così com'è, non è più curabile»==.
+
+Continuare a mettere toppe su PHP o aggiungere nuovi livelli di AI sopra un colabrodo non basta più. Questi attacchi puramente distruttivi sembrano avere un obiettivo preciso: togliere alle istituzioni l'illusione del controllo e portare imprese e cittadini a un tale livello di esasperazione e impotenza da rendere inevitabile il collasso, costringendo il mondo a *staccare la spina e ricostruire da zero una Nuova Rete* su fondamenta completamente diverse.
+
+Resta solo da capire chi proteggerà il 99% di noi che si trova nel mezzo mentre il vecchio mondo digitale brucia, e soprattutto chi scriverà le regole quando verrà riacceso il nuovo interruttore.
+
+[^ghioni]: Ho approfondito il pensiero di Fabio Ghioni e il legame con gli attacchi senza riscatto nel post gemello: [Il sistema non è più curabile: la profezia di Ghioni e il Grande Reset della rete](/diario/2026-11-12-il-sistema-non-e-piu-curabile/).
