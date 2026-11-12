@@ -209,33 +209,11 @@ def monogramma(classe: str) -> str:
             f'focusable="false">{tratti}</svg>')
 
 
-# ---------- Banner ASCII (stile figlet "ANSI Shadow") ----------
+# ---------- Marchio: come nel logo, MDE pieno e ANGELIS sottile ----------
 
-GLIFI = {
-    "M": ["███╗   ███╗", "████╗ ████║", "██╔████╔██║", "██║╚██╔╝██║", "██║ ╚═╝ ██║", "╚═╝     ╚═╝"],
-    "D": ["██████╗ ", "██╔══██╗", "██║  ██║", "██║  ██║", "██████╔╝", "╚═════╝ "],
-    "E": ["███████╗", "██╔════╝", "█████╗  ", "██╔══╝  ", "███████╗", "╚══════╝"],
-    "A": [" █████╗ ", "██╔══██╗", "███████║", "██╔══██║", "██║  ██║", "╚═╝  ╚═╝"],
-    "N": ["███╗   ██╗", "████╗  ██║", "██╔██╗ ██║", "██║╚██╗██║", "██║ ╚████║", "╚═╝  ╚═══╝"],
-    "G": [" ██████╗ ", "██╔════╝ ", "██║  ███╗", "██║   ██║", "╚██████╔╝", " ╚═════╝ "],
-    "L": ["██╗     ", "██║     ", "██║     ", "██║     ", "███████╗", "╚══════╝"],
-    "I": ["██╗", "██║", "██║", "██║", "██║", "╚═╝"],
-    "S": ["███████╗", "██╔════╝", "███████╗", "╚════██║", "███████║", "╚══════╝"],
-}
-_OMBRA = re.compile(r"([╗╔╝╚║═]+)")
-
-
-def _riga_banner(testo: str, riga: int) -> str:
-    s = "".join(GLIFI[c][riga] for c in testo)
-    return _OMBRA.sub(r"<i>\1</i>", s)
-
-
-def banner(parti: list, classe: str) -> str:
-    """parti: [(testo, classe_colore)] affiancati sulla stessa riga."""
-    righe = []
-    for r in range(6):
-        righe.append("".join(f'<span class="{cl}">{_riga_banner(t, r)}</span>' for t, cl in parti))
-    return f'<pre class="{classe}" aria-hidden="true">' + "\n".join(righe) + "</pre>"
+MARCHIO = ('<span class="m-scrive"><span class="m-forte">MDE</span>'
+           '<span class="m-leggero">ANGELIS</span></span>'
+           '<span class="m-cursore" aria-hidden="true"></span>')
 
 
 def prompt(cmd: str, cwd: str = "~") -> str:
@@ -376,12 +354,7 @@ def pagina(t: dict) -> str:
 
   <main id="contenuto">
     <section class="eroe" aria-labelledby="t-eroe">
-      <h1 id="t-eroe" class="visivamente-nascosto">MDEANGELIS</h1>
-      {banner([("MDE", "b-rame"), ("ANGELIS", "b-perla")], "banner banner-largo")}
-      <div class="banner-stretto">
-        {banner([("MDE", "b-rame")], "banner")}
-        {banner([("ANGELIS", "b-perla")], "banner")}
-      </div>
+      <h1 id="t-eroe" class="marchio">{MARCHIO}</h1>
 
       {prompt("neofetch")}
       <div class="neofetch">
@@ -477,11 +450,7 @@ def pagina_404() -> str:
 </head>
 <body>
   <main class="errore">
-    {banner([("MDE", "b-rame"), ("ANGELIS", "b-perla")], "banner banner-largo")}
-    <div class="banner-stretto">
-      {banner([("MDE", "b-rame")], "banner")}
-      {banner([("ANGELIS", "b-perla")], "banner")}
-    </div>
+    <p class="marchio">{MARCHIO}</p>
     {prompt("cd ./pagina-richiesta")}
     <h1 class="errore-msg">bash: cd: pagina-richiesta: File o directory non esistente</h1>
     <p class="commento" lang="en"><span aria-hidden="true"># </span>404: this page doesn't exist.</p>

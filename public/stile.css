@@ -227,7 +227,7 @@ main,
   background: var(--perla);
 }
 
-/* ---------- Eroe: banner ASCII + neofetch ---------- */
+/* ---------- Eroe: nome + neofetch ---------- */
 
 .eroe {
   display: flex;
@@ -237,40 +237,34 @@ main,
   padding: 2.5rem 0 3rem;
 }
 
-.banner {
-  margin: 0;
-  font-family: var(--mono);
-  font-weight: 400;
-  line-height: normal;
-  white-space: pre;
-  overflow: hidden;
-  font-variant-ligatures: none;
-}
-
-.banner i {
-  font-style: normal;
-  color: #4a5360;
-  text-shadow: 0.03em 0 currentColor, -0.03em 0 currentColor;
-}
-
-/* Le ombre sottili in orizzontale chiudono le fessure tra i blocchi */
-.b-rame {
-  color: var(--rame);
-  text-shadow: 0.03em 0 currentColor, -0.03em 0 currentColor, 0 0 0.6em rgb(208 134 90 / 0.4);
-}
-
-.b-perla {
+/* Il nome come nel logo: MDE pieno, ANGELIS sottile, più il cursore */
+.marchio {
+  display: flex;
+  align-items: baseline;
+  margin: 0 0 0.5rem;
+  font-size: min(8.5rem, calc((100vw - 2 * clamp(1rem, 4vw, 3rem)) / 6.3));
+  line-height: 1;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
   color: var(--perla);
-  text-shadow: 0.03em 0 currentColor, -0.03em 0 currentColor, 0 0 0.6em rgb(238 241 243 / 0.14);
+  text-shadow: 0 0 0.35em rgb(208 134 90 / 0.18);
 }
 
-/* 81 colonne su una riga; ogni carattere è largo 0,6 em */
-.banner-largo {
-  font-size: calc((min(100vw, var(--larghezza)) - 2 * clamp(1rem, 4vw, 3rem)) / 48.6 - 0.1px);
+.m-forte {
+  font-weight: 800;
 }
 
-.banner-stretto {
-  display: none;
+.m-leggero {
+  font-weight: 200;
+}
+
+.m-cursore {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.78em;
+  margin-left: 0.12em;
+  background: var(--rame);
+  box-shadow: 0 0 0.4em rgb(208 134 90 / 0.45);
 }
 
 .neofetch {
@@ -936,11 +930,21 @@ main,
     animation: compari 1ms linear forwards;
   }
 
-  .eroe > .banner,
-  .eroe > .banner-stretto {
+  .eroe > .marchio {
     opacity: 1;
-    clip-path: inset(0 0 100% 0);
-    animation: stampa 420ms steps(6) var(--dopo) forwards;
+  }
+
+  /* 10 caratteri monospazio da 0,55 em: il cursore segue le lettere */
+  .m-scrive {
+    display: inline-block;
+    width: 0;
+    overflow: hidden;
+    vertical-align: bottom;
+    animation: stampa 650ms steps(10, end) var(--dopo) forwards;
+  }
+
+  .m-cursore {
+    animation: lampeggia 1.1s steps(1) calc(var(--dopo) + 0.6s) infinite;
   }
 
   .eroe > .cmd { animation-delay: calc(var(--dopo) + 0.45s); }
@@ -991,7 +995,7 @@ main,
   @keyframes digita { to { clip-path: inset(0 0 0 0); } }
   @keyframes sparisce { to { visibility: hidden; width: 0; margin: 0; } }
   @keyframes lampeggia { 50% { opacity: 0; } }
-  @keyframes stampa { to { clip-path: inset(0 0 0 0); } }
+  @keyframes stampa { to { width: 5.5em; } }
   @keyframes ruota {
     0%, 28% { transform: translateY(0); }
     33%, 61% { transform: translateY(-1.7em); }
@@ -1045,24 +1049,8 @@ main,
   }
 }
 
-/* Telefoni: banner su due righe e neofetch in colonna */
+/* Telefoni: neofetch in colonna */
 @media (max-width: 40rem) {
-  .banner-largo {
-    display: none;
-  }
-
-  /* MDE sopra, ANGELIS sotto: 54 colonne nella riga più larga */
-  .banner-stretto {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35em;
-    font-size: calc((100vw - 2 * clamp(1rem, 4vw, 3rem)) / 32.4 - 0.1px);
-  }
-
-  .banner-stretto .banner {
-    font-size: 1em;
-  }
-
   .neofetch {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
