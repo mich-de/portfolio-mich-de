@@ -34,6 +34,8 @@ TESTI = {
         "skip": "Vai al contenuto",
         "nav": [("chi-sono", "Chi sono"), ("interessi", "Interessi"), ("musica", "Musica")],
         "ruolo": "Professionista IT e produttore musicale",
+        "ruoli": ["Professionista IT", "Produttore musicale", "Appassionato di AI"],
+        "scorri": "Scorri",
         "intro": "Appassionato di informatica, tecnologia e intelligenza artificiale. "
                  "Esploro il mondo digitale e quello reale con lo stesso entusiasmo: "
                  "musica, viaggi, cultura e conversazioni vere.",
@@ -96,6 +98,8 @@ TESTI = {
         "skip": "Skip to content",
         "nav": [("chi-sono", "About"), ("interessi", "Interests"), ("musica", "Music")],
         "ruolo": "IT professional and music producer",
+        "ruoli": ["IT professional", "Music producer", "AI enthusiast"],
+        "scorri": "Scroll",
         "intro": "Passionate about computer science, technology and artificial intelligence. "
                  "I explore the digital world and the real one with the same enthusiasm: "
                  "music, travel, culture and real conversations.",
@@ -151,6 +155,21 @@ TESTI = {
 
 ESTERNO = 'rel="noopener noreferrer external" target="_blank"'
 
+# Il monogramma, ricalcato in vettoriale dal logo: tre livelli (rame, grigio, chiaro).
+_righe = (Path(__file__).with_name("monogramma.txt")).read_text().splitlines()
+_W, _H = eval(_righe[0])
+_TRATTI = [r.split("\t") for r in _righe[1:]]
+
+
+def monogramma(classe: str) -> str:
+    tratti = "".join(
+        f'<path class="t-{nome}" pathLength="1" d="{d}"/>' for nome, d in _TRATTI)
+    return (f'<svg class="{classe}" viewBox="0 0 {_W} {_H}" aria-hidden="true" '
+            f'focusable="false">{tratti}</svg>')
+
+
+TRIANGOLO = '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 9 93 88H7Z"/></svg>'
+
 
 def e(s: str) -> str:
     return escape(s, quote=True)
@@ -161,6 +180,7 @@ def pagina(t: dict) -> str:
     nav = "\n".join(f'          <li><a href="#{a}">{e(n)}</a></li>' for a, n in t["nav"])
     altro_href, altro_nome, altro_lang = t["altro"]
     bio = "\n".join(f"          <p>{e(x)}</p>" for x in t["bio"])
+    ruoli = "".join(f"<span>{e(r)}</span>" for r in t["ruoli"] + t["ruoli"][:1])
     passioni = "\n".join(f"            <li>{e(x)}</li>" for x in t["passioni"])
 
     gruppi = []
@@ -219,6 +239,11 @@ def pagina(t: dict) -> str:
   <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
+  <div class="sipario" aria-hidden="true" hidden>
+    {monogramma("sipario-mono")}
+    <p class="sipario-marchio"><span class="m-forte">MDE</span><span class="m-leggero">ANGELIS</span></p>
+    <span class="sipario-filo"></span>
+  </div>
   <a class="salta" href="#contenuto">{e(t["skip"])}</a>
 
   <header class="testata">
@@ -234,16 +259,27 @@ def pagina(t: dict) -> str:
       </nav>
 
       <div class="eroe">
-        <div class="eroe-testo">
+        <div class="forme" aria-hidden="true">
+          <span class="forma f-tri f1">{TRIANGOLO}</span>
+          <span class="forma f-anello f2"></span>
+          <span class="forma f-punto f3"></span>
+          <span class="forma f-tri f4">{TRIANGOLO}</span>
+          <span class="forma f-anello f5"></span>
+          <span class="forma f-tri f6">{TRIANGOLO}</span>
+          <span class="forma f-punto f7"></span>
+        </div>
+        <div class="eroe-centro">
+          <div class="alone">{monogramma("mono")}</div>
           <h1 class="marchio"><span class="m-forte">MDE</span><span class="m-leggero">ANGELIS</span></h1>
-          <p class="ruolo">{e(t["ruolo"])}</p>
+          <span class="filo-rame" aria-hidden="true"></span>
+          <p class="ruolo"><span class="visivamente-nascosto">{e(t["ruolo"])}</span><span class="ruota" aria-hidden="true"><span class="ruota-in">{ruoli}</span></span></p>
           <p class="intro">{e(t["intro"])}</p>
           <p class="azioni">
             <a class="bottone" href="#musica">{e(t["cta_musica"])}</a>
             <a class="bottone bottone-linea" href="#chi-sono">{e(t["cta_chi"])}</a>
           </p>
         </div>
-        <img class="monogramma" src="{p}img/monogramma.webp" alt="" width="960" height="810" fetchpriority="high">
+        <div class="scorri" aria-hidden="true"><span>{e(t["scorri"])}</span><i></i></div>
       </div>
     </div>
   </header>
