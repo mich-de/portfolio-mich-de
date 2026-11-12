@@ -217,7 +217,7 @@ MARCHIO = ('<span class="m-scrive"><span class="m-forte">MDE</span>'
 
 
 def prompt(cmd: str, cwd: str = "~") -> str:
-    return (f'<p class="cmd" aria-hidden="true"><span class="ps1">mde@angelis</span>'
+    return (f'<p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span>'
             f'<span class="ps-sep">:</span><span class="cwd">{e(cwd)}</span>'
             f'<span class="ps-sep">$</span> {cmd}</p>')
 
@@ -332,7 +332,7 @@ def pagina(t: dict) -> str:
     <div class="term">
       <div class="term-barra"><i></i><i></i><i></i><span>mdeangelis — zsh</span></div>
       <div class="term-corpo">
-        <p class="term-cmd"><span class="term-prompt">mde@angelis:~$</span> <span class="term-scrive">{e(t["terminale"][0])}</span></p>
+        <p class="term-cmd"><span class="term-prompt">m@deangelis:~$</span> <span class="term-scrive">{e(t["terminale"][0])}</span></p>
 {righe_term}
       </div>
     </div>
