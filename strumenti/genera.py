@@ -42,6 +42,8 @@ TESTI = {
         "cta_musica": "Ascolta la mia musica",
         "cta_chi": "Chi sono",
         "chi_titolo": "Chi sono",
+        "foto_alt": "Una ragazza tiene davanti a sé un disco con il logo MDEANGELIS",
+        "badge": "Visionario",
         "citazione": "La tecnologia non è solo codice: è il linguaggio con cui scriviamo il futuro.",
         "bio": [
             "Lavoro nell'informatica e vivo all'incrocio tra innovazione e creatività.",
@@ -106,6 +108,8 @@ TESTI = {
         "cta_musica": "Listen to my music",
         "cta_chi": "About me",
         "chi_titolo": "About me",
+        "foto_alt": "A woman holding a record sleeve with the MDEANGELIS logo",
+        "badge": "Visionary",
         "citazione": "Technology is not just code: it's the language we write the future with.",
         "bio": [
             "I work in IT and live where innovation meets creativity.",
@@ -288,8 +292,12 @@ def pagina(t: dict) -> str:
     <section class="sezione" id="chi-sono" aria-labelledby="t-chi">
       <h2 id="t-chi" class="titolo-sezione">{e(t["chi_titolo"])}</h2>
       <div class="chi">
-        <blockquote class="citazione"><p>{e(t["citazione"])}</p></blockquote>
+        <figure class="ritratto">
+          <img src="{p}img/ritratto-880.webp" srcset="{p}img/ritratto-480.webp 480w, {p}img/ritratto-880.webp 880w" sizes="(max-width: 52rem) 90vw, 28rem" alt="{e(t["foto_alt"])}" width="880" height="880" loading="lazy" decoding="async">
+          <figcaption class="distintivo"><img src="{p}img/visionario.webp" alt="" width="24" height="24">{e(t["badge"])}</figcaption>
+        </figure>
         <div class="bio">
+          <blockquote class="citazione"><p>{e(t["citazione"])}</p></blockquote>
 {bio}
           <h3 class="passioni-titolo">{e(t["passioni_titolo"])}</h3>
           <ul class="passioni">
