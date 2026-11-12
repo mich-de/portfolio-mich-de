@@ -36,6 +36,8 @@ TESTI = {
         "ruolo": "Professionista IT e produttore musicale",
         "ruoli": ["Professionista IT", "Produttore musicale", "Appassionato di AI"],
         "scorri": "Scorri",
+        "terminale": ("./avvia --sito", ["monogramma caricato", "zero javascript",
+                                         "csp: default-src 'none'", "pronto. benvenuto!"]),
         "intro": "Appassionato di informatica, tecnologia e intelligenza artificiale. "
                  "Esploro il mondo digitale e quello reale con lo stesso entusiasmo: "
                  "musica, viaggi, cultura e conversazioni vere.",
@@ -102,6 +104,8 @@ TESTI = {
         "ruolo": "IT professional and music producer",
         "ruoli": ["IT professional", "Music producer", "AI enthusiast"],
         "scorri": "Scroll",
+        "terminale": ("./boot --site", ["monogram loaded", "zero javascript",
+                                        "csp: default-src 'none'", "ready. welcome!"]),
         "intro": "Passionate about computer science, technology and artificial intelligence. "
                  "I explore the digital world and the real one with the same enthusiasm: "
                  "music, travel, culture and real conversations.",
@@ -184,6 +188,9 @@ def pagina(t: dict) -> str:
     nav = "\n".join(f'          <li><a href="#{a}">{e(n)}</a></li>' for a, n in t["nav"])
     altro_href, altro_nome, altro_lang = t["altro"]
     bio = "\n".join(f"          <p>{e(x)}</p>" for x in t["bio"])
+    righe_term = "\n".join(
+        f'        <p class="term-log l{i}"><span class="term-ok">[ ok ]</span> {e(r)}</p>'
+        for i, r in enumerate(t["terminale"][1], 1))
     ruoli = "".join(f"<span>{e(r)}</span>" for r in t["ruoli"] + t["ruoli"][:1])
     passioni = "\n".join(f"            <li>{e(x)}</li>" for x in t["passioni"])
 
@@ -245,8 +252,13 @@ def pagina(t: dict) -> str:
 <body>
   <div class="sipario" aria-hidden="true" hidden>
     {monogramma("sipario-mono")}
-    <p class="sipario-marchio"><span class="m-forte">MDE</span><span class="m-leggero">ANGELIS</span></p>
-    <span class="sipario-filo"></span>
+    <div class="term">
+      <div class="term-barra"><i></i><i></i><i></i><span>mdeangelis — zsh</span></div>
+      <div class="term-corpo">
+        <p class="term-cmd"><span class="term-prompt">mde@angelis:~$</span> <span class="term-scrive">{e(t["terminale"][0])}</span></p>
+{righe_term}
+      </div>
+    </div>
   </div>
   <a class="salta" href="#contenuto">{e(t["skip"])}</a>
 
