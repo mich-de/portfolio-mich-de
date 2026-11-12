@@ -1,0 +1,59 @@
+titolo: I gamer hanno vinto? Switch 2 e PS5 aperte dagli agenti AI e la fine dei monopoli hardware
+data: 2026-11-12
+ora: 23:45
+tipo: cronaca
+tag: videogame, hardware, ai, cybersecurity, hacking
+sommario: Dalla PS5 bucata via browser e trasformata in una Steam Machine fino alla Switch 2 aperta da un'app educativa: come l'IA sta accelerando il modding e la fine delle barriere proprietarie.
+---
+
+Se qualcuno avesse azzardato l'ipotesi, appena un paio d'anni fa, che la nuovissima *Switch 2* sarebbe stata violata a tempo di record senza la minima necessità di saldare chip o aprire fisicamente la scocca, oppure che la blindatissima *PlayStation 5* avrebbe iniziato a far girare nativamente la libreria di Steam grazie a una versione di Wine, in pochi lo avrebbero ritenuto possibile. Eppure, la recente panoramica tracciata da SaddyTech nel video _"I gamer hanno vinto!"_ fotografa un punto di svolta radicale e definitivo: le console di ultima generazione stanno cedendo le armi a una velocità che polverizza ogni precedente storico del modding e della sicurezza informatica.
+
+Dietro questo crollo accelerato non c'è soltanto la convergenza tecnologica che rende l'hardware delle console moderno praticamente identico a quello di un comune PC — azzerando i vecchi e complessi abissi architetturali del passato (come lo furono a loro tempo la PS2 o la complessa architettura Cell della PS3) — ma un fattore del tutto inedito: l'impiego sistematico degli agenti di Intelligenza Artificiale come veri e propri *acceleratori di hacking*.
+
+---
+
+# 1. PlayStation 5: dal jailbreak via browser alla mutazione in Steam Machine
+
+Il muro di protezione eretto da Sony intorno alla sua ammiraglia ha iniziato a sgretolarsi la scorsa estate, quando l'attivista Louis Rossmann, con la sua FULU Foundation, ha lanciato una taglia (partita da 10.000 dollari e salita a 15.000 con le donazioni della community) destinata al primo ricercatore capace di forzare l'hypervisor di PlayStation 5 per consentire l'installazione di sistemi operativi alternativi come Linux. 
+
+La risposta non si è fatta attendere. Alla fine di settembre, su GitHub, Nathan Fargo ha pubblicato *Relapse*, un jailbreak funzionante per la PS5, capace di coprire tutti i firmware dalla versione 7 fino alla 13.60. La genialità (e la spaventosa semplicità) di questo exploit risiede nel metodo di infezione:
+- Non serve aprire la console, flashare chip o manomettere l'hardware.
+- L'utente deve semplicemente aprire il browser integrato della PlayStation 5 e visitare una pagina web appositamente predisposta.
+- Sfruttando una concatenazione di falle nel motore di rendering *WebKit* (lo stesso Safari) e un difetto di _race condition_ nella gestione dei processi del kernel, il codice esegue un'escalation di privilegi.
+- In pochi secondi la console è sbloccata (lo sblocco va però ripetuto a ogni riavvio).
+
+Nel giro di pochissimi giorni, la community ha spinto il risultato oltre ogni limite con il rilascio di *Playden*, un porting che integra *Steam* all'interno del sistema operativo della PS5. Sfruttando un porting di Wine per PS5, i giocatori possono letteralmente inquadrare un codice QR di Steam, accedere alla propria libreria di giochi per PC e farli girare sulla console Sony, trasformandola di fatto in una potente Steam Machine.
+
+La reazione di Sony è stata furiosa e scoordinata: una sequenza rapidissima di aggiornamenti firmware d'emergenza (dal 14.10 fino al 14.20) rilasciati a distanza di pochi giorni l'uno dall'altro, accompagnata dalla mossa coercitiva di tagliare l'accesso al PlayStation Network a chiunque rifiuti di allinearsi all'ultimo software. Ma per tutte le console rimaste nei magazzini o disconnesse dalla rete, la diga è ormai sfondata.
+
+---
+
+# 2. Nintendo Switch 2 e l'ironia dell'app educativa (aperta con l'IA)
+
+Se in casa Sony la situazione è critica, Nintendo non naviga in acque migliori, nonostante la fama di fortezza inespugnabile che ha sempre accompagnato la sua divisione hardware. La nuovissima *Switch 2* è stata infatti violata sul firmware 23.0.1 dal modder noto online come Pepsipu.
+
+Il vettore d'impatto ha dell'incredibile per la sua ironia: il varco è stato aperto tramite *SmileBASIC 4*, un'applicazione ufficiale pensata originariamente per insegnare ai bambini le basi della programmazione in linguaggio Basic. 
+Il ricercatore ha collegato la console a un computer via USB e ha utilizzato un agente di intelligenza artificiale, *Codex* di OpenAI (collegato tramite interfacce di automazione e scripting), per bombardare la Switch di input a ciclo continuo. Per evitare blocchi e gestire i crash, il sistema era coadiuvato da un interruttore hardware intelligente (un relè comandato via Bluetooth) che spegneva e riaccendeva la console ogni volta che il software si bloccava. L'agente AI ha continuato a insistere e correggere i tentativi finché non ha trovato la falla di sicurezza, aprendo il sistema. Si tratta di un jailbreak _tethered_: sparisce quando la console viene spenta e va ripetuto a ogni accensione.
+
+Che l'applicazione sia poi sparita dagli store digitali di Stati Uniti ed Europa (non è chiaro se per mano di Nintendo o dello sviluppatore SmileBoom) è servito a poco: chi l'aveva già scaricata detiene la chiave d'accesso, e in un solo giorno lo stesso Codex ha modificato *Mario Kart World* direttamente sulla console, mettendo in gara Hatsune Miku.
+
+---
+
+# 3. L'intelligenza artificiale come acceleratore artificiale
+
+Perché ci sono voluti oltre dieci anni per sviluppare un emulatore stabile e maturo per PlayStation 4, mentre oggi bastano pochissimi mesi per violare, disassemblare ed emulare l'architettura di PlayStation 5 e Switch 2?
+
+La risposta poggia su tre pilastri fondamentali:
+1. *Standardizzazione dell'hardware*: le console odierne non sono più cattedrali nel deserto con chip esoterici, ma PC commerciali miniaturizzati basati su architetture standard (inclusi i crescenti ecosistemi ARM).
+2. *Il tesoro della conoscenza accumulata*: decenni di lavoro pionieristico svolto dai team di emulatori precedenti (come RPCS3, ShadPS4 o Ryujinx) forniscono una libreria di funzioni, reverse engineering e documentazione già pronta all'uso.
+3. *L'intelligenza artificiale come moltiplicatore di forza*: laddove un team umano di sviluppatori impiegherebbe mesi per analizzare stringhe di codice binario, scrivere script di test e verificare migliaia di combinazioni di syscall, un singolo sviluppatore armato di un assistente di programmazione avanzato (come Claude Code o modelli simili) riesce ad automatizzare il lavoro di un intero dipartimento, riducendo i tempi di analisi da un anno a pochi minuti.
+
+---
+
+# 4. Tra pirateria e il diritto di possedere ciò che si acquista
+
+Le case produttrici gridano comprensibilmente al sacrilegio e invocano la protezione della proprietà intellettuale, ma la reazione rabbiosa della community affonda le radici in un disagio economico e contrattuale profondo.
+
+Quando un colosso dell'intrattenimento decide unilateralmente di abolire i supporti fisici per costringere l'utente al solo mercato digitale, alza il prezzo delle console a fine ciclo anziché ridurlo, e minaccia di spegnere l'accesso ai giochi acquistati se non si accetta un aggiornamento firmware imposto d'autorità, il patto di fiducia si rompe. 
+
+Gli utenti non rivendicano il diritto alla pirateria indiscriminata, ma il diritto fondamentale di *poter disporre liberamente dell'hardware per cui hanno pagato centinaia di euro*. Far girare la propria libreria Steam su una PS5 o esplorare le capacità di una console non è un crimine contro l'umanità, ma il sintomo di una insofferenza crescente verso i monopoli digitali e i walled garden corporativi. La corsa verso l'apertura totale è ormai inarrestabile: le patch d'emergenza delle software house non sono che cerotti temporanei applicati su una diga che mostra crepe ovunque, inaugurando un futuro in cui i confini tra PC, console e dispositivi mobili sono destinati a dissolversi per sempre.

@@ -14,6 +14,10 @@
     <loc>https://mdeangelis.vercel.app/diario/</loc>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/diario/2026-11-12-gamer-hanno-vinto/</loc>
+    <lastmod>2026-11-12</lastmod>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/diario/2026-11-12-guida-controcorrente-ia/</loc>
     <lastmod>2026-11-12</lastmod>
   </url>
@@ -41,6 +45,12 @@
     <loc>https://mdeangelis.vercel.app/diario/tag/geopolitica/</loc>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/hacking/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/hardware/</loc>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/lavoro/</loc>
   </url>
   <url>
@@ -48,5 +58,8 @@
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/programmazione/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/videogame/</loc>
   </url>
 </urlset>

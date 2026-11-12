@@ -328,6 +328,11 @@ class NuoviBlocchi(unittest.TestCase):
         self.assertIn("due volte", errore("x[^z]\n\n[^z]: a\n[^z]: b").messaggio)
         self.assertNotIn("[^", nota.leggi(FILE, TESTA + "Ciao[^a].\n\n[^a]: n").sommario)
 
+    def test_doppio_asterisco(self):
+        self.assertEqual(corpo("**Smile Basic** e *uno*"),
+                         "<p><strong>Smile Basic</strong> e <strong>uno</strong></p>")
+        self.assertEqual(corpo("2**3 resta"), "<p>2**3 resta</p>")
+
     def test_in_linea_nuovi(self):
         self.assertEqual(corpo("~~vecchio~~ ==nuovo== [[Ctrl]]+[[C]]"),
                          "<p><del>vecchio</del> <mark>nuovo</mark> <kbd>Ctrl</kbd>+<kbd>C</kbd></p>")
