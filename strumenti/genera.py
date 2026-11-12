@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "public"
-SITE = "https://mdeangelis.me"
+SITE = "https://mdeangelis.vercel.app"
 
 LINK_MUSICA = [
     ("spotify", "Spotify", "https://open.spotify.com/intl-it/artist/3OucxkLy5uqnpSEHavZbpe"),
@@ -173,8 +173,8 @@ def pagina(t: dict) -> str:
                 <p>{e(d)}</p>
               </div>
             </li>""" for k, n, d in voci)
-        gruppi.append(f"""        <section class="gruppo" aria-labelledby="g-{titolo[:4].lower()}">
-          <h3 id="g-{titolo[:4].lower()}">{e(titolo)}</h3>
+        gruppi.append(f"""        <section class="gruppo" aria-labelledby="g-{titolo[:4].lower().strip()}">
+          <h3 id="g-{titolo[:4].lower().strip()}">{e(titolo)}</h3>
           <ul class="voci">
 {righe}
           </ul>
