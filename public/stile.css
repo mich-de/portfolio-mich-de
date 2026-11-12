@@ -876,6 +876,369 @@ main,
   margin-top: 2.5rem;
 }
 
+/* ---------- Diario: git branch, git log, git show ---------- */
+
+.barra nav a[aria-current] {
+  background: var(--pannello-alto);
+  color: var(--rame-chiaro);
+  box-shadow: inset 0 -2px 0 var(--rame);
+}
+
+.diario {
+  padding-top: clamp(2rem, 6vw, 4rem);
+}
+
+.diario .intro {
+  margin-top: 0.75rem;
+}
+
+.blocco > .titolo + .commento {
+  margin-top: 0.75rem;
+}
+
+/* git branch: i tipi di post */
+.rami {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rami li {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1ch;
+}
+
+.rami a {
+  display: inline-block;
+  min-width: 12ch;
+  padding: 0.15rem 0;
+  color: var(--testo);
+  text-decoration: none;
+}
+
+.rami a:hover {
+  color: var(--rame-chiaro);
+}
+
+.rami a[aria-current] {
+  color: var(--salvia);
+  font-weight: 700;
+}
+
+.rami-segno {
+  display: inline-block;
+  width: 2ch;
+  color: var(--salvia);
+}
+
+/* git log --graph: un asterisco per commit e la linea che li unisce */
+.log {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.log-voce {
+  position: relative;
+  padding: 0 0 2.25rem 3ch;
+}
+
+.log-voce::before {
+  content: "*";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--rame);
+  font-weight: 800;
+}
+
+.log-voce:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 0.3ch;
+  top: 1.6em;
+  bottom: 0.2em;
+  border-left: 1px solid var(--linee);
+}
+
+.log-commit {
+  color: var(--rame);
+  overflow-wrap: anywhere;
+}
+
+.log-hash {
+  color: var(--rame-chiaro);
+  font-weight: 700;
+}
+
+.log-ref {
+  color: var(--tenue);
+}
+
+.ref-head {
+  color: #8ccfd0;
+  font-weight: 700;
+}
+
+.ref-ramo {
+  color: var(--salvia);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ref-ramo:hover {
+  text-decoration: underline;
+}
+
+.ref-tag {
+  color: #e2c27e;
+}
+
+.ref-bozza {
+  color: var(--rame-chiaro);
+  font-weight: 700;
+}
+
+.log-meta {
+  color: var(--tenue);
+}
+
+.log-chiave {
+  white-space: pre;
+}
+
+.log-titolo {
+  margin: 0.7rem 0 0.3rem;
+  padding-left: 2.25rem;
+  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.log-titolo a {
+  color: var(--perla);
+  text-decoration: none;
+}
+
+.log-titolo a:hover {
+  color: var(--rame-chiaro);
+  text-decoration: underline;
+}
+
+.log-sommario {
+  max-width: 68ch;
+  padding-left: 2.25rem;
+}
+
+/* git show: intestazione del commit */
+.commit {
+  margin: 0 0 2.75rem;
+}
+
+.commit div {
+  display: flex;
+  column-gap: 1ch;
+}
+
+.commit dt {
+  flex: none;
+  min-width: 8ch;
+  color: var(--tenue);
+}
+
+.commit div:first-child dt {
+  color: var(--rame);
+}
+
+.commit dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.avviso-bozza {
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px dashed var(--rame);
+  color: var(--rame-chiaro);
+}
+
+/* Il testo del post */
+.nota {
+  max-width: 70ch;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.nota-titolo {
+  margin: 0 0 2rem;
+  font-size: clamp(1.9rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  color: var(--perla);
+  text-wrap: balance;
+}
+
+.nota p {
+  margin: 0 0 1.25em;
+}
+
+.nota h2,
+.nota h3 {
+  margin: 2.25em 0 0.8em;
+  line-height: 1.3;
+  color: var(--perla);
+}
+
+.nota h2 {
+  font-size: 1.35rem;
+}
+
+.nota h3 {
+  font-size: 1.1rem;
+}
+
+.nota h2::before,
+.nota h3::before {
+  color: var(--rame);
+  font-weight: 300;
+}
+
+.nota h2::before { content: "# "; }
+.nota h3::before { content: "## "; }
+
+.nota strong {
+  font-weight: 800;
+  color: var(--perla);
+}
+
+.nota em {
+  font-style: italic;
+  color: var(--perla);
+}
+
+.nota a {
+  color: var(--rame-chiaro);
+}
+
+.nota a::after {
+  content: " ↗";
+  font-size: 0.8em;
+}
+
+.nota code {
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  background: var(--pannello-alto);
+  color: var(--rame-chiaro);
+  font-size: 0.92em;
+}
+
+.nota pre {
+  margin: 0 0 1.5em;
+  padding: 0.9rem 1rem 1rem;
+  border: 1px solid var(--bordo);
+  border-radius: 4px;
+  background: var(--pannello);
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+.nota pre code {
+  padding: 0;
+  background: none;
+  color: var(--testo);
+  font-size: 0.875rem;
+}
+
+.nota-lingua {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--tenue);
+}
+
+.nota blockquote {
+  margin: 0 0 1.5em;
+  padding: 0.15em 0 0.15em 1.25rem;
+  border-left: 2px solid var(--rame);
+  color: var(--perla);
+}
+
+.nota blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.nota ul {
+  margin: 0 0 1.25em;
+  padding: 0;
+  list-style: none;
+}
+
+.nota li {
+  position: relative;
+  padding-left: 2ch;
+}
+
+.nota li::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  color: var(--rame);
+}
+
+.nota hr {
+  margin: 2.5em 0;
+  border: 0;
+  overflow: visible;
+}
+
+.nota hr::before {
+  content: "---";
+  color: var(--linee);
+}
+
+/* git log --oneline: post vicini e ultimi post in home */
+.vicini {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vicini a {
+  display: grid;
+  grid-template-columns: 11ch 8ch minmax(0, 1fr);
+  column-gap: 1ch;
+  padding: 0.45rem 0.5rem;
+  border-radius: 3px;
+  color: var(--testo);
+  text-decoration: none;
+}
+
+.oneline a {
+  grid-template-columns: 8ch minmax(0, 1fr) auto;
+}
+
+.vicini a:hover {
+  background: var(--pannello-alto);
+}
+
+.vicini a:hover .vic-titolo {
+  color: var(--rame-chiaro);
+}
+
+.vic-dove {
+  color: var(--tenue);
+}
+
+.vic-titolo {
+  color: var(--perla);
+  font-weight: 700;
+}
+
 /* ---------- Animazioni (solo per chi non chiede meno movimento) ---------- */
 
 .sipario {
@@ -1091,7 +1454,8 @@ main,
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .blocco:target > .salto {
+  .blocco:target > .salto,
+  .salto-subito {
     position: fixed;
     inset: 0;
     z-index: 90;
@@ -1272,6 +1636,22 @@ main,
 
 /* Telefoni: neofetch in colonna */
 @media (max-width: 40rem) {
+  .rami li {
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .rami a {
+    display: block;
+  }
+
+  .rami .commento {
+    display: block;
+    padding-left: 2ch;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
   .neofetch {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
@@ -1330,6 +1710,28 @@ main,
 
   .stato-info,
   .stato-pos {
+    display: none;
+  }
+
+  .log-voce {
+    padding-left: 2.5ch;
+  }
+
+  .log-titolo,
+  .log-sommario {
+    padding-left: 0;
+  }
+
+  .vicini a {
+    grid-template-columns: 8ch minmax(0, 1fr);
+  }
+
+  .vic-dove {
+    grid-column: 1 / -1;
+    font-size: 0.8125rem;
+  }
+
+  .oneline time {
     display: none;
   }
 

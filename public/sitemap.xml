@@ -10,4 +10,7 @@
     <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/"/>
   </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/</loc>
+  </url>
 </urlset>

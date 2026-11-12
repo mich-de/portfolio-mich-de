@@ -1,0 +1,33 @@
+titolo: hello, world
+data: 2026-11-12
+tipo: pensiero
+tag: diario, nerd
+sommario: Il primo commit del diario: cosa ci troverai e perché è scritto in un linguaggio fatto in casa.
+bozza: si
+---
+Ogni programmatore comincia con `hello, world`. Questo diario comincia allo stesso modo.
+
+Qui scrivo tre tipi di cose, e ognuno ha il suo ramo:
+
+- *pensieri*: quello che mi passa per la testa in giornata
+- *cronache*: storie che stanno succedendo adesso
+- *passato*: come funzionavano le cose una volta, spiegate bene
+
+# Perché un linguaggio fatto in casa
+
+Niente WordPress, niente motore preso da altri. I post sono file di testo in un formato che si chiama _Nota_, scritto da zero per questo sito. Un piccolo programma li trasforma in pagine HTML statiche: sul sito non gira nessun codice, quindi non c'è niente da bucare.
+
+> Meno parti mobili, meno cose che si rompono.
+
+Il formato è volutamente piccolo. Un titolo si scrive così:
+
+```nota
+# Titolo della sezione
+Un paragrafo con *grassetto*, _corsivo_ e un [link](https://mdeangelis.me).
+```
+
+Se sbaglio qualcosa, la pubblicazione si ferma e mi dice file e numero di riga. Un post rotto non arriva mai online.
+
+---
+
+Benvenuto. `git log` per il resto.
