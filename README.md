@@ -1,6 +1,6 @@
 # mdeangelis — sito personale
 
-Sito statico di Michele De Angelis, pubblicato su Vercel (`mdeangelis.vercel.app`).
+Sito statico di Michele De Angelis, pubblicato su Vercel (`mdeangelis.vercel.app`): una sessione di terminale (neofetch, bat, tree, ls) fatta solo di HTML e CSS.
 
 ## Come è fatto
 
