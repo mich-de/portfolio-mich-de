@@ -5,9 +5,42 @@
   <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/diario/"/>
   <link rel="self" type="application/atom+xml" href="https://mdeangelis.vercel.app/diario/feed.xml"/>
   <id>https://mdeangelis.vercel.app/diario/</id>
-  <updated>2026-11-12T21:42:00+01:00</updated>
+  <updated>2026-11-12T22:30:00+01:00</updated>
   <author><name>Michele De Angelis</name><uri>https://mdeangelis.vercel.app/</uri></author>
   <generator>genera.py + nota v2</generator>
+  <entry>
+    <title>Guida pratica e controcorrente all&#x27;era dell&#x27;IA: come usarla davvero</title>
+    <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/diario/2026-11-12-guida-controcorrente-ia/"/>
+    <id>https://mdeangelis.vercel.app/diario/2026-11-12-guida-controcorrente-ia/</id>
+    <published>2026-11-12T22:30:00+01:00</published>
+    <updated>2026-11-12T22:30:00+01:00</updated>
+    <category term="pensiero"/>
+    <category term="ai"/>
+    <category term="programmazione"/>
+    <category term="lavoro"/>
+    <category term="futuro"/>
+    <summary>Smettere di rincorrere le mode, sviluppare empatia con la macchina e smascherare le cazzate dei guru digitali.</summary>
+    <content type="html">&lt;p&gt;Negli ultimi tempi, il dibattito sull&amp;#x27;intelligenza artificiale oscilla tra due estremi altrettanto tossici: l&amp;#x27;apocalisse imminente — l&amp;#x27;idea che le macchine ci lasceranno tutti in mezzo alla strada senza un lavoro — e la corsa isterica all&amp;#x27;ultima formuletta magica o al trucco miracoloso per diventare prompt engineer o esperti di tendenza da un giorno all&amp;#x27;altro.&lt;/p&gt;
+&lt;p&gt;A fare chiarezza con un approccio pragmatico, tagliente e privo di ipocrisie ci ha pensato &lt;strong&gt;Salvatore Sanfilippo&lt;/strong&gt; in una recente riflessione intitolata &lt;a href=&quot;https://www.youtube.com/watch?v=zHXhSLKsL7w&quot; rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot;&gt;&lt;em&gt;&amp;quot;Breve, confusa guida al futuro&amp;quot;&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Se vogliamo capire come usare l&amp;#x27;intelligenza artificiale nella maniera giusta, il primo passo è smettere di rincorrere le mode e imparare a trattare la macchina per quello che è, liberandoci dai falsi miti che circolano online.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-1-le-cazzate-da-evitare-basta-con-le-mode-e-i-truc&quot;&gt;1. Le «cazzate» da evitare: basta con le mode e i trucchi inutili&lt;/h2&gt;
+&lt;p&gt;La prima regola fondamentale per chi approccia l&amp;#x27;IA oggi è &lt;mark&gt;diffidare di chi vi vende la scorciatoia&lt;/mark&gt;. Ogni tre mesi spunta un guru che vi spiega che la chiave della salvezza è l&amp;#x27;ultimo standard di rappresentazione dei dati, la nuova struttura JSON ottimizzata per i token, o la tecnologia del momento che risolverà tutti i vostri problemi di produttività.&lt;/p&gt;
+&lt;p&gt;Sono, nella stragrande maggioranza dei casi, distrazioni commerciali o mode nate in ecosistemi di sviluppo già di per sé malati, dove si cambia tecnologia ogni tre mesi senza capire il fondo dei problemi.&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;Non serve perdere tempo a studiare ogni dettaglio di standard effimeri o formati di file proprietari creati solo per fare rumore.&lt;/li&gt;&lt;li&gt;Non credete a chi vi dice che l&amp;#x27;intelligenza artificiale si domina imparando a memoria prompt complessi o architetture standardizzate calate dall&amp;#x27;alto. Se la macchina ha bisogno di istruzioni formattate in un certo modo, basta metterle a disposizione quattro file di configurazione (&lt;code&gt;.md&lt;/code&gt;) e la questione è chiusa. Non serve la burocrazia mentale.&lt;/li&gt;&lt;/ul&gt;
+&lt;aside class=&quot;riquadro r-attenzione&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ attenzione ]&lt;/p&gt;&lt;p&gt;Mandate a quel paese chi vi spaccia la formuletta del momento: stanno solo traslando nel nuovo mondo le cattive abitudini di un&amp;#x27;industria software malata che ha sempre vissuto di hype fine a sé stesso.&lt;/p&gt;&lt;/aside&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-2-come-si-usa-l-ia-nella-maniera-giusta-l-empatia-&quot;&gt;2. Come si usa l&amp;#x27;IA nella maniera giusta: l&amp;#x27;empatia con la macchina&lt;/h2&gt;
+&lt;p&gt;La vera competenza nell&amp;#x27;usare l&amp;#x27;IA non nasce dalla tecnica mnemonica o dall&amp;#x27;accumulo di prompt preconfezionati, ma dallo sviluppo di una sorta di &lt;strong&gt;empatia computazionale&lt;/strong&gt;. Significa mettersi nei panni del sistema, comprendendo lucidamente quali siano i suoi punti di forza immensi e quali i suoi limiti strutturali.&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Conosci i tuoi limiti e i suoi&lt;/strong&gt;: l&amp;#x27;essere umano porta sul campo l&amp;#x27;intuizione, la visione d&amp;#x27;insieme e l&amp;#x27;immaginazione orientata al problema reale. L&amp;#x27;IA porta una pazienza infinita, una capacità di calcolo soverchiante, la forza di scandagliare migliaia di combinazioni o righe di codice che un umano troverebbe noiose o impossibili da testare in solitaria.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Fai da direttore d&amp;#x27;orchestra, non da passacarte&lt;/strong&gt;: il metodo corretto non è chiedere all&amp;#x27;IA di fare tutto al posto nostro, ma saperle dare gli &lt;strong&gt;hint&lt;/strong&gt; (gli indizi e le direzioni logiche) giusti. Quando affrontate un problema complesso — che si tratti di programmazione di sistemi embedded, analisi dati o ricerca — dovete agire come chi sa dove mettere le mani ma delega alla macchina la forza bruta dell&amp;#x27;esecuzione. Voi fornite il metodo e l&amp;#x27;intuizione; lei esegue i tentativi, mappa le frequenze o processa le combinazioni a velocità inimmaginabili.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;L&amp;#x27;immaginazione prima di tutto&lt;/strong&gt;: le macchine non hanno intuito creativo. Sanno elaborare ciò che esiste o trovare correlazioni statistiche, ma la scintilla di un&amp;#x27;idea trasversale — come unire dati satellitari altimetrici per scoprire un sito archeologico nascosto o testare un&amp;#x27;intuizione radiofonica — deve partire da voi.&lt;/li&gt;&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-3-smettere-di-avere-paura-la-transizione-e-il-valo&quot;&gt;3. Smettere di avere paura: la transizione e il valore del pensiero&lt;/h2&gt;
+&lt;p&gt;Il terrore che l&amp;#x27;intelligenza artificiale distrugga il mercato del lavoro nasce da una visione rigida e ottocentesca della specializzazione umana. La convinzione che uno debba scegliere una nicchia strettissima a vent&amp;#x27;anni e fare esattamente quella cosa per tutta la vita è una camicia di forza che non appartiene più al mondo reale.&lt;/p&gt;
+&lt;p&gt;La storia dell&amp;#x27;informatica è fatta di cicli, di cambiamenti repentini e di flessibilità. L&amp;#x27;errore più grande è chiudersi in una torre d&amp;#x27;avorio pensando che la propria specifica mansione sia intoccabile. Con l&amp;#x27;avvento di agenti intelligenti capaci di operare in autonomia, la specializzazione rigida perde valore a favore della &lt;mark&gt;capacità di adattamento e di visione critica&lt;/mark&gt;.&lt;/p&gt;
+&lt;aside class=&quot;riquadro r-consiglio&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ consiglio ]&lt;/p&gt;&lt;p&gt;Non moriremo di fame, e l&amp;#x27;aumento della produttività globale guidato dall&amp;#x27;automazione non porterà a un impoverimento collettivo dell&amp;#x27;Occidente. Al contrario, apre spazi enormi per liberare le persone dai lavori ripetitivi e concentrarsi su ciò che richiede pensiero, cura e prospettiva.&lt;/p&gt;&lt;/aside&gt;
+&lt;p&gt;Usare l&amp;#x27;IA nella maniera giusta significa smettere di subirla come una minaccia e smettere di idolatrarla come un oracolo. Richiede di diventare persone più colte, curiose e aperte alle contaminazioni tra saperi diversi.&lt;/p&gt;
+&lt;p&gt;Lasciate perdere le mode, mandate a quel paese chi vi vende scorciatoie tecnologiche a scadenza mensile e concentratevi sull&amp;#x27;unica cosa che le macchine non potranno mai copiarvi: la vostra capacità di immaginare problemi nuovi e di guidare la tecnologia verso soluzioni che ancora non esistono.&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>Frigoriferi a 50 gradi e AI senza freni: chi protegge chi sta nel mezzo?</title>
     <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/diario/2026-11-12-frigoriferi-ai-senza-freni/"/>
