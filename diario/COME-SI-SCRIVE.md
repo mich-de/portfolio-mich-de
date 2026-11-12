@@ -77,9 +77,13 @@ va a capo senza aprire un nuovo paragrafo.
   (o è ancora in bozza) la pubblicazione si ferma.
 - L'indirizzo di un titoletto è `#s-` seguito dal titolo in minuscolo, senza
   accenti e con i trattini: `# Perché il 56k` diventa `#s-perche-il-56k`.
-- Per scrivere un segno speciale così com'è mettici davanti `\`:
-  `\*`, `\_`, `\~`, `\=`, `\|`, `\[`, `\!`. Per iniziare una riga con
-  `2026. anno` senza farne un elenco: `2026\. anno`.
+- Per scrivere un segno di punteggiatura così com'è mettici davanti `\`:
+  `\*`, `\_`, `\~`, `\=`, `\|`, `\[`, `\!`, `\@`, `\$` e così via.
+  Per iniziare una riga con `2026. anno` senza farne un elenco: `2026\. anno`.
+- **Dentro i backtick (`` ` ``) non serve la barra**: il codice viene mostrato
+  esattamente com'è. Scrivi `` `*hole` ``, non `` `\*hole` `` (uscirebbe con la barra).
+- Niente riferimenti di tempo tipo `[00:01:02]` copiati da trascrizioni di video:
+  si vedono come testo. La fonte va in una nota a piè di pagina, con il link.
 
 ### Elenchi
 
