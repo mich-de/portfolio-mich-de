@@ -721,7 +721,7 @@ def riferimenti(n, primo: bool) -> str:
     ramo = RAMI[n.tipo][0]
     refs = ['<span class="ref-head">HEAD -&gt; main</span>'] if primo else []
     refs.append(f'<a class="ref-ramo" href="/diario/{ramo}/">{ramo}</a>')
-    refs += [f'<span class="ref-tag">tag: {e(x)}</span>' for x in n.tag]
+    refs += [f'<a class="ref-tag" href="/diario/tag/{x}/">tag: {e(x)}</a>' for x in n.tag]
     bozza = ' <span class="ref-bozza">[bozza]</span>' if n.bozza else ""
     return '<span class="log-ref">(' + ", ".join(refs) + ")</span>" + bozza
 
@@ -746,15 +746,74 @@ def voce_log(n, primo: bool) -> str:
         </li>"""
 
 
-def pagina_indice(note: list, tutte: list, ramo=None) -> str:
-    """L'indice del diario (ramo None) o di un solo tipo di post."""
-    percorso = f"/diario/{ramo}/" if ramo else "/diario/"
+def conta_tag(note: list) -> list:
+    """[(tag, quanti post)] dal più usato; a parità, in ordine alfabetico."""
+    conti = {}
+    for n in note:
+        for x in n.tag:
+            conti[x] = conti.get(x, 0) + 1
+    return sorted(conti.items(), key=lambda c: (-c[1], c[0]))
+
+
+def lista_tag(tag_e_conti, corrente: str = "", conta: bool = True) -> str:
+    """I tag come etichette cliccabili, in stile `git tag -l`."""
+    voci = []
+    for x, quanti in tag_e_conti:
+        attivo = ' aria-current="page"' if x == corrente else ""
+        numero = f' <span class="tag-conta">{quanti}</span>' if conta else ""
+        voci.append(f'<li><a href="/diario/tag/{x}/"{attivo}>#{e(x)}{numero}</a></li>')
+    return '<ul class="tag-lista">' + "".join(voci) + "</ul>"
+
+
+def correlati(n, tutte: list, quanti: int = 3) -> list:
+    """Altri post con tag in comune: prima quelli che ne condividono di più, poi i più recenti."""
+    tag = set(n.tag)
+    candidati = [(len(tag & set(a.tag)), a) for a in tutte if a.slug != n.slug and tag & set(a.tag)]
+    candidati.sort(key=lambda c: (c[0], c[1].data, c[1].ora, c[1].slug), reverse=True)
+    return [a for _, a in candidati[:quanti]]
+
+
+def voce_oneline(a) -> str:
+    return (f'        <li><a href="/diario/{a.slug}/"><span class="log-hash" aria-hidden="true">{a.hash[:7]}</span>'
+            f'<span class="vic-titolo">{e(a.titolo)}</span>'
+            f'<time class="commento" datetime="{a.data.isoformat()}">{a.data.day} {MESI["it"][a.data.month - 1]}</time></a></li>')
+
+
+def pagina_tag_indice(tutte: list) -> str:
+    """/diario/tag/: tutti i tag, come `git tag -l`."""
+    conti = conta_tag(tutte)
+    corpo = (f"    {lista_tag(conti)}" if conti else
+             '    <p class="commento"><span aria-hidden="true"># </span>ancora nessun tag.</p>')
+    return f"""{testa("Tag | Diario | MDEANGELIS", "Tutti gli argomenti del diario di Michele De Angelis.", "/diario/tag/")}
+<body>
+{barra_diario("true")}
+
+  <main id="contenuto" class="diario">
+    {apertura("cd ~/diario && git tag -l", f"{len(conti)} tag")}
+    <h1 class="titolo"><span class="hash" aria-hidden="true">~/diario/</span>tag</h1>
+    <p class="commento intro"><span aria-hidden="true"># </span>gli argomenti del diario: tocca un tag per vedere i post.</p>
+
+    {prompt("git tag -l --sort=-count", "~/diario")}
+{corpo}
+
+    {prompt('<span class="cursore"></span>', "~/diario")}
+  </main>
+
+{piede_diario("diario/tag/")}
+</body>
+</html>
+"""
+
+
+def pagina_indice(note: list, tutte: list, ramo=None, tag=None) -> str:
+    """L'indice del diario, di un solo tipo di post (ramo) o di un tag."""
+    percorso = f"/diario/tag/{tag}/" if tag else (f"/diario/{ramo}/" if ramo else "/diario/")
     righe_rami = []
     for nome, descr, conta, href in (
             [("main", "tutto", len(tutte), "/diario/")]
             + [(r, d, sum(1 for n in tutte if n.tipo == tipo), f"/diario/{r}/")
                for tipo, (r, d) in RAMI.items()]):
-        qui = (ramo or "main") == nome
+        qui = not tag and (ramo or "main") == nome
         corrente = ' aria-current="page"' if qui else ""
         segno = "*" if qui else " "
         righe_rami.append(
@@ -762,10 +821,10 @@ def pagina_indice(note: list, tutte: list, ramo=None) -> str:
             f'{nome}</a> <span class="commento"><span aria-hidden="true"># </span>{e(descr)} ({conta})</span></li>')
     righe_rami = "\n".join(righe_rami)
 
-    comando = "git log" + (f" {ramo}" if ramo else "")
+    comando = f'git log --grep="#{tag}"' if tag else "git log" + (f" {ramo}" if ramo else "")
     if note:
         corpo = '      <ol class="log">\n' + "\n".join(
-            voce_log(n, i == 0 and not ramo) for i, n in enumerate(note)) + "\n      </ol>"
+            voce_log(n, i == 0 and not ramo and not tag) for i, n in enumerate(note)) + "\n      </ol>"
     elif ramo:
         corpo = (f'      <p class="errore-msg">fatal: il ramo \'{ramo}\' non ha ancora commit</p>\n'
                  f'      <p class="commento"><span aria-hidden="true"># </span>niente qui per ora: torna presto.</p>')
@@ -773,20 +832,36 @@ def pagina_indice(note: list, tutte: list, ramo=None) -> str:
         corpo = ('      <p class="errore-msg">fatal: il tuo branch corrente \'main\' non ha ancora commit</p>\n'
                  '      <p class="commento"><span aria-hidden="true"># </span>il diario è appena nato: il primo post è in arrivo.</p>')
 
-    titolo_pag = (f"{ramo} | Diario | MDEANGELIS" if ramo else "Diario | MDEANGELIS")
-    descr_pag = (RAMI_DESCR[ramo].capitalize() + ", dal diario di Michele De Angelis." if ramo
-                 else "Il diario di Michele De Angelis: " + DIARIO_INTRO)
-    log = f"{len(note)} commit" + (f" su {ramo}" if ramo else ", ramo main")
-    h1 = (f'<span class="hash" aria-hidden="true">~/diario/</span>{e(ramo)}' if ramo
-          else '<span class="hash" aria-hidden="true">~/</span>diario')
+    if tag:
+        titolo_pag = f"#{tag} | Diario | MDEANGELIS"
+        descr_pag = f"I post con il tag #{tag} dal diario di Michele De Angelis."
+        log = f"{len(note)} commit con #{tag}"
+        h1 = f'<span class="hash" aria-hidden="true">~/diario/tag/</span>#{e(tag)}'
+    elif ramo:
+        titolo_pag = f"{ramo} | Diario | MDEANGELIS"
+        descr_pag = RAMI_DESCR[ramo].capitalize() + ", dal diario di Michele De Angelis."
+        log = f"{len(note)} commit su {ramo}"
+        h1 = f'<span class="hash" aria-hidden="true">~/diario/</span>{e(ramo)}'
+    else:
+        titolo_pag = "Diario | MDEANGELIS"
+        descr_pag = "Il diario di Michele De Angelis: " + DIARIO_INTRO
+        log = f"{len(note)} commit, ramo main"
+        h1 = '<span class="hash" aria-hidden="true">~/</span>diario'
+    intro = (f"tutti i post con il tag #{tag}: {len(note)}." if tag
+             else (RAMI_DESCR[ramo] + "." if ramo else DIARIO_INTRO))
+    conti = conta_tag(tutte)
+    blocco_tag = ""
+    if conti:
+        blocco_tag = (f'\n    {prompt("git tag -l", "~/diario")}\n'
+                      f'    <nav aria-label="Argomenti">{lista_tag(conti, tag or "")}</nav>\n')
     return f"""{testa(titolo_pag, descr_pag, percorso)}
 <body>
-{barra_diario("page" if not ramo else "true")}
+{barra_diario("page" if not ramo and not tag else "true")}
 
   <main id="contenuto" class="diario">
     {apertura("cd ~/diario && " + comando, log)}
     <h1 class="titolo">{h1}</h1>
-    <p class="commento intro"><span aria-hidden="true"># </span>{e(DIARIO_INTRO)}</p>
+    <p class="commento intro"><span aria-hidden="true"># </span>{e(intro)}</p>
 
     {prompt("git branch", "~/diario")}
     <nav aria-label="Tipi di post">
@@ -794,14 +869,14 @@ def pagina_indice(note: list, tutte: list, ramo=None) -> str:
 {righe_rami}
       </ul>
     </nav>
-
+{blocco_tag}
     {prompt(e(comando), "~/diario")}
 {corpo}
 
     {prompt('<span class="cursore"></span>', "~/diario")}
   </main>
 
-{piede_diario("diario/" + (ramo + "/" if ramo else ""))}
+{piede_diario("diario/" + (f"tag/{tag}/" if tag else (ramo + "/" if ramo else "")))}
 </body>
 </html>
 """
@@ -810,9 +885,21 @@ def pagina_indice(note: list, tutte: list, ramo=None) -> str:
 RAMI_DESCR = {r: d for r, d in RAMI.values()}
 
 
-def pagina_post(n, piu_nuovo, piu_vecchio) -> str:
+def pagina_post(n, piu_nuovo, piu_vecchio, tutte=()) -> str:
     ramo, descr_ramo = RAMI[n.tipo]
-    tag = " ".join(f'<span class="ref-tag">#{e(x)}</span>' for x in n.tag)
+    tag = " ".join(f'<a class="ref-tag" href="/diario/tag/{x}/">#{e(x)}</a>' for x in n.tag)
+    conti = dict(conta_tag(tutte or [n]))
+    fine_tag = ""
+    if n.tag:
+        fine_tag = (f'\n    {prompt("git tag --contains " + n.hash[:7], "~/diario")}\n'
+                    f'    <nav aria-label="Tag di questo post">'
+                    f'{lista_tag([(x, conti.get(x, 1)) for x in n.tag])}</nav>')
+        simili = correlati(n, list(tutte))
+        if simili:
+            griglia = "|".join("#" + x for x in n.tag[:3])
+            fine_tag += (f'\n    {prompt(e(f"git log --oneline -E --grep={chr(34)}{griglia}{chr(34)} -3"), "~/diario")}\n'
+                         f'    <nav aria-label="Post simili">\n      <ul class="vicini oneline">\n'
+                         + "\n".join(voce_oneline(a) for a in simili) + "\n      </ul>\n    </nav>")
     riga_tag = (f'\n        <div><dt>Tag:</dt><dd>{tag}</dd></div>' if n.tag else "")
     avviso = ('\n    <p class="avviso-bozza">[bozza] questo post non è pubblicato: '
               'lo vedi solo nell\'anteprima.</p>' if n.bozza else "")
@@ -857,7 +944,7 @@ def pagina_post(n, piu_nuovo, piu_vecchio) -> str:
       <h1 id="t-nota" class="nota-titolo">{e(n.titolo)}</h1>{copertina}
 {n.html}
     </article>
-{vicini_html}
+{fine_tag}{vicini_html}
 
     {prompt('cd .. <span class="cursore"></span>', "~/diario")}
     <p class="azioni"><a class="bottone bottone-linea" href="/diario/"><span aria-hidden="true">cd </span>~/diario</a></p>
@@ -938,6 +1025,8 @@ def sitemap(note: list) -> str:
            f"  <url>\n    <loc>{SITE}/diario/</loc>\n  </url>"]
     url += [f"  <url>\n    <loc>{SITE}/diario/{n.slug}/</loc>\n    <lastmod>{n.data.isoformat()}</lastmod>\n  </url>"
             for n in note if not n.bozza]
+    url += [f"  <url>\n    <loc>{SITE}/diario/tag/{x}/</loc>\n  </url>"
+            for x, _ in conta_tag([n for n in note if not n.bozza])]
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
             'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + "\n".join(url) + "\n</urlset>\n")
@@ -968,7 +1057,11 @@ def main() -> None:
     for i, n in enumerate(note):
         piu_nuovo = note[i - 1] if i > 0 else None
         piu_vecchio = note[i + 1] if i + 1 < len(note) else None
-        scrivi(cartella / n.slug / "index.html", pagina_post(n, piu_nuovo, piu_vecchio))
+        scrivi(cartella / n.slug / "index.html", pagina_post(n, piu_nuovo, piu_vecchio, note))
+    scrivi(cartella / "tag" / "index.html", pagina_tag_indice(note))
+    for x, _ in conta_tag(note):
+        scrivi(cartella / "tag" / x / "index.html",
+               pagina_indice([n for n in note if x in n.tag], note, tag=x))
     scrivi(cartella / "feed.xml", feed(pubblicate))
     for nome in sorted({m for n in note for m in n.media}):   # solo i file usati, già ripuliti
         destinazione = cartella / "media" / nome

@@ -993,6 +993,55 @@ main,
 
 .ref-tag {
   color: #e2c27e;
+  text-decoration: none;
+}
+
+a.ref-tag:hover {
+  text-decoration: underline;
+}
+
+/* git tag -l: gli argomenti come etichette cliccabili */
+.tag-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-lista a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5ch;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgb(226 194 126 / 0.35);
+  border-radius: 3px;
+  color: #e2c27e;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.tag-lista a:hover {
+  border-color: #e2c27e;
+  background: rgb(226 194 126 / 0.1);
+}
+
+.tag-lista a[aria-current] {
+  border-color: #e2c27e;
+  background: #e2c27e;
+  color: var(--fondo);
+  font-weight: 700;
+}
+
+.tag-conta {
+  color: var(--tenue);
+  font-size: 0.75rem;
+}
+
+.tag-lista a[aria-current] .tag-conta {
+  color: var(--fondo);
 }
 
 .ref-bozza {

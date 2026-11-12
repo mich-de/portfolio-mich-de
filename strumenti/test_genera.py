@@ -27,7 +27,10 @@ def tutte_le_pagine():
     for tipo, (ramo, _) in genera.RAMI.items():
         yield ramo, genera.pagina_indice([n for n in NOTE if n.tipo == tipo], NOTE, ramo)
     yield "post", genera.pagina_post(POST, None, VECCHIO)
-    yield "post-vecchio", genera.pagina_post(VECCHIO, POST, None)
+    yield "post-vecchio", genera.pagina_post(VECCHIO, POST, None, NOTE)
+    yield "tag", genera.pagina_indice([POST], NOTE, tag="retro")
+    yield "tag-indice", genera.pagina_tag_indice(NOTE)
+    yield "tag-indice-vuoto", genera.pagina_tag_indice([])
 
 
 class Pagine(unittest.TestCase):
@@ -56,7 +59,7 @@ class Pagine(unittest.TestCase):
         self.assertEqual(len(voci), 2)
         ET.fromstring(genera.feed([]))
         mappa = ET.fromstring(genera.sitemap(NOTE))
-        self.assertEqual(len(mappa), 5)
+        self.assertEqual(len(mappa), 6)   # home it/en, diario, 2 post, 1 tag
 
     def test_bozze_fuori_da_sitemap(self):
         bozza = nota.leggi("2026-11-13-b.nota",
@@ -96,6 +99,24 @@ class Pagine(unittest.TestCase):
         self.assertEqual(genera.fuso_roma(datetime.date(2026, 3, 29)), "+02:00")
         with self.assertRaises(nota.ErroreNota):
             nota.leggi("2026-11-12-x.nota", "titolo: X\ndata: 2026-11-12\nora: 25:00\ntipo: cronaca\n---\nx")
+
+
+    def test_tag_cliccabili_e_correlati(self):
+        def post(nome, tag, giorno="12"):
+            return nota.leggi(f"2026-11-{giorno}-{nome}.nota",
+                              f"titolo: {nome}\ndata: 2026-11-{giorno}\ntipo: cronaca\ntag: {tag}\n---\nx")
+        a, b, c, d = post("a", "ai, reti"), post("b", "ai, reti", "10"), post("c", "ai", "11"), post("d", "vino")
+        tutte = [a, b, c, d]
+        self.assertEqual(genera.conta_tag(tutte), [("ai", 3), ("reti", 2), ("vino", 1)])
+        self.assertEqual([x.slug for x in genera.correlati(a, tutte)], ["2026-11-10-b", "2026-11-11-c"])
+        html = genera.pagina_post(a, None, None, tutte)
+        self.assertIn('href="/diario/tag/ai/">#ai <span class="tag-conta">3</span>', html)
+        self.assertIn('git tag --contains', html)
+        self.assertIn('href="/diario/2026-11-10-b/"', html)
+        self.assertNotIn('href="/diario/2026-11-12-d/"', html)
+        indice = genera.pagina_indice([a, b, c], tutte, tag="ai")
+        self.assertIn('<a href="/diario/tag/ai/" aria-current="page">', indice)
+        self.assertIn("git log --grep=&quot;#ai&quot;", indice)
 
 
 if __name__ == "__main__":
