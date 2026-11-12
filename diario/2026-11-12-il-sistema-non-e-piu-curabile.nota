@@ -1,0 +1,45 @@
+titolo: Il sistema non è più curabile: la profezia di Ghioni e il Grande Reset della rete
+data: 2026-11-12
+tipo: pensiero
+tag: cybersecurity, ai, reti, futuro
+sommario: Dagli attacchi senza riscatto dei nuovi sciami di agenti AI alla lucida analisi di Fabio Ghioni: e se l'unica via d'uscita fosse spegnere tutto?
+---
+
+Negli ultimi giorni stiamo assistendo a qualcosa che esce completamente dai manuali classici della sicurezza informatica. Non parlo solo della scala degli attacchi durante questo «Ottobre Nero» — tra la falla decennale `PHP2Shell` che ha esposto il 70% del web, i pacchetti compromessi su `Node.js` e le chiavi esfiltrate dai provider cloud — ma della *natura* stessa di certi colpi.
+
+Chi entra da remoto nei sistemi di refrigerazione dei supermercati europei e italiani portando i banchi frigo a 50 gradi non sta chiedendo un riscatto in Bitcoin. Vuole semplicemente far marcire il cibo. Chi tira giù intere infrastrutture usando sciami da diecimila agenti AI _uncensored_ spesso non cerca nemmeno di rivendere i database: vuole solo spegnere l'interruttore e dimostrare che può farlo in qualsiasi momento.
+
+Perché bruciare vulnerabilità _zero-day_ preziosissime senza incassare un centesimo?
+
+# L'illusione delle toppe e la delega cieca
+
+Riascoltando una vecchia intervista di *Fabio Ghioni*[^ghioni] dei tempi del caso Hacking Team, tutti i pezzi del puzzle vanno improvvisamente al loro posto. Ghioni, che ha visto nascere la rete negli anni '80 come uno spazio di interconnessione libera pensato per mettere tutti alla pari, aveva già individuato i due tumori strutturali del nostro mondo digitale:
+
+1. *La catena dei fornitori*: il cittadino (e oggi qualsiasi piccola o media impresa) pensa di affidare la propria vita digitale alle istituzioni, alle banche o allo Stato. In realtà, dalla sanità all'anagrafe fino alla logistica, tutto è demandato in appalto ai _fornitori di servizi tecnologici_ delle istituzioni. Di conseguenza, ==la vulnerabilità del singolo fornitore diventa immediatamente la vulnerabilità dell'intero sistema==.
+2. *L'irreversibilità del controllo*: una volta che crei un'architettura stratificata su protocolli vecchi di quarant'anni e ci innesti sopra strumenti di intercettazione, backdoor o agenti offensivi, quel flusso alternativo di dati non lo chiudi più. Diventa un'arma di ricatto e di sabotaggio permanente nelle mani di chiunque arrivi un secondo dopo.
+
+> [!attenzione]
+> Quando esce una vulnerabilità critica sul codice sorgente di un framework comune, le grandi enterprise protette da modelli riservati (come _Mythos 5.2_ nel consorzio _Project Glasswing_ o _GPT-6 Cyber_) chiudono la falla in cinque minuti. Chi sta nel mezzo — le PMI, i fornitori locali, i comuni mortali — ha bisogno di giorni solo per pianificare la patch. Ma agli sciami di agenti autonomi bastano dieci minuti per spazzare via tutto.
+
+---
+
+# «Così com'è, non è più curabile»
+
+È qui che la riflessione di Ghioni diventa profetica rispetto a quello che vediamo oggi sui nostri terminali:
+
+> Glielo dico da persona che dagli anni '80 ha creduto nell'evolvere della tecnologia e nell'ideale di quello che avrebbe rappresentato Internet: essere un sistema di interconnessione che metteva alla pari chiunque.
+>
+> Dopo aver visto negli ultimi 20-25 anni quello che è diventato, mi auguro — come tanti altri come me — che il sistema salti completamente e si ricominci da capo. Così com'è non è più curabile, e penso che questo sia quello che accadrà fra un pochino.
+
+Quando un'infrastruttura è marcia fino alle fondamenta, continuare a mettere «toppe» sul codice o aggiungere strati di Intelligenza Artificiale difensiva sopra protocolli colabrodo non risolve il problema: alza solo la posta in gioco.
+
+# Il vero senso degli attacchi senza riscatto
+
+Guardati con gli occhi di Ghioni, questi sabotaggi puramente distruttivi smettono di sembrare atti di vandalismo informatico senza senso e assumono due possibili letture, entrambe inquietanti:
+
+- *L'accelerazionismo cibernetico*: chi attacca sa che il sistema si regge con lo sputo e colpisce i nodi fisici e i fornitori intermedi proprio per togliere alle istituzioni l'illusione del controllo, forzando il punto di rottura.
+- *La preparazione al Grande Reset dall'alto*: portare le aziende, la catena alimentare e i cittadini all'esasperazione e al senso di totale impotenza è il preludio perfetto per far accettare l'inaccettabile. Quando il caos diventerà insostenibile e nessuno si sentirà più al sicuro, sarà la popolazione stessa a chiedere di spegnere la vecchia rete libera e anonima per passare a una «Nuova Rete» blindata, filtrata a monte da mega-agenti governativi e accessibile solo sotto stretta sorveglianza.
+
+Forse non siamo davanti a una semplice ondata di criminalità informatica. Forse stiamo assistendo alle prove tecniche di demolizione controllata del vecchio web, in attesa che qualcuno stacchi definitivamente la spina per farci ricominciare da zero. Bisognerà solo capire con quali regole, e soprattutto chi avrà in mano le chiavi del nuovo interruttore.
+
+[^ghioni]: Fabio Ghioni, ex responsabile del Tiger Team di Telecom Italia ed esperto di guerra cibernetica, nell'intervista rilasciata a _Il Fatto Quotidiano_ il 10 luglio 2015 sul caso dei 400 GB esfiltrati a Hacking Team.
