@@ -229,7 +229,7 @@ def pagina(t: dict) -> str:
   <link rel="alternate" hreflang="x-default" href="{SITE}/">
   <link rel="icon" href="{p}img/icona.png" type="image/png">
   <link rel="apple-touch-icon" href="{p}img/icona.png">
-  <link rel="preload" href="{p}fonts/kamerik.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{p}fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{p}stile.css">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MDEANGELIS">

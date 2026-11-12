@@ -4,7 +4,7 @@
 - Sito statico: solo HTML + CSS in `public/`. Nessun JavaScript, nessun codice server, nessuna dipendenza npm.
 - Pagine generate da `strumenti/genera.py` (testi IT/EN nel dizionario `TESTI`): `python3 strumenti/genera.py`.
 - Monogramma vettoriale in `strumenti/monogramma.txt` (tracciati SVG per rame, grigio, chiaro), inserito inline.
-- Stile in `public/stile.css`; font Kamerik (display) e Unitext (testo) in `public/fonts/`.
+- Stile in `public/stile.css`; font JetBrains Mono variabile (licenza OFL) in `public/fonts/`.
 - Deploy: Vercel, `vercel.json` con `framework: null`, `outputDirectory: public`.
 
 ## Regole
