@@ -41,6 +41,10 @@ TESTI = {
         "skip": "Vai al contenuto",
         "nav_label": "Sezioni",
         "nav": [("chi-sono", "chi_sono"), ("interessi", "interessi"), ("musica", "musica")],
+        # comando mostrato nella console quando si apre una sezione dal menu
+        "salti": {"chi-sono": ("cd ~/chi_sono", "apro chi_sono.md"),
+                  "interessi": ("cd ~/interessi", "apro interessi/"),
+                  "musica": ("cd ~/musica", "avvio mdeangelis --play")},
         "terminale": ("./avvia --sito", ["monogramma caricato", "zero javascript",
                                          "csp: default-src 'none'", "pronto. benvenuto!"]),
         "ruolo": "Professionista IT e produttore musicale",
@@ -123,6 +127,9 @@ TESTI = {
         "skip": "Skip to content",
         "nav_label": "Sections",
         "nav": [("chi-sono", "about"), ("interessi", "interests"), ("musica", "music")],
+        "salti": {"chi-sono": ("cd ~/about", "opening about_me.md"),
+                  "interessi": ("cd ~/interests", "opening interests/"),
+                  "musica": ("cd ~/music", "starting mdeangelis --play")},
         "terminale": ("./boot --site", ["monogram loaded", "zero javascript",
                                         "csp: default-src 'none'", "ready. welcome!"]),
         "ruolo": "IT professional and music producer",
@@ -234,6 +241,18 @@ def icona(nome: str, classe: str) -> str:
 MARCHIO = ('<span class="m-scrive"><span class="m-forte">MDE</span>'
            '<span class="m-leggero">ANGELIS</span></span>'
            '<span class="m-cursore" aria-hidden="true"></span>')
+
+
+def salto(t: dict, sezione: str) -> str:
+    """Console che 'esegue' il comando quando si arriva alla sezione dal menu (solo CSS, :target)."""
+    cmd, log = t["salti"][sezione]
+    return (f'<div class="salto" aria-hidden="true"><div class="salto-term">'
+            f'<div class="term-barra"><i></i><i></i><i></i><span>mdeangelis — zsh</span></div>'
+            f'<div class="salto-corpo">'
+            f'<p><span class="term-prompt">m@deangelis:~$</span> <span class="salto-scrive">{e(cmd)}</span></p>'
+            f'<p class="salto-log"><span class="term-ok">[ ok ]</span> {e(log)}</p>'
+            f'<p class="salto-avanza"><span class="salto-barra"></span><span class="salto-pct"></span></p>'
+            f'</div></div></div>')
 
 
 def prompt(cmd: str, cwd: str = "~") -> str:
@@ -405,6 +424,7 @@ def pagina(t: dict) -> str:
     </section>
 
     <section class="blocco" id="chi-sono" aria-labelledby="t-chi">
+      {salto(t, "chi-sono")}
       <h2 id="t-chi" class="titolo"><span class="hash" aria-hidden="true">## </span>{e(t["chi_titolo"])}</h2>
       {prompt("bat " + e(t["chi_file"]))}
       <div class="chi">
@@ -423,6 +443,7 @@ def pagina(t: dict) -> str:
     </section>
 
     <section class="blocco" id="interessi" aria-labelledby="t-int">
+      {salto(t, "interessi")}
       <h2 id="t-int" class="titolo"><span class="hash" aria-hidden="true">## </span>{e(t["int_titolo"])}</h2>
       {prompt("tree ~/" + e(slug(t["int_titolo"])))}
       <ul class="tree">
@@ -431,6 +452,7 @@ def pagina(t: dict) -> str:
     </section>
 
     <section class="blocco" id="musica" aria-labelledby="t-mus">
+      {salto(t, "musica")}
       <h2 id="t-mus" class="titolo"><span class="hash" aria-hidden="true">## </span>{e(t["mus_titolo"])}</h2>
       {prompt("mdeangelis --play")}
       <div class="player" aria-hidden="true">

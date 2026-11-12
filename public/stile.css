@@ -1078,6 +1078,126 @@ main,
   }
 }
 
+/* ---------- Console di passaggio: si apre quando arrivi a una sezione dal menu ---------- */
+
+.salto {
+  display: none;
+}
+
+@property --pct {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .blocco:target > .salto {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgb(20 24 30 / 0.78);
+    backdrop-filter: blur(4px);
+    animation: salto-via 320ms ease-in 1.5s forwards;
+  }
+
+  .salto-term {
+    width: min(32rem, 100%);
+    border: 1px solid #3a4450;
+    border-radius: 6px;
+    background: rgb(20 24 30 / 0.96);
+    box-shadow: 0 1.5rem 3rem -1rem rgb(0 0 0 / 0.6), 0 0 0 1px rgb(208 134 90 / 0.15);
+    animation: apri 220ms ease-out both;
+  }
+
+  .salto .term-barra {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.8rem;
+    border-bottom: 1px solid #2f3843;
+    font-size: 0.75rem;
+    color: #8a939c;
+  }
+
+  .salto .term-barra span {
+    margin: 0 auto;
+    padding-right: 2.5rem;
+  }
+
+  .salto-corpo {
+    padding: 0.9rem 1rem 1rem;
+    font-size: clamp(0.8125rem, 3.4vw, 0.9375rem);
+    line-height: 1.8;
+    color: #c9d1d9;
+  }
+
+  .salto-corpo p {
+    white-space: nowrap;
+  }
+
+  .salto .term-prompt,
+  .salto .term-ok {
+    color: var(--rame);
+    font-weight: 700;
+  }
+
+  /* il comando si scrive lettera per lettera */
+  .salto-scrive {
+    display: inline-block;
+    vertical-align: bottom;
+    clip-path: inset(0 100% 0 0);
+    animation: digita 420ms steps(16) 0.18s forwards;
+  }
+
+  .salto-log,
+  .salto-avanza {
+    opacity: 0;
+    animation: compari 1ms linear forwards;
+  }
+
+  .salto-log { animation-delay: 0.68s; }
+  .salto-avanza { animation-delay: 0.78s; }
+
+  .salto-avanza {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+  }
+
+  /* barra di avanzamento a blocchi, come in un installer da terminale */
+  .salto-barra {
+    width: 20ch;
+    height: 0.95em;
+    border: 1px solid var(--linee);
+    background:
+      repeating-linear-gradient(90deg, var(--rame) 0 0.75ch, transparent 0.75ch 1ch)
+      0 0 / 0 100% no-repeat;
+    background-origin: content-box;
+    padding: 1px;
+    animation: riempi-barra 600ms steps(20) 0.8s forwards;
+  }
+
+  .salto-pct {
+    min-width: 4ch;
+    color: var(--perla);
+    font-weight: 700;
+    animation: conta 600ms steps(20) 0.8s forwards;
+  }
+
+  .salto-pct::after {
+    counter-reset: pct var(--pct);
+    content: counter(pct) "%";
+  }
+
+  @keyframes salto-via { to { opacity: 0; visibility: hidden; } }
+  @keyframes riempi-barra { to { background-size: 100% 100%; } }
+  @keyframes conta { to { --pct: 100; } }
+}
+
 /* ---------- Tablet e telefoni ---------- */
 
 @media (max-width: 52rem) {
