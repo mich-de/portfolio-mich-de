@@ -29,7 +29,7 @@ from dataclasses import dataclass
 VERSIONE = 2
 
 TIPI = ("pensiero", "cronaca", "passato")
-CHIAVI = ("titolo", "data", "tipo", "tag", "sommario", "copertina", "bozza")
+CHIAVI = ("titolo", "data", "ora", "tipo", "tag", "sommario", "copertina", "bozza")
 OBBLIGATORIE = ("titolo", "data", "tipo")
 
 MAX_FILE = 200_000          # byte
@@ -65,6 +65,7 @@ RIQUADRI = {"nota": ("r-nota", "nota"), "consiglio": ("r-consiglio", "consiglio"
             "curiosita": ("r-curiosita", "curiosità"), "curiosità": ("r-curiosita", "curiosità")}
 
 _RE_NOME_FILE = re.compile(r"^(\d{4}-\d{2}-\d{2})-([a-z0-9]+(?:-[a-z0-9]+)*)\.nota$")
+_RE_ORA = re.compile(r"^([01][0-9]|2[0-3]):[0-5][0-9]$")
 _RE_TAG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 _RE_LINGUAGGIO = re.compile(r"^[a-z0-9+#.-]{0,20}$")
 # solo https, host e percorso con caratteri sicuri (niente virgolette, spazi, < >)
@@ -114,6 +115,7 @@ class Nota:
     copertina: str = ""          # nome del file in diario/media/
     media: tuple = ()            # file di diario/media/ usati dal post
     collegamenti: tuple = ()     # (slug di un altro post, riga)
+    ora: str = ""                # HH:MM, ora italiana; ordina i post dello stesso giorno
 
     @property
     def hash(self) -> str:
@@ -704,6 +706,12 @@ def leggi(nome_file: str, contenuto: str, media=None) -> Nota:
     if valore != m.group(1):
         raise ErroreNota(nome_file, n, f"la data {valore} non coincide con quella del nome file")
 
+    ora = ""
+    if "ora" in campi:
+        ora, n = campi["ora"]
+        if not _RE_ORA.match(ora):
+            raise ErroreNota(nome_file, n, "ora non valida, usa HH:MM (per esempio 21:30)")
+
     tipo, n = campi["tipo"]
     if tipo not in TIPI:
         raise ErroreNota(nome_file, n, f"tipo «{tipo}» non valido: usa {', '.join(TIPI)}")
@@ -743,4 +751,4 @@ def leggi(nome_file: str, contenuto: str, media=None) -> Nota:
     return Nota(file=nome_file, slug=nome_file[:-5], titolo=titolo, data=data,
                 tipo=tipo, tag=tag, sommario=sommario, bozza=bozza, html=html_corpo,
                 parole=parole, copertina=copertina, media=tuple(ctx.usati),
-                collegamenti=tuple(ctx.collegamenti))
+                collegamenti=tuple(ctx.collegamenti), ora=ora)

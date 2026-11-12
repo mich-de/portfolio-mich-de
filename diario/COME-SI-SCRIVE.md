@@ -19,6 +19,7 @@ Il nome diventa l'indirizzo: `mdeangelis.me/diario/2026-11-20-il-modem-a-56k/`.
 ```
 titolo: Come funzionava il modem a 56k
 data: 2026-11-20
+ora: 21:30
 tipo: passato
 tag: retro, reti
 sommario: Il fischio, la linea occupata e la bolletta.
@@ -31,6 +32,7 @@ bozza: si
 |-------------|--------------|------------------------------------------------------|
 | `titolo`    | sì           | fino a 120 caratteri                                 |
 | `data`      | sì           | AAAA-MM-GG, uguale a quella del nome del file        |
+| `ora`       | no           | HH:MM, ora italiana: mette in ordine i post dello stesso giorno (il più recente in alto). Senza ora il post va a inizio giornata |
 | `tipo`      | sì           | `pensiero`, `cronaca` oppure `passato`               |
 | `tag`       | no           | fino a 8, separati da virgola, minuscole e trattini  |
 | `sommario`  | no           | una riga; se manca usa l'inizio del testo            |

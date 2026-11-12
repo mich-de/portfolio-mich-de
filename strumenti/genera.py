@@ -620,7 +620,27 @@ def carica_diario(bozze: bool) -> list:
         sys.exit("Errori nel diario, non ho pubblicato niente:\n  " + "\n  ".join(errori))
     if not bozze:
         note = [n for n in note if not n.bozza]
-    return sorted(note, key=lambda n: (n.data, n.slug), reverse=True)
+    return ordina(note)
+
+
+def ordina(note: list) -> list:
+    """Dal più nuovo al più vecchio: data, poi ora (chi non ha l'ora va a inizio giornata)."""
+    return sorted(note, key=lambda n: (n.data, n.ora, n.slug), reverse=True)
+
+
+def fuso_roma(d: datetime.date) -> str:
+    """+02:00 con l'ora legale (dall'ultima domenica di marzo all'ultima di ottobre), se no +01:00."""
+    def ultima_domenica(mese):
+        giorno = datetime.date(d.year, mese, 31)
+        return giorno - datetime.timedelta(days=(giorno.weekday() + 1) % 7)
+    return "+02:00" if ultima_domenica(3) <= d < ultima_domenica(10) else "+01:00"
+
+
+def istante(n) -> str:
+    """Data e ora del post in formato ISO 8601 (per <time> e per il feed)."""
+    if not n.ora:
+        return n.data.isoformat()
+    return f"{n.data.isoformat()}T{n.ora}:00{fuso_roma(n.data)}"
 
 
 def apertura(cmd: str, log: str) -> str:
@@ -715,7 +735,7 @@ def voce_log(n, primo: bool) -> str:
                      f'width="{c.larghezza}" height="{c.altezza}" loading="lazy" decoding="async">')
     return f"""        <li class="log-voce">
           <p class="log-commit"><span class="log-parola" aria-hidden="true">commit </span><span class="log-hash" aria-hidden="true">{n.hash[:7]}</span> {riferimenti(n, primo)}</p>
-          <p class="log-meta"><span class="log-chiave" aria-hidden="true">Date:   </span><time datetime="{n.data.isoformat()}">{data_breve(n.data)}</time>, {n.minuti} min di lettura</p>
+          <p class="log-meta"><span class="log-chiave" aria-hidden="true">Date:   </span><time datetime="{istante(n)}">{data_breve(n.data)}{" " + n.ora if n.ora else ""}</time>, {n.minuti} min di lettura</p>
           <article class="log-scheda{" con-mini" if n.copertina else ""}">
             <div class="log-testo">
               <h2 class="log-titolo"><a href="/diario/{n.slug}/">{e(n.titolo)}</a></h2>
@@ -815,7 +835,7 @@ def pagina_post(n, piu_nuovo, piu_vecchio) -> str:
         immagine = (nota.PERCORSO_MEDIA + c.nome, c.larghezza, c.altezza)
         copertina = (f'\n      <figure class="nota-copertina"><img src="{e(immagine[0])}" alt="" '
                      f'width="{c.larghezza}" height="{c.altezza}" decoding="async"></figure>')
-    extra = (f'\n  <meta property="article:published_time" content="{n.data.isoformat()}">'
+    extra = (f'\n  <meta property="article:published_time" content="{istante(n)}">'
              f'\n  <meta property="article:author" content="{AUTORE}">')
     return f"""{testa(n.titolo + " | Diario | MDEANGELIS", n.sommario, f"/diario/{n.slug}/",
                  og_tipo="article", noindex=n.bozza, extra=extra, immagine=immagine)}
@@ -828,7 +848,7 @@ def pagina_post(n, piu_nuovo, piu_vecchio) -> str:
     <dl class="commit">
       <div><dt>commit</dt><dd class="log-hash">{n.hash}</dd></div>
       <div><dt>Author:</dt><dd>{AUTORE}</dd></div>
-      <div><dt>Date:</dt><dd><time datetime="{n.data.isoformat()}">{data_lunga(n.data)}</time></dd></div>
+      <div><dt>Date:</dt><dd><time datetime="{istante(n)}">{data_lunga(n.data)}{", ore " + n.ora if n.ora else ""}</time></dd></div>
       <div><dt>Ramo:</dt><dd><a class="ref-ramo" href="/diario/{ramo}/">{ramo}</a> <span class="commento"># {e(descr_ramo)}</span></dd></div>{riga_tag}
       <div><dt>Lettura:</dt><dd>~{n.minuti} min</dd></div>
     </dl>
@@ -879,9 +899,9 @@ def assoluti(html: str, url: str) -> str:
 
 def feed(note: list) -> str:
     """Feed Atom: per chi legge con un lettore RSS."""
-    def quando(d):
-        return f"{d.isoformat()}T08:00:00Z"
-    aggiornato = quando(note[0].data) if note else "2026-11-12T08:00:00Z"
+    def quando(n):
+        return istante(n) if n.ora else f"{n.data.isoformat()}T08:00:00{fuso_roma(n.data)}"
+    aggiornato = quando(note[0]) if note else "2026-11-12T08:00:00+01:00"
     voci = []
     for n in note:
         url = f"{SITE}/diario/{n.slug}/"
@@ -890,8 +910,8 @@ def feed(note: list) -> str:
     <title>{e(n.titolo)}</title>
     <link rel="alternate" type="text/html" href="{url}"/>
     <id>{url}</id>
-    <published>{quando(n.data)}</published>
-    <updated>{quando(n.data)}</updated>{categorie}
+    <published>{quando(n)}</published>
+    <updated>{quando(n)}</updated>{categorie}
     <summary>{e(n.sommario)}</summary>
     <content type="html">{e(assoluti(n.html, url))}</content>
   </entry>""")

@@ -1,5 +1,6 @@
 """Controlli sulle pagine generate: niente script, niente stili inline, feed valido."""
 
+import datetime
 import re
 import unittest
 import xml.etree.ElementTree as ET
@@ -79,6 +80,22 @@ class Pagine(unittest.TestCase):
         self.assertIn(f"href=&quot;{genera.SITE}/diario/2026-11-12-con-foto/#s-sotto&quot;", voce)
         self.assertNotIn("href=&quot;/", voce)
         ET.fromstring(voce)
+
+
+    def test_ordine_dal_piu_nuovo(self):
+        def post(nome, ora=""):
+            testa = f"titolo: {nome}\ndata: 2026-11-12\n" + (f"ora: {ora}\n" if ora else "")
+            return nota.leggi(f"2026-11-12-{nome}.nota", testa + "tipo: cronaca\n---\nx")
+        mattina, sera, senza = post("zeta", "09:15"), post("alfa", "21:42"), post("beta")
+        ieri = nota.leggi("2026-11-11-ieri.nota", "titolo: I\ndata: 2026-11-11\nora: 23:59\ntipo: cronaca\n---\nx")
+        self.assertEqual([n.slug[11:] for n in genera.ordina([ieri, mattina, senza, sera])],
+                         ["alfa", "zeta", "beta", "ieri"])
+        self.assertEqual(genera.istante(sera), "2026-11-12T21:42:00+01:00")
+        self.assertEqual(genera.fuso_roma(datetime.date(2026, 7, 1)), "+02:00")
+        self.assertEqual(genera.fuso_roma(datetime.date(2026, 10, 25)), "+01:00")
+        self.assertEqual(genera.fuso_roma(datetime.date(2026, 3, 29)), "+02:00")
+        with self.assertRaises(nota.ErroreNota):
+            nota.leggi("2026-11-12-x.nota", "titolo: X\ndata: 2026-11-12\nora: 25:00\ntipo: cronaca\n---\nx")
 
 
 if __name__ == "__main__":
