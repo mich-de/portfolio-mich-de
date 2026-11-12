@@ -707,11 +707,22 @@ def riferimenti(n, primo: bool) -> str:
 
 
 def voce_log(n, primo: bool) -> str:
+    """Un commit del log: intestazione git e, sotto, la scheda cliccabile del post."""
+    miniatura = ""
+    if n.copertina:
+        c = MEDIA[n.copertina]
+        miniatura = (f'\n            <img class="log-mini" src="{e(nota.PERCORSO_MEDIA + c.nome)}" alt="" '
+                     f'width="{c.larghezza}" height="{c.altezza}" loading="lazy" decoding="async">')
     return f"""        <li class="log-voce">
           <p class="log-commit"><span class="log-parola" aria-hidden="true">commit </span><span class="log-hash" aria-hidden="true">{n.hash[:7]}</span> {riferimenti(n, primo)}</p>
-          <p class="log-meta"><span class="log-chiave" aria-hidden="true">Date:   </span><time datetime="{n.data.isoformat()}">{data_breve(n.data)}</time>, {n.minuti} min</p>
-          <h2 class="log-titolo"><a href="/diario/{n.slug}/">{e(n.titolo)}</a></h2>
-          <p class="log-sommario">{e(n.sommario)}</p>
+          <p class="log-meta"><span class="log-chiave" aria-hidden="true">Date:   </span><time datetime="{n.data.isoformat()}">{data_breve(n.data)}</time>, {n.minuti} min di lettura</p>
+          <article class="log-scheda{" con-mini" if n.copertina else ""}">
+            <div class="log-testo">
+              <h2 class="log-titolo"><a href="/diario/{n.slug}/">{e(n.titolo)}</a></h2>
+              <p class="log-sommario">{e(n.sommario)}</p>
+              <p class="log-apri" aria-hidden="true"><span class="log-cmd">$ git show {n.hash[:7]}</span><span class="log-leggi">leggi l'articolo <span class="log-freccia">-&gt;</span></span></p>
+            </div>{miniatura}
+          </article>
         </li>"""
 
 
