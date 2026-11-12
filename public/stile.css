@@ -691,7 +691,7 @@ main,
 .ls-testa,
 .ls-riga {
   display: grid;
-  grid-template-columns: 10ch 4ch 6ch 7ch 1.6em 14ch 2ch minmax(0, 1fr);
+  grid-template-columns: 10ch 4ch 6ch 7ch 1.6em 14ch 2ch minmax(0, 1fr) auto;
   column-gap: 1.25ch;
   align-items: center;
   margin: 0 -0.5rem;
@@ -774,7 +774,18 @@ main,
   white-space: nowrap;
   text-overflow: ellipsis;
   color: var(--salvia);
-  font-style: italic;
+}
+
+/* L'azione appare in fondo alla riga, più evidente al passaggio */
+.ls-azione {
+  color: var(--linee);
+  white-space: nowrap;
+  transition: color 120ms ease;
+}
+
+.ls-riga:hover .ls-azione,
+.ls-riga:focus-visible .ls-azione {
+  font-weight: 700;
 }
 
 .ls-riga:hover,
@@ -1099,8 +1110,8 @@ main,
 
   /* Sul telefono: icona grande, nome e indirizzo sotto */
   .ls-riga {
-    grid-template-columns: 2.25rem minmax(0, 1fr);
-    grid-template-areas: "ico nome" "ico url";
+    grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+    grid-template-areas: "ico nome azione" "ico url azione";
     column-gap: 0.85rem;
     row-gap: 0;
     padding: 0.6rem 0.5rem;
@@ -1129,6 +1140,12 @@ main,
 
   .ls-url {
     grid-area: url;
+    font-size: 0.8125rem;
+  }
+
+  .ls-azione {
+    grid-area: azione;
+    color: var(--tenue);
     font-size: 0.8125rem;
   }
 }

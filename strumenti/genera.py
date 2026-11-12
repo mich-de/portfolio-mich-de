@@ -18,13 +18,13 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "public"
 SITE = "https://mdeangelis.vercel.app"
 
-# (nome file, link, icona Font Awesome in strumenti/icone/, classe colore)
+# (nome file, link, icona Font Awesome in strumenti/icone/, classe colore, profilo, azione)
 LINK_MUSICA = [
-    ("spotify", "https://open.spotify.com/intl-it/artist/3OucxkLy5uqnpSEHavZbpe", "spotify", "i-spotify"),
-    ("apple_music", "https://music.apple.com/us/artist/mdeangelis/1796261710", "itunes-note", "i-apple"),
-    ("youtube_music", "https://music.youtube.com/channel/UCYJ3e3Ho1Jv2o2NhuI3JO7A", "youtube", "i-youtube"),
-    ("soundcloud", "https://soundcloud.com/mich_de", "soundcloud", "i-soundcloud"),
-    ("instagram", "https://instagram.com/mdeangelis_official", "instagram", "i-instagram"),
+    ("spotify", "https://open.spotify.com/intl-it/artist/3OucxkLy5uqnpSEHavZbpe", "spotify", "i-spotify", "@MDEANGELIS", "ascolta"),
+    ("apple_music", "https://music.apple.com/us/artist/mdeangelis/1796261710", "itunes-note", "i-apple", "@MDEANGELIS", "ascolta"),
+    ("youtube_music", "https://music.youtube.com/channel/UCYJ3e3Ho1Jv2o2NhuI3JO7A", "youtube", "i-youtube", "@MDEANGELIS", "ascolta"),
+    ("soundcloud", "https://soundcloud.com/mich_de", "soundcloud", "i-soundcloud", "@mich_de", "ascolta"),
+    ("instagram", "https://instagram.com/mdeangelis_official", "instagram", "i-instagram", "@mdeangelis_official", "segui"),
 ]
 
 MESI = {"it": "gen feb mar apr mag giu lug ago set ott nov dic".split(),
@@ -108,6 +108,7 @@ TESTI = {
         "eza_perm": "Permessi", "eza_size": "Dim", "eza_user": "Utente",
         "eza_data": "Modificato", "eza_nome": "Nome",
         "crediti": "Icone: Font Awesome Free (CC BY 4.0).",
+        "azioni_link": {"ascolta": "ascolta", "segui": "segui"},
         "footer": "Sito statico: nessun cookie, nessun tracciamento.",
         "nuova_scheda": "(si apre in una nuova scheda)",
         "modo": "NORMALE",
@@ -188,6 +189,7 @@ TESTI = {
         "eza_perm": "Permissions", "eza_size": "Size", "eza_user": "User",
         "eza_data": "Date Modified", "eza_nome": "Name",
         "crediti": "Icons: Font Awesome Free (CC BY 4.0).",
+        "azioni_link": {"ascolta": "listen", "segui": "follow"},
         "footer": "Static site: no cookies, no tracking.",
         "nuova_scheda": "(opens in a new tab)",
         "modo": "NORMAL",
@@ -307,8 +309,7 @@ def pagina(t: dict) -> str:
     perm = "".join(
         f'<b class="p-{c if c != "-" else "n"}">{c}</b>' for c in "lrwxrwxrwx")
     ls = []
-    for nome, url, file_icona, classe in LINK_MUSICA:
-        vista = re.sub(r"^https://", "", url)
+    for nome, url, file_icona, classe, profilo, azione in LINK_MUSICA:
         ls.append(
             f'        <li><a class="ls-riga" href="{e(url)}" {ESTERNO}>'
             f'<span class="ls-perm" aria-hidden="true">{perm}</span>'
@@ -318,7 +319,8 @@ def pagina(t: dict) -> str:
             f'<span class="ls-ico">{icona(file_icona, classe)}</span>'
             f'<span class="ls-nome">{e(nome)}</span>'
             f'<span class="ls-freccia" aria-hidden="true">-&gt;</span>'
-            f'<span class="ls-url">{e(vista)}</span>'
+            f'<span class="ls-url">{e(profilo)}</span>'
+            f'<span class="ls-azione" aria-hidden="true">{e(t["azioni_link"][azione])} ↗</span>'
             f'<span class="visivamente-nascosto"> {e(t["nuova_scheda"])}</span></a></li>')
     ls = "\n".join(ls)
     barre = "".join(f'<i class="b{i}"></i>' for i in range(1, 25))
