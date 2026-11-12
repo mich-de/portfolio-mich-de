@@ -8,6 +8,7 @@ rilancia
 
     python3 strumenti/genera.py
 """
+import datetime
 import re
 import unicodedata
 from html import escape
@@ -17,13 +18,17 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "public"
 SITE = "https://mdeangelis.vercel.app"
 
+# (nome file, link, icona Font Awesome in strumenti/icone/, classe colore)
 LINK_MUSICA = [
-    ("spotify", "https://open.spotify.com/intl-it/artist/3OucxkLy5uqnpSEHavZbpe"),
-    ("apple_music", "https://music.apple.com/us/artist/mdeangelis/1796261710"),
-    ("youtube_music", "https://music.youtube.com/channel/UCYJ3e3Ho1Jv2o2NhuI3JO7A"),
-    ("soundcloud", "https://soundcloud.com/mich_de"),
-    ("instagram", "https://instagram.com/mdeangelis_official"),
+    ("spotify", "https://open.spotify.com/intl-it/artist/3OucxkLy5uqnpSEHavZbpe", "spotify", "i-spotify"),
+    ("apple_music", "https://music.apple.com/us/artist/mdeangelis/1796261710", "itunes-note", "i-apple"),
+    ("youtube_music", "https://music.youtube.com/channel/UCYJ3e3Ho1Jv2o2NhuI3JO7A", "youtube", "i-youtube"),
+    ("soundcloud", "https://soundcloud.com/mich_de", "soundcloud", "i-soundcloud"),
+    ("instagram", "https://instagram.com/mdeangelis_official", "instagram", "i-instagram"),
 ]
+
+MESI = {"it": "gen feb mar apr mag giu lug ago set ott nov dic".split(),
+        "en": "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()}
 
 TESTI = {
     "it": {
@@ -100,6 +105,9 @@ TESTI = {
         "mus_intro": "produco musica come MDEANGELIS: la trovi su tutte le piattaforme",
         "in_riproduzione": "MDEANGELIS, in riproduzione ovunque",
         "totale": "totale",
+        "eza_perm": "Permessi", "eza_size": "Dim", "eza_user": "Utente",
+        "eza_data": "Modificato", "eza_nome": "Nome",
+        "crediti": "Icone: Font Awesome Free (CC BY 4.0).",
         "footer": "Sito statico: nessun cookie, nessun tracciamento.",
         "nuova_scheda": "(si apre in una nuova scheda)",
         "modo": "NORMALE",
@@ -177,6 +185,9 @@ TESTI = {
         "mus_intro": "I produce music as MDEANGELIS: you can find it on every platform",
         "in_riproduzione": "MDEANGELIS, now playing everywhere",
         "totale": "total",
+        "eza_perm": "Permissions", "eza_size": "Size", "eza_user": "User",
+        "eza_data": "Date Modified", "eza_nome": "Name",
+        "crediti": "Icons: Font Awesome Free (CC BY 4.0).",
         "footer": "Static site: no cookies, no tracking.",
         "nuova_scheda": "(opens in a new tab)",
         "modo": "NORMAL",
@@ -207,6 +218,13 @@ def monogramma(classe: str) -> str:
         f'<path class="t-{nome}" pathLength="1" d="{d}"/>' for nome, d in _TRATTI)
     return (f'<svg class="{classe}" viewBox="0 0 {_W} {_H}" aria-hidden="true" '
             f'focusable="false">{tratti}</svg>')
+
+
+# ---------- Icone delle piattaforme (Font Awesome Free, CC BY 4.0) ----------
+
+def icona(nome: str, classe: str) -> str:
+    svg = (Path(__file__).with_name("icone") / f"{nome}.svg").read_text().strip()
+    return svg.replace("<svg ", f'<svg class="ico {classe}" aria-hidden="true" focusable="false" ', 1)
 
 
 # ---------- Marchio: come nel logo, MDE pieno e ANGELIS sottile ----------
@@ -283,13 +301,21 @@ def pagina(t: dict) -> str:
     tree.append(f'<li class="tr-fine" aria-hidden="true">{e(t["riepilogo_tree"])}</li>')
     tree = "\n".join(f"        {x}" for x in tree)
 
-    # ls -l ~/musica
+    # eza -l --icons ~/musica: ogni piattaforma è un link simbolico con la sua icona
+    oggi = datetime.date.today()
+    data = f"{oggi.day:2d} {MESI[t['lang']][oggi.month - 1]}"
+    perm = "".join(
+        f'<b class="p-{c if c != "-" else "n"}">{c}</b>' for c in "lrwxrwxrwx")
     ls = []
-    for nome, url in LINK_MUSICA:
+    for nome, url, file_icona, classe in LINK_MUSICA:
         vista = re.sub(r"^https://", "", url)
         ls.append(
             f'        <li><a class="ls-riga" href="{e(url)}" {ESTERNO}>'
-            f'<span class="ls-perm" aria-hidden="true">lrwxrwxrwx 1 mde mde</span>'
+            f'<span class="ls-perm" aria-hidden="true">{perm}</span>'
+            f'<span class="ls-size" aria-hidden="true">-</span>'
+            f'<span class="ls-user" aria-hidden="true">mde</span>'
+            f'<span class="ls-data" aria-hidden="true">{e(data)}</span>'
+            f'<span class="ls-ico">{icona(file_icona, classe)}</span>'
             f'<span class="ls-nome">{e(nome)}</span>'
             f'<span class="ls-freccia" aria-hidden="true">-&gt;</span>'
             f'<span class="ls-url">{e(vista)}</span>'
@@ -410,8 +436,8 @@ def pagina(t: dict) -> str:
         <p class="player-titolo">♪ {e(t["in_riproduzione"])}</p>
       </div>
       <p class="commento"><span aria-hidden="true"># </span>{e(t["mus_intro"])}</p>
-      {prompt("ls -l ~/" + e(slug(t["mus_titolo"])))}
-      <p class="ls-totale" aria-hidden="true">{e(t["totale"])} {len(LINK_MUSICA)}</p>
+      {prompt("eza -l --icons --header ~/" + e(slug(t["mus_titolo"])))}
+      <p class="ls-testa" aria-hidden="true"><span>{e(t["eza_perm"])}</span><span>{e(t["eza_size"])}</span><span>{e(t["eza_user"])}</span><span>{e(t["eza_data"])}</span><span></span><span>{e(t["eza_nome"])}</span></p>
       <ul class="ls">
 {ls}
       </ul>
@@ -427,6 +453,7 @@ def pagina(t: dict) -> str:
       <span class="stato-pos">100%</span>
     </p>
     <p class="stato-note">© 2026 Michele De Angelis. {e(t["footer"])}
+      <a href="https://fontawesome.com/license/free" {ESTERNO}>{e(t["crediti"])}<span class="visivamente-nascosto"> {e(t["nuova_scheda"])}</span></a>
       <a href="{altro_href}" hreflang="{altro_lang}" lang="{altro_lang}">{e(altro_nome)}</a></p>
   </footer>
 </body>

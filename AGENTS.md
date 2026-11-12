@@ -11,3 +11,4 @@
 - Non aggiungere script né stili inline: la CSP (`default-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'`) li blocca.
 - Animazioni solo in CSS e sempre dentro `@media (prefers-reduced-motion: no-preference)`.
 - Il sipario iniziale (`.sipario`) usa l'attributo `hidden`: senza CSS resta nascosto.
+- Icone delle piattaforme musicali: SVG di Font Awesome Free in `strumenti/icone/` (licenza CC BY 4.0, credito nel piè di pagina e nei commenti degli SVG).

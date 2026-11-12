@@ -687,8 +687,30 @@ main,
   margin-top: 1rem;
 }
 
-.ls-totale {
-  color: var(--tenue);
+/* eza -l --icons: colonne come nel terminale */
+.ls-testa,
+.ls-riga {
+  display: grid;
+  grid-template-columns: 10ch 4ch 6ch 7ch 1.6em 14ch 2ch minmax(0, 1fr);
+  column-gap: 1.25ch;
+  align-items: center;
+  margin: 0 -0.5rem;
+  padding: 0.3rem 0.5rem;
+}
+
+.ls-testa {
+  padding-bottom: 0.15rem;
+  color: var(--perla);
+  font-weight: 700;
+}
+
+.ls-testa span {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.ls-testa span:empty {
+  text-decoration: none;
 }
 
 .ls {
@@ -698,22 +720,52 @@ main,
 }
 
 .ls-riga {
-  display: grid;
-  grid-template-columns: 21ch 15ch 3ch minmax(0, 1fr);
-  column-gap: 1ch;
-  padding: 0.3rem 0.5rem;
-  margin: 0 -0.5rem;
   border-radius: 2px;
   text-decoration: none;
 }
 
-.ls-perm,
+/* Permessi colorati come in eza: l ciano, r giallo, w rosso, x verde */
+.ls-perm b {
+  font-weight: 400;
+}
+
+.p-l { color: #8fc1cf; font-weight: 700 !important; }
+.p-r { color: #e5c07b; }
+.p-w { color: #e06c75; }
+.p-x { color: #98c379; }
+.p-n { color: var(--linee); }
+
+.ls-size,
 .ls-freccia {
   color: var(--tenue);
 }
 
+.ls-user {
+  color: #e5c07b;
+}
+
+.ls-data {
+  color: #8fc1cf;
+  white-space: pre;
+}
+
+/* Icone delle piattaforme, ricolorate come i glifi di una Nerd Font */
+.ico {
+  display: block;
+  width: 1.35em;
+  height: 1.35em;
+  fill: currentColor;
+  filter: drop-shadow(0 0 0.35em currentColor);
+}
+
+.i-spotify { color: #8fd6a4; }
+.i-apple { color: #f08da0; }
+.i-youtube { color: #ef7a7a; }
+.i-soundcloud { color: var(--rame-chiaro); }
+.i-instagram { color: #c8a2f0; }
+
 .ls-nome {
-  color: var(--salvia);
+  color: var(--perla);
   font-weight: 700;
 }
 
@@ -721,7 +773,8 @@ main,
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: var(--rame-chiaro);
+  color: var(--salvia);
+  font-style: italic;
 }
 
 .ls-riga:hover,
@@ -734,6 +787,12 @@ main,
 .ls-riga:focus-visible * {
   color: var(--fondo);
 }
+
+.ls-riga:hover .ico,
+.ls-riga:focus-visible .ico {
+  filter: none;
+}
+
 
 /* ---------- Piede: la status line di vim ---------- */
 
@@ -1034,17 +1093,42 @@ main,
     font-weight: 700;
   }
 
+  .ls-testa {
+    display: none;
+  }
+
+  /* Sul telefono: icona grande, nome e indirizzo sotto */
   .ls-riga {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 0.55rem 0.5rem;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    grid-template-areas: "ico nome" "ico url";
+    column-gap: 0.85rem;
+    row-gap: 0;
+    padding: 0.6rem 0.5rem;
   }
 
   .ls-perm,
+  .ls-size,
+  .ls-user,
+  .ls-data,
   .ls-freccia {
     display: none;
   }
 
+  .ls-ico {
+    grid-area: ico;
+  }
+
+  .ls-ico .ico {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .ls-nome {
+    grid-area: nome;
+  }
+
   .ls-url {
+    grid-area: url;
     font-size: 0.8125rem;
   }
 }
