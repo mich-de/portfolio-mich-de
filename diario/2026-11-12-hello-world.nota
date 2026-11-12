@@ -3,6 +3,7 @@ data: 2026-11-12
 tipo: pensiero
 tag: diario, nerd
 sommario: Il primo commit del diario: cosa ci troverai e perché è scritto in un linguaggio fatto in casa.
+copertina: home-terminale.webp
 bozza: si
 ---
 Ogni programmatore comincia con `hello, world`. Questo diario comincia allo stesso modo.
@@ -13,21 +14,54 @@ Qui scrivo tre tipi di cose, e ognuno ha il suo ramo:
 - *cronache*: storie che stanno succedendo adesso
 - *passato*: come funzionavano le cose una volta, spiegate bene
 
+> [!curiosita]
+> `hello, world` diventa famoso nel 1978 con il libro di Kernighan e Ritchie sul linguaggio C, ma Kernighan l'aveva già usato qualche anno prima in un tutorial sul linguaggio B.
+
 # Perché un linguaggio fatto in casa
 
-Niente WordPress, niente motore preso da altri. I post sono file di testo in un formato che si chiama _Nota_, scritto da zero per questo sito. Un piccolo programma li trasforma in pagine HTML statiche: sul sito non gira nessun codice, quindi non c'è niente da bucare.
+Niente WordPress, niente motore preso da altri. I post sono file di testo in un formato che si chiama _Nota_, scritto da zero per questo sito[^zero]. Un piccolo programma li trasforma in pagine HTML statiche: sul sito non gira nessun codice, quindi non c'è niente da bucare.
+
+| | un blog classico | questo diario |
+|---|---|---|
+| codice sul server | PHP e database | nessuno |
+| JavaScript | parecchio | 0 righe |
+| aggiornamenti di sicurezza | ~~continui~~ | nessuno da fare |
 
 > Meno parti mobili, meno cose che si rompono.
 
-Il formato è volutamente piccolo. Un titolo si scrive così:
+# Foto e suoni
+
+Le immagini si mettono una per riga. Se sono vicine diventano una galleria; un clic le apre a grandezza piena.
+
+![La sezione musica del sito: equalizzatore e elenco delle piattaforme](musica-eza.webp "La sezione ==musica==, in stile eza -l --icons")
+
+> [!nota]
+> Prima di andare online, dalle foto vengono tolti i metadati: posizione GPS, modello del telefono, data dello scatto.
+
+# Come si scrive
+
+Il formato è volutamente piccolo:
 
 ```nota
 # Titolo della sezione
 Un paragrafo con *grassetto*, _corsivo_ e un [link](https://mdeangelis.me).
+![cosa si vede nella foto](foto.jpg "didascalia")
 ```
 
 Se sbaglio qualcosa, la pubblicazione si ferma e mi dice file e numero di riga. Un post rotto non arriva mai online.
 
+1. scrivo il file
+2. faccio commit
+3. un minuto dopo è sul sito
+
+## Lista delle cose da fare
+
+- [x] scrivere il linguaggio
+- [x] pubblicare il primo post
+- [ ] scrivere il secondo
+
 ---
 
-Benvenuto. `git log` per il resto.
+Benvenuto. Per il resto c'è `git log`, oppure rileggi [perché un linguaggio fatto in casa](#s-perche-un-linguaggio-fatto-in-casa).
+
+[^zero]: Solo la libreria standard di Python: nessun pacchetto scaricato da internet.

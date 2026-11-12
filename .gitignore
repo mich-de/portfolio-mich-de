@@ -42,3 +42,5 @@ next-env.d.ts
 
 # python
 __pycache__/
+# copie ripulite dei media: le rigenera la build
+/public/diario/media/

@@ -5,6 +5,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 import genera
+import media
 import nota
 
 POST = nota.leggi("2026-11-12-prova.nota",
@@ -61,6 +62,23 @@ class Pagine(unittest.TestCase):
                            "titolo: B\ndata: 2026-11-13\ntipo: pensiero\nbozza: si\n---\nx")
         self.assertNotIn("2026-11-13-b", genera.sitemap([bozza]))
         self.assertIn('content="noindex"', genera.pagina_post(bozza, None, None))
+
+
+    def test_copertina_e_feed_con_indirizzi_completi(self):
+        genera.MEDIA["cop.jpg"] = media.Media("cop.jpg", "immagine", "jpeg", 640, 480, b"")
+        info = {"cop.jpg": ("immagine", 640, 480)}
+        n = nota.leggi("2026-11-12-con-foto.nota",
+                       "titolo: Foto\ndata: 2026-11-12\ntipo: passato\ncopertina: cop.jpg\n---\n"
+                       "![una foto](cop.jpg)\n[su](#s-sotto) [home](/)\n# Sotto", info)
+        html = genera.pagina_post(n, None, None)
+        self.assertIn(f'<meta property="og:image" content="{genera.SITE}/diario/media/cop.jpg">', html)
+        self.assertIn('<meta property="og:image:width" content="640">', html)
+        self.assertIn('class="nota-copertina"', html)
+        voce = genera.feed([n])
+        self.assertIn(f"src=&quot;{genera.SITE}/diario/media/cop.jpg&quot;", voce)
+        self.assertIn(f"href=&quot;{genera.SITE}/diario/2026-11-12-con-foto/#s-sotto&quot;", voce)
+        self.assertNotIn("href=&quot;/", voce)
+        ET.fromstring(voce)
 
 
 if __name__ == "__main__":

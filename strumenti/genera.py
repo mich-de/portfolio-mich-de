@@ -17,6 +17,7 @@ import unicodedata
 from html import escape
 from pathlib import Path
 
+import media  # immagini e audio del diario: controllo dei formati e niente metadati
 import nota  # il linguaggio del diario, accanto a questo file
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -564,23 +565,57 @@ def data_lunga(d: datetime.date) -> str:
     return f"{GIORNI_LUNGHI[d.weekday()]} {d.day} {MESI_LUNGHI[d.month - 1]} {d.year}"
 
 
+MEDIA = {}   # nome -> media.Media, riempito da carica_diario
+
+
+def carica_media(errori: list) -> dict:
+    cartella = DIARIO / "media"
+    trovati = {}
+    if not cartella.is_dir():
+        return trovati
+    for f in sorted(cartella.iterdir()):
+        if f.name.startswith("."):
+            continue
+        if not f.is_file():
+            errori.append(f"diario/media/{f.name}: niente sottocartelle in diario/media/")
+            continue
+        try:
+            trovati[f.name] = media.prepara(f.name, f.read_bytes())
+        except media.ErroreMedia as err:
+            errori.append(str(err))
+    return trovati
+
+
 def carica_diario(bozze: bool) -> list:
     """Legge tutti i post. Un solo errore ferma tutto: niente va online a metà."""
     if not DIARIO.is_dir():
         return []
-    note, errori = [], []
+    errori = []
+    MEDIA.clear()
+    MEDIA.update(carica_media(errori))
+    info = {k: (m.tipo, m.larghezza, m.altezza) for k, m in MEDIA.items()}
+    note = []
     for f in sorted(DIARIO.iterdir()):
-        if f.name.startswith(".") or f.suffix == ".md":
-            continue  # appunti e guida, non sono post
+        if f.name.startswith(".") or f.suffix == ".md" or f.name == "media":
+            continue  # appunti, guida e cartella dei media
         if not f.is_file() or f.suffix != ".nota":
             errori.append(f"diario/{f.name}: qui vanno solo file .nota (o .md per gli appunti)")
             continue
         try:
-            note.append(nota.leggi(f.name, f.read_text(encoding="utf-8")))
+            note.append(nota.leggi(f.name, f.read_text(encoding="utf-8"), info))
         except UnicodeDecodeError:
             errori.append(f"diario/{f.name}: il file deve essere salvato in UTF-8")
         except nota.ErroreNota as err:
             errori.append(f"diario/{err}")
+    # i link ad altri post devono portare a un post che esiste (e che è pubblicato,
+    # se anche questo lo è)
+    stato = {n.slug: n.bozza for n in note}
+    for n in note:
+        for altro, riga in n.collegamenti:
+            if altro not in stato:
+                errori.append(f"diario/{n.file}:{riga}: il post {altro} non esiste")
+            elif stato[altro] and not n.bozza:
+                errori.append(f"diario/{n.file}:{riga}: il post {altro} è ancora una bozza")
     if errori:
         sys.exit("Errori nel diario, non ho pubblicato niente:\n  " + "\n  ".join(errori))
     if not bozze:
@@ -594,7 +629,8 @@ def apertura(cmd: str, log: str) -> str:
 
 
 def testa(titolo: str, descrizione: str, percorso: str, og_tipo: str = "website",
-          noindex: bool = False, extra: str = "") -> str:
+          noindex: bool = False, extra: str = "", immagine: tuple = ("/img/og.jpg", 1200, 630)) -> str:
+    img, img_w, img_h = immagine
     robots = '\n  <meta name="robots" content="noindex">' if noindex else ""
     return f"""<!doctype html>
 <html lang="it">
@@ -618,9 +654,9 @@ def testa(titolo: str, descrizione: str, percorso: str, og_tipo: str = "website"
   <meta property="og:title" content="{e(titolo)}">
   <meta property="og:description" content="{e(descrizione)}">
   <meta property="og:url" content="{SITE}{percorso}">
-  <meta property="og:image" content="{SITE}/img/og.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image" content="{SITE}{img}">
+  <meta property="og:image:width" content="{img_w}">
+  <meta property="og:image:height" content="{img_h}">
   <meta name="twitter:card" content="summary_large_image">{extra}
 </head>"""
 
@@ -761,10 +797,17 @@ def pagina_post(n, piu_nuovo, piu_vecchio) -> str:
         vicini_html = (f'\n    {prompt("git log --oneline -1 HEAD~1", "~/diario")}\n'
                        f'    <nav aria-label="Altri post">\n      <ul class="vicini">\n'
                        + "\n".join(vicini) + "\n      </ul>\n    </nav>")
+    immagine = ("/img/og.jpg", 1200, 630)
+    copertina = ""
+    if n.copertina:
+        c = MEDIA[n.copertina]
+        immagine = (nota.PERCORSO_MEDIA + c.nome, c.larghezza, c.altezza)
+        copertina = (f'\n      <figure class="nota-copertina"><img src="{e(immagine[0])}" alt="" '
+                     f'width="{c.larghezza}" height="{c.altezza}" decoding="async"></figure>')
     extra = (f'\n  <meta property="article:published_time" content="{n.data.isoformat()}">'
              f'\n  <meta property="article:author" content="{AUTORE}">')
     return f"""{testa(n.titolo + " | Diario | MDEANGELIS", n.sommario, f"/diario/{n.slug}/",
-                 og_tipo="article", noindex=n.bozza, extra=extra)}
+                 og_tipo="article", noindex=n.bozza, extra=extra, immagine=immagine)}
 <body>
 {barra_diario("true")}
 
@@ -780,7 +823,7 @@ def pagina_post(n, piu_nuovo, piu_vecchio) -> str:
     </dl>
 
     <article class="nota" aria-labelledby="t-nota">
-      <h1 id="t-nota" class="nota-titolo">{e(n.titolo)}</h1>
+      <h1 id="t-nota" class="nota-titolo">{e(n.titolo)}</h1>{copertina}
 {n.html}
     </article>
 {vicini_html}
@@ -817,6 +860,12 @@ def blocco_diario(t: dict, note) -> str:
     </section>"""
 
 
+def assoluti(html: str, url: str) -> str:
+    """Nei lettori RSS i link /... e #... non funzionano: diventano indirizzi completi."""
+    return (html.replace('href="/', f'href="{SITE}/').replace('src="/', f'src="{SITE}/')
+            .replace('href="#', f'href="{url}#'))
+
+
 def feed(note: list) -> str:
     """Feed Atom: per chi legge con un lettore RSS."""
     def quando(d):
@@ -833,7 +882,7 @@ def feed(note: list) -> str:
     <published>{quando(n.data)}</published>
     <updated>{quando(n.data)}</updated>{categorie}
     <summary>{e(n.sommario)}</summary>
-    <content type="html">{e(n.html)}</content>
+    <content type="html">{e(assoluti(n.html, url))}</content>
   </entry>""")
     return f"""<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="it">
@@ -890,6 +939,10 @@ def main() -> None:
         piu_vecchio = note[i + 1] if i + 1 < len(note) else None
         scrivi(cartella / n.slug / "index.html", pagina_post(n, piu_nuovo, piu_vecchio))
     scrivi(cartella / "feed.xml", feed(pubblicate))
+    for nome in sorted({m for n in note for m in n.media}):   # solo i file usati, già ripuliti
+        destinazione = cartella / "media" / nome
+        destinazione.parent.mkdir(parents=True, exist_ok=True)
+        destinazione.write_bytes(MEDIA[nome].dati)
     scrivi(OUT / "sitemap.xml", sitemap(note))
 
     bozze_txt = f", {len(note) - len(pubblicate)} bozze" if bozze else ""

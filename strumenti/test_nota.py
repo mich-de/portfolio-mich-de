@@ -11,15 +11,22 @@ TESTA = "titolo: Prova\ndata: 2026-11-12\ntipo: pensiero\n---\n"
 FILE = "2026-11-12-prova.nota"
 
 
+MEDIA = {"foto.jpg": ("immagine", 800, 600), "altra.webp": ("immagine", 600, 800),
+         "brano.mp3": ("audio", 0, 0)}
+
+
 def corpo(testo: str) -> str:
-    return nota.leggi(FILE, TESTA + testo).html
+    return nota.leggi(FILE, TESTA + testo, MEDIA).html
+
+
+def errore(testo: str):
+    with unittest.TestCase().assertRaises(nota.ErroreNota) as ctx:
+        nota.leggi(FILE, TESTA + testo, MEDIA)
+    return ctx.exception
 
 
 class Controllore(HTMLParser):
-    """Verifica che l'HTML prodotto usi solo tag e attributi ammessi."""
-
-    ATTRIBUTI = {"a": {"href", "rel", "target"}, "h2": {"id"}, "h3": {"id"},
-                 "span": {"class"}}
+    """Verifica che l'HTML prodotto usi solo tag, attributi e valori ammessi."""
 
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -29,14 +36,18 @@ class Controllore(HTMLParser):
         if tag not in nota.TAG_AMMESSI:
             self.problemi.append(f"tag {tag}")
         for nome, valore in attrs:
-            if nome not in self.ATTRIBUTI.get(tag, set()):
+            valore = valore or ""
+            if nome not in nota.ATTRIBUTI.get(tag, set()):
                 self.problemi.append(f"attributo {nome} su {tag}")
-            if nome == "href" and not (valore or "").startswith("https://"):
+            if nome == "href" and not (valore.startswith("https://") or valore.startswith("#")
+                                       or (valore.startswith("/") and not valore.startswith("//"))):
                 self.problemi.append(f"href {valore}")
+            if nome == "src" and not valore.startswith(nota.PERCORSO_MEDIA):
+                self.problemi.append(f"src {valore}")
             if nome == "rel" and valore != "noopener noreferrer external":
                 self.problemi.append("rel")
-            if nome == "class" and valore != "nota-lingua":
-                self.problemi.append("class")
+            if nome == "class" and not set(valore.split()) <= nota.CLASSI:
+                self.problemi.append(f"class {valore}")
 
     def handle_startendtag(self, tag, attrs):
         self.handle_starttag(tag, attrs)
@@ -201,12 +212,14 @@ class Sicurezza(unittest.TestCase):
         """Migliaia di testi casuali: o errore controllato, o HTML con soli tag ammessi."""
         rnd = random.Random(20261112)
         alfabeto = (string.ascii_letters + string.digits + " \n\n\n" + "*_`[]()<>&\"'\\#->!/:=."
-                    + "àèé€✓🙂")
+                    + "~|^" + "àèé€✓🙂")
         for _ in range(4000):
             lunghezza = rnd.randint(1, 300)
             testo = "".join(rnd.choice(alfabeto) for _ in range(lunghezza))
             if rnd.random() < 0.3:
                 testo += f"\n[link](https://esempio.it/{rnd.randint(0, 99)})"
+            if rnd.random() < 0.2:
+                testo = rnd.choice(PEZZI) + "\n" + testo + "\n" + rnd.choice(PEZZI)
             try:
                 out = corpo(testo)
             except nota.ErroreNota:
@@ -216,6 +229,122 @@ class Sicurezza(unittest.TestCase):
     def test_deterministico(self):
         testo = "# A\n*b* _c_ [d](https://e.it)\n- f"
         self.assertEqual(corpo(testo), corpo(testo))
+
+
+PEZZI = ["![foto](foto.jpg)", '![foto](foto.jpg "una *didascalia*")', "![brano](brano.mp3)",
+         "| a | b |\n|---|---:|\n| 1 | 2 |", "> [!nota]\n> testo", "1. uno\n2. due",
+         "- [x] fatto\n- [ ] da fare", "testo[^n]\n\n[^n]: nota", "~~via~~ ==sì== [[Ctrl]]",
+         "[sezione](#s-titolo)\n# Titolo", "[post](/diario/2026-01-01-altro/)"]
+
+
+class Media(unittest.TestCase):
+    def test_immagine(self):
+        out = corpo('![Un gatto](foto.jpg "Il *mio* gatto")')
+        self.assertEqual(out, '<figure class="nota-img"><a class="apri" href="/diario/media/foto.jpg">'
+                              '<img src="/diario/media/foto.jpg" alt="Un gatto" width="800" height="600" '
+                              'loading="lazy" decoding="async"></a>'
+                              '<figcaption>Il <strong>mio</strong> gatto</figcaption></figure>')
+
+    def test_galleria(self):
+        out = corpo("![a](foto.jpg)\n![b](altra.webp)\n\n![c](foto.jpg)")
+        self.assertEqual(out.count('<div class="galleria">'), 1)
+        self.assertEqual(out.count("<figure"), 3)
+
+    def test_audio(self):
+        out = corpo('![Notturno](brano.mp3 "demo")')
+        self.assertIn('<audio controls preload="none" src="/diario/media/brano.mp3"></audio>', out)
+        self.assertEqual(sicuro(out), [])
+
+    def test_file_usati_e_copertina(self):
+        n = nota.leggi(FILE, "titolo: T\ndata: 2026-11-12\ntipo: passato\ncopertina: altra.webp\n"
+                             "---\n![x](foto.jpg)\n![y](foto.jpg)", MEDIA)
+        self.assertEqual(n.copertina, "altra.webp")
+        self.assertEqual(n.media, ("altra.webp", "foto.jpg"))
+
+    def test_errori(self):
+        self.assertIn("non trovato", errore("![x](manca.jpg)").messaggio)
+        self.assertIn("non trovato", errore("![x](../../etc/passwd)").messaggio)
+        self.assertIn("non trovato", errore("![x](https://altro.it/a.jpg)").messaggio)
+        self.assertIn("descrizione", errore("![x](foto.jpg").messaggio)
+        self.assertIn("cosa si vede", errore("![](foto.jpg)").messaggio)
+        self.assertIn("riga da sole", errore("testo ![x](foto.jpg)").messaggio)
+        self.assertEqual(corpo("Wow\\![x](https://a.it)"),
+                         '<p>Wow!<a href="https://a.it" rel="noopener noreferrer external" '
+                         'target="_blank">x</a></p>')
+        with self.assertRaises(nota.ErroreNota):
+            nota.leggi(FILE, TESTA + "![x](foto.jpg)")          # senza elenco dei media
+        with self.assertRaises(nota.ErroreNota):
+            nota.leggi(FILE, "titolo: T\ndata: 2026-11-12\ntipo: passato\ncopertina: brano.mp3\n---\nx", MEDIA)
+
+    def test_alt_escapato(self):
+        out = corpo('![<script>"x"](foto.jpg "<b>")')
+        self.assertIn('alt="&lt;script&gt;&quot;x&quot;"', out)
+        self.assertEqual(sicuro(out), [])
+
+
+class NuoviBlocchi(unittest.TestCase):
+    def test_numerato(self):
+        self.assertEqual(corpo("1. uno\n2. due"), "<ol><li>uno</li><li>due</li></ol>")
+        self.assertEqual(corpo("3. tre\n4. quattro"), '<ol start="3"><li>tre</li><li>quattro</li></ol>')
+        self.assertEqual(corpo("- a\n1. b"), "<ul><li>a</li></ul>\n<ol><li>b</li></ol>")
+        self.assertEqual(corpo("2026\\. anno"), "<p>2026. anno</p>")
+
+    def test_spunte(self):
+        self.assertEqual(corpo("- [x] fatto\n- [ ] da fare"),
+                         '<ul><li><span class="spunta spunta-si">[x]</span> fatto</li>'
+                         '<li><span class="spunta">[ ]</span> da fare</li></ul>')
+
+    def test_tabella(self):
+        out = corpo("| Anno | Modem |\n|:---:|---:|\n| 1996 | `56k` |\n| 2001 | a \\| b |")
+        self.assertEqual(out, '<div class="tabella"><table><thead><tr><th class="a-c">Anno</th>'
+                              '<th class="a-d">Modem</th></tr></thead><tbody>'
+                              '<tr><td class="a-c">1996</td><td class="a-d"><code>56k</code></td></tr>'
+                              '<tr><td class="a-c">2001</td><td class="a-d">a | b</td></tr>'
+                              '</tbody></table></div>')
+        self.assertEqual(errore("| a | b |\n| c | d |").riga, 5)
+        self.assertEqual(errore("| a | b |\n|---|---|\n| 1 |").riga, 7)
+
+    def test_riquadri(self):
+        self.assertEqual(corpo("> [!attenzione]\n> Scotta."),
+                         '<aside class="riquadro r-attenzione"><p class="riquadro-tipo">[ attenzione ]</p>'
+                         "<p>Scotta.</p></aside>")
+        self.assertIn("sconosciuto", errore("> [!boh]\n> x").messaggio)
+        self.assertIn("vuoto", errore("> [!nota]").messaggio)
+        self.assertEqual(corpo("> [!x] non è un riquadro"), "<blockquote><p>[!x] non è un riquadro</p></blockquote>")
+
+    def test_note_a_pie_di_pagina(self):
+        out = corpo("Testo[^a] e ancora[^b], di nuovo[^a].\n\n[^b]: Seconda.\n[^a]: Prima, con *stile*.")
+        self.assertIn('<a href="#nota-a" id="rif-a-1">[1]</a>', out)
+        self.assertIn('<a href="#nota-b" id="rif-b-1">[2]</a>', out)
+        self.assertIn('<a href="#nota-a" id="rif-a-2">[1]</a>', out)
+        self.assertTrue(out.endswith('<li id="nota-a">Prima, con <strong>stile</strong>. '
+                                     '<a class="torna" href="#rif-a-1" aria-label="torna al testo">↑</a></li>'
+                                     '<li id="nota-b">Seconda. <a class="torna" href="#rif-b-1" '
+                                     'aria-label="torna al testo">↑</a></li></ol></section>'), out)
+        self.assertIn("non è definita", errore("x[^z]").messaggio)
+        self.assertIn("mai richiamata", errore("x\n\n[^z]: nota").messaggio)
+        self.assertIn("due volte", errore("x[^z]\n\n[^z]: a\n[^z]: b").messaggio)
+        self.assertNotIn("[^", nota.leggi(FILE, TESTA + "Ciao[^a].\n\n[^a]: n").sommario)
+
+    def test_in_linea_nuovi(self):
+        self.assertEqual(corpo("~~vecchio~~ ==nuovo== [[Ctrl]]+[[C]]"),
+                         "<p><del>vecchio</del> <mark>nuovo</mark> <kbd>Ctrl</kbd>+<kbd>C</kbd></p>")
+        self.assertEqual(corpo("cd ~/diario e ~3 min, a == b"), "<p>cd ~/diario e ~3 min, a == b</p>")
+
+    def test_link_interni(self):
+        n = nota.leggi(FILE, TESTA + "[home](/) [musica](/#musica) [post](/diario/2026-01-01-altro/)\n"
+                                     "[su](#s-titolo)\n# Titolo", MEDIA)
+        self.assertIn('<a href="/#musica">musica</a>', n.html)
+        self.assertEqual(n.collegamenti, (("2026-01-01-altro", 5),))
+        self.assertEqual(sicuro(n.html), [])
+        self.assertIn("nessuna sezione", errore("[x](#s-manca)").messaggio)
+        for url in ("//altro.it", "/a/../b", "/A", "/a b", "#Maiusc", "/diario/<x>/"):
+            with self.assertRaises(nota.ErroreNota, msg=url):
+                corpo(f"[x]({url})")
+
+    def test_tutto_insieme_sicuro(self):
+        out = corpo("\n\n".join(PEZZI))
+        self.assertEqual(sicuro(out), [], out)
 
 
 if __name__ == "__main__":

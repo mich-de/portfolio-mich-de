@@ -1124,7 +1124,7 @@ main,
   color: var(--rame-chiaro);
 }
 
-.nota a::after {
+.nota a[target]::after {
   content: " ↗";
   font-size: 0.8em;
 }
@@ -1178,16 +1178,245 @@ main,
   list-style: none;
 }
 
-.nota li {
+.nota ul > li {
   position: relative;
   padding-left: 2ch;
 }
 
-.nota li::before {
+.nota ul > li::before {
   content: "-";
   position: absolute;
   left: 0;
   color: var(--rame);
+}
+
+.nota ol {
+  margin: 0 0 1.25em;
+  padding-left: 4ch;
+}
+
+.nota ol > li::marker {
+  color: var(--rame);
+  font-weight: 700;
+}
+
+.spunta {
+  color: var(--tenue);
+  white-space: pre;
+}
+
+.spunta-si {
+  color: var(--salvia);
+  font-weight: 700;
+}
+
+.nota del {
+  color: var(--tenue);
+}
+
+.nota mark {
+  padding: 0 0.15em;
+  background: rgb(208 134 90 / 0.28);
+  color: var(--perla);
+}
+
+.nota kbd {
+  display: inline-block;
+  padding: 0 0.45em;
+  border: 1px solid var(--linee);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--pannello-alto);
+  color: var(--perla);
+  font: inherit;
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+
+/* Immagini: un clic apre il file originale */
+.nota figure {
+  margin: 0 0 1.75em;
+}
+
+.nota-img img,
+.nota-copertina img {
+  width: 100%;
+  border: 1px solid var(--bordo);
+  border-radius: 4px;
+  background: var(--pannello);
+}
+
+.nota-img a {
+  display: block;
+}
+
+.nota-img a:hover img {
+  border-color: var(--rame);
+}
+
+.nota figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--commento);
+}
+
+.nota-img figcaption::before {
+  content: "^ ";
+  color: var(--rame);
+}
+
+.nota-copertina {
+  margin: -0.5rem 0 2.25rem;
+}
+
+.galleria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 1rem;
+  margin: 0 0 1.75em;
+}
+
+.galleria figure {
+  margin: 0;
+}
+
+.galleria img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* Audio: il lettore del browser in una finestrella */
+.nota-audio {
+  padding: 0.75rem 0.9rem 0.9rem;
+  border: 1px solid var(--bordo);
+  border-radius: 4px;
+  background: var(--pannello);
+}
+
+.nota-audio figcaption {
+  margin: 0 0 0.6rem;
+  font-size: 0.875rem;
+  color: var(--perla);
+  font-weight: 700;
+}
+
+.nota-audio figcaption::before {
+  content: "♪ ";
+  color: var(--rame);
+}
+
+.nota-audio figcaption span {
+  font-weight: 400;
+  color: var(--commento);
+}
+
+.nota-audio audio {
+  display: block;
+  width: 100%;
+  color-scheme: dark;
+}
+
+/* Tabelle */
+.tabella {
+  margin: 0 0 1.75em;
+  overflow-x: auto;
+}
+
+.nota table {
+  min-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.nota th,
+.nota td {
+  padding: 0.45rem 1ch;
+  border-bottom: 1px solid var(--bordo);
+  text-align: left;
+  vertical-align: top;
+}
+
+.nota th {
+  border-bottom-color: var(--rame);
+  color: var(--rame-chiaro);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nota tbody tr:hover {
+  background: var(--pannello);
+}
+
+.nota .a-c { text-align: center; }
+.nota .a-d { text-align: right; }
+
+/* Riquadri: come i messaggi di un programma */
+.riquadro {
+  --tinta: #8ccfd0;
+  margin: 0 0 1.75em;
+  padding: 0.8rem 1rem;
+  border-left: 2px solid var(--tinta);
+  border-radius: 0 4px 4px 0;
+  background: var(--pannello);
+}
+
+.riquadro p:last-child {
+  margin-bottom: 0;
+}
+
+.riquadro .riquadro-tipo {
+  margin-bottom: 0.35rem;
+  color: var(--tinta);
+  font-weight: 700;
+  white-space: pre;
+}
+
+.r-consiglio { --tinta: var(--salvia); }
+.r-attenzione { --tinta: #f2a0a0; }
+.r-curiosita { --tinta: #e2c27e; }
+
+/* Note a piè di pagina */
+.rimando {
+  line-height: 0;
+  font-size: 0.75em;
+}
+
+.rimando a {
+  color: var(--rame);
+  text-decoration: none;
+}
+
+.rimando a::after,
+.torna::after,
+.nota-img a::after {
+  content: none;
+}
+
+.note-piede {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--linee);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--tenue);
+}
+
+.note-piede ol {
+  margin: 0;
+}
+
+.note-piede li {
+  margin-bottom: 0.4rem;
+}
+
+.note-piede li:target {
+  color: var(--perla);
+}
+
+.torna {
+  text-decoration: none;
 }
 
 .nota hr {
@@ -1636,6 +1865,14 @@ main,
 
 /* Telefoni: neofetch in colonna */
 @media (max-width: 40rem) {
+  .nota table {
+    font-size: 0.8125rem;
+  }
+
+  .nota th {
+    white-space: normal;
+  }
+
   .rami li {
     display: block;
     margin-bottom: 0.35rem;
