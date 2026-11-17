@@ -5,7 +5,7 @@ ora: 00:00
 tag: diario, nerd
 sommario: Il primo commit del diario: cosa ci troverai e perché è scritto in un linguaggio fatto in casa.
 copertina: home-terminale.webp
-bozza: si
+bozza: no
 ---
 Ogni programmatore comincia con `hello, world`. Questo diario comincia allo stesso modo.
 
