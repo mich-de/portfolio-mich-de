@@ -63,6 +63,7 @@ va a capo senza aprire un nuovo paragrafo.
 |--------------------------------|---------------------------------|
 | `*grassetto*`                  | **grassetto**                   |
 | `_corsivo_`                    | *corsivo*                       |
+| `++sottolineato++`             | testo sottolineato              |
 | `~~barrato~~`                  | ~~barrato~~                     |
 | `==evidenziato==`              | testo evidenziato               |
 | `` `codice` ``                 | `codice`                        |
@@ -78,7 +79,7 @@ va a capo senza aprire un nuovo paragrafo.
 - L'indirizzo di un titoletto è `#s-` seguito dal titolo in minuscolo, senza
   accenti e con i trattini: `# Perché il 56k` diventa `#s-perche-il-56k`.
 - Per scrivere un segno di punteggiatura così com'è mettici davanti `\`:
-  `\*`, `\_`, `\~`, `\=`, `\|`, `\[`, `\!`, `\@`, `\$` e così via.
+  `\*`, `\_`, `\+`, `\~`, `\=`, `\|`, `\[`, `\!`, `\@`, `\$` e così via.
   Per iniziare una riga con `2026. anno` senza farne un elenco: `2026\. anno`.
 - **Dentro i backtick (`` ` ``) non serve la barra**: il codice viene mostrato
   esattamente com'è. Scrivi `` `*hole` ``, non `` `\*hole` `` (uscirebbe con la barra).
@@ -169,6 +170,15 @@ nome: un file che non è davvero un'immagine viene rifiutato. Online vanno solo
 i file usati da almeno un post.
 
 ## 4. Pubblicare
+
+### Dall'editor (consigliato)
+
+Vai su `admin.mdeangelis.me`, entra con la tua email e il codice che ti arriva.
+La barra sopra il testo inserisce grassetto, sottolineato, tabelle, riquadri e il
+resto (scorciatoie: Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+K per i link). Per pubblicare
+metti `bozza: no` e premi salva: il sito si aggiorna in circa un minuto.
+
+### Da GitHub
 
 1. Crea il file qui in `diario/` (anche dal sito di GitHub, pure dal telefono).
    Le immagini vanno in `diario/media/`.

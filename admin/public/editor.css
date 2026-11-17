@@ -195,6 +195,61 @@ body.ed {
   opacity: 0;
 }
 
+/* ---------------------------------------------------------------- barra di formattazione */
+
+.ed-strumenti {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  padding: 0.45rem 1rem;
+  border-bottom: 1px solid var(--bordo);
+  background: var(--pannello);
+}
+
+.ed-gruppo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.ed .ed-strumenti button,
+.ed .ed-strumenti select {
+  min-width: 2rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.ed .ed-strumenti select {
+  background: var(--pannello-alto);
+  border: 1px solid var(--bordo);
+  border-radius: 4px;
+  color: var(--testo);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.ed .ed-strumenti kbd {
+  margin: 0;
+  opacity: 1;
+  font-size: 0.7rem;
+}
+
+.ed-ev {
+  background: rgb(208 134 90 / 0.35);
+  padding: 0 0.2em;
+}
+
+.ed-visivo-nascosto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* ---------------------------------------------------------------- testo e anteprima */
 
 .ed-principale {

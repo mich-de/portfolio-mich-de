@@ -1360,6 +1360,12 @@ a.ref-tag:hover {
   color: var(--tenue);
 }
 
+.nota u {
+  text-decoration: underline wavy var(--rame);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
 .nota mark {
   padding: 0 0.15em;
   background: rgb(208 134 90 / 0.28);

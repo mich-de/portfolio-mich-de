@@ -235,7 +235,7 @@ class Sicurezza(unittest.TestCase):
 
 PEZZI = ["![foto](foto.jpg)", '![foto](foto.jpg "una *didascalia*")', "![brano](brano.mp3)",
          "| a | b |\n|---|---:|\n| 1 | 2 |", "> [!nota]\n> testo", "1. uno\n2. due",
-         "- [x] fatto\n- [ ] da fare", "testo[^n]\n\n[^n]: nota", "~~via~~ ==sì== [[Ctrl]]",
+         "- [x] fatto\n- [ ] da fare", "testo[^n]\n\n[^n]: nota", "~~via~~ ==sì== ++su++ [[Ctrl]]",
          "[sezione](#s-titolo)\n# Titolo", "[post](/diario/2026-01-01-altro/)"]
 
 
@@ -337,6 +337,12 @@ class NuoviBlocchi(unittest.TestCase):
         self.assertEqual(corpo("~~vecchio~~ ==nuovo== [[Ctrl]]+[[C]]"),
                          "<p><del>vecchio</del> <mark>nuovo</mark> <kbd>Ctrl</kbd>+<kbd>C</kbd></p>")
         self.assertEqual(corpo("cd ~/diario e ~3 min, a == b"), "<p>cd ~/diario e ~3 min, a == b</p>")
+
+    def test_sottolineato(self):
+        self.assertEqual(corpo("++importante++ e *++tutti e due++*"),
+                         "<p><u>importante</u> e <strong><u>tutti e due</u></strong></p>")
+        self.assertEqual(corpo("C++ e g++ restano, 1 ++ 2 anche"), "<p>C++ e g++ restano, 1 ++ 2 anche</p>")
+        self.assertEqual(corpo(r"\+\+non sottolineato\+\+"), "<p>++non sottolineato++</p>")
 
     def test_link_interni(self):
         n = nota.leggi(FILE, TESTA + "[home](/) [musica](/#musica) [post](/diario/2026-01-01-altro/)\n"

@@ -395,6 +395,127 @@
     }
   });
 
+  // ------------------------------------------------------------ barra di formattazione
+  // Ogni bottone scrive la sintassi Nota (vedi diario/COME-SI-SCRIVE.md).
+
+  function scrivi(inizio, fine, nuovo, selDa, selA) {
+    testo.focus();
+    testo.setSelectionRange(inizio, fine);
+    // execCommand tiene Ctrl+Z funzionante; dove non c'è si ripiega su setRangeText
+    if (!document.execCommand || !document.execCommand("insertText", false, nuovo)) {
+      testo.setRangeText(nuovo, inizio, fine, "end");
+      testo.dispatchEvent(new Event("input"));
+    }
+    if (selDa !== undefined) testo.setSelectionRange(inizio + selDa, inizio + selA);
+  }
+
+  function avvolgi(prima, dopo, segnaposto) {
+    const a = testo.selectionStart, b = testo.selectionEnd;
+    let sel = testo.value.slice(a, b);
+    // gli spazi ai bordi restano fuori dai segni, altrimenti la formattazione non vale
+    const sx = sel.length - sel.trimStart().length, dx = sel.length - sel.trimEnd().length;
+    const interno = sel.trim() || segnaposto;
+    const nuovo = sel.slice(0, sx) + prima + interno + dopo + (dx ? sel.slice(sel.length - dx) : "");
+    scrivi(a, b, nuovo, sx + prima.length, sx + prima.length + interno.length);
+  }
+
+  function righeSelezionate() {
+    const v = testo.value;
+    const a = v.lastIndexOf("\n", testo.selectionStart - 1) + 1;
+    let b = v.indexOf("\n", Math.max(testo.selectionEnd - (testo.selectionEnd > testo.selectionStart ? 1 : 0), a));
+    if (b === -1) b = v.length;
+    return { a: a, b: b, righe: v.slice(a, b).split("\n") };
+  }
+
+  function prefissa(fn) {
+    const r = righeSelezionate();
+    const nuovo = r.righe.map((riga, i) => fn(riga, i)).join("\n");
+    scrivi(r.a, r.b, nuovo, nuovo.length, nuovo.length);
+  }
+
+  function blocco(contenuto, selDa, selA) {
+    // un blocco (tabella, codice, riquadro...) sta tra due righe vuote
+    const a = testo.selectionStart, b = testo.selectionEnd;
+    const prima = testo.value.slice(0, a), dopo = testo.value.slice(b);
+    const sopra = !prima ? "" : prima.endsWith("\n\n") ? "" : prima.endsWith("\n") ? "\n" : "\n\n";
+    const sotto = dopo.startsWith("\n\n") ? "" : dopo.startsWith("\n") ? "\n" : "\n\n";
+    const nuovo = sopra + contenuto + sotto;
+    scrivi(a, b, nuovo, sopra.length + (selDa || 0), sopra.length + (selA === undefined ? contenuto.length : selA));
+  }
+
+  const FORMATI = {
+    grassetto: () => avvolgi("*", "*", "grassetto"),
+    corsivo: () => avvolgi("_", "_", "corsivo"),
+    sottolineato: () => avvolgi("++", "++", "sottolineato"),
+    barrato: () => avvolgi("~~", "~~", "barrato"),
+    evidenziato: () => avvolgi("==", "==", "evidenziato"),
+    tasto: () => avvolgi("[[", "]]", "Ctrl"),
+    codice: () => {
+      const sel = testo.value.slice(testo.selectionStart, testo.selectionEnd);
+      if (sel.includes("\n")) {
+        blocco("```\n" + sel + "\n```", 4, 4 + sel.length);
+      } else {
+        avvolgi("`", "`", "codice");
+      }
+    },
+    titolo: () => prefissa((r) => "# " + r.replace(/^#{1,2} /, "")),
+    sottotitolo: () => prefissa((r) => "## " + r.replace(/^#{1,2} /, "")),
+    elenco: () => prefissa((r) => r.startsWith("- ") ? r.slice(2) : "- " + r),
+    numerato: () => prefissa((r, i) => /^\d+\. /.test(r) ? r.replace(/^\d+\. /, "") : (i + 1) + ". " + r),
+    spunta: () => prefissa((r) => r.startsWith("- [ ] ") ? r.slice(6) : "- [ ] " + r.replace(/^- /, "")),
+    citazione: () => prefissa((r) => r.startsWith("> ") ? r.slice(2) : "> " + r),
+    link: () => {
+      const a = testo.selectionStart, b = testo.selectionEnd;
+      const sel = testo.value.slice(a, b).trim() || "testo del link";
+      const nuovo = "[" + sel + "](https://)";
+      scrivi(a, b, nuovo, sel.length + 3, nuovo.length - 1);
+    },
+    immagine: () => $("carica").click(),
+    tabella: () => blocco(
+      "| Colonna 1 | Colonna 2 | Colonna 3 |\n" +
+      "|-----------|-----------|-----------|\n" +
+      "| testo     | testo     | testo     |\n" +
+      "| testo     | testo     | testo     |", 2, 11),
+    nota: () => {
+      let n = 1;
+      while (testo.value.includes("[^" + n + "]")) n++;
+      // il rimando va dove sei, la definizione in fondo al post: una sola modifica (un solo Ctrl+Z)
+      const a = testo.selectionEnd;
+      const resto = testo.value.slice(a).replace(/\s+$/, "");
+      const rimando = "[^" + n + "]";
+      const segnaposto = "testo della nota";
+      const nuovo = rimando + resto + "\n\n" + rimando + ": " + segnaposto + "\n";
+      const fine = nuovo.length - 1;
+      scrivi(a, testo.value.length, nuovo, fine - segnaposto.length, fine);
+    },
+    linea: () => blocco("---", 3, 3),
+  };
+
+  $("strumenti").addEventListener("click", (ev) => {
+    const b = ev.target.closest("button[data-f]");
+    if (!b || testo.disabled) return;
+    FORMATI[b.dataset.f]();
+  });
+
+  $("riquadro").addEventListener("change", (ev) => {
+    const tipo = ev.target.value;
+    ev.target.value = "";
+    if (!tipo || testo.disabled) return;
+    const sel = testo.value.slice(testo.selectionStart, testo.selectionEnd).trim() || "Scrivi qui il testo del riquadro.";
+    const corpo = sel.split("\n").map((r) => "> " + r).join("\n");
+    blocco("> [!" + tipo + "]\n" + corpo, ("> [!" + tipo + "]\n> ").length, ("> [!" + tipo + "]\n").length + corpo.length);
+  });
+
+  testo.addEventListener("keydown", (ev) => {
+    if (!(ev.ctrlKey || ev.metaKey) || ev.altKey) return;
+    const k = ev.key.toLowerCase();
+    const scorciatoie = { b: "grassetto", i: "corsivo", u: "sottolineato", k: "link" };
+    if (scorciatoie[k]) {
+      ev.preventDefault();
+      FORMATI[scorciatoie[k]]();
+    }
+  });
+
   // ------------------------------------------------------------ schede (telefono)
 
   function mostraScheda(quale) {

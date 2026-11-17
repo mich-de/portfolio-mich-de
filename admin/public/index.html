@@ -39,6 +39,42 @@
         <label for="nome-file">nome del file</label>
         <input id="nome-file" spellcheck="false" autocomplete="off" pattern="\d{4}-\d{2}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.nota">
       </div>
+      <div class="ed-strumenti" role="toolbar" aria-label="Formattazione" id="strumenti">
+        <div class="ed-gruppo">
+          <button type="button" data-f="grassetto" title="Grassetto (Ctrl+B)"><b>G</b></button>
+          <button type="button" data-f="corsivo" title="Corsivo (Ctrl+I)"><i>C</i></button>
+          <button type="button" data-f="sottolineato" title="Sottolineato (Ctrl+U)"><u>S</u></button>
+          <button type="button" data-f="barrato" title="Barrato"><s>B</s></button>
+          <button type="button" data-f="evidenziato" title="Evidenziato"><span class="ed-ev">E</span></button>
+          <button type="button" data-f="codice" title="Codice (una parola o un blocco)">&lt;/&gt;</button>
+          <button type="button" data-f="tasto" title="Tasto della tastiera"><kbd>Ctrl</kbd></button>
+        </div>
+        <div class="ed-gruppo">
+          <button type="button" data-f="titolo" title="Titoletto">H1</button>
+          <button type="button" data-f="sottotitolo" title="Sotto-titoletto">H2</button>
+          <button type="button" data-f="elenco" title="Elenco puntato">• elenco</button>
+          <button type="button" data-f="numerato" title="Elenco numerato">1. elenco</button>
+          <button type="button" data-f="spunta" title="Lista di cose da fare">☐ lista</button>
+          <button type="button" data-f="citazione" title="Citazione">❝</button>
+        </div>
+        <div class="ed-gruppo">
+          <button type="button" data-f="link" title="Link (Ctrl+K)">link</button>
+          <button type="button" data-f="immagine" title="Carica e inserisci un'immagine o un audio">immagine</button>
+          <button type="button" data-f="tabella" title="Tabella">tabella</button>
+          <button type="button" data-f="nota" title="Nota a piè di pagina">nota¹</button>
+          <button type="button" data-f="linea" title="Linea di separazione">―</button>
+          <label class="ed-riquadro">
+            <span class="ed-visivo-nascosto">Riquadro</span>
+            <select id="riquadro" title="Riquadro">
+              <option value="">riquadro…</option>
+              <option value="nota">nota</option>
+              <option value="consiglio">consiglio</option>
+              <option value="attenzione">attenzione</option>
+              <option value="curiosita">curiosità</option>
+            </select>
+          </label>
+        </div>
+      </div>
       <div class="ed-schede" role="tablist" aria-label="Vista">
         <button type="button" role="tab" id="s-scrivi" aria-selected="true" aria-controls="testo">scrivi</button>
         <button type="button" role="tab" id="s-vedi" aria-selected="false" aria-controls="vista">anteprima</button>

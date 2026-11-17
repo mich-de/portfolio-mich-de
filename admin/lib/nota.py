@@ -46,7 +46,7 @@ ATTRIBUTI = {
     "p": {"class"}, "h2": {"id"}, "h3": {"id"}, "blockquote": set(), "hr": set(),
     "ul": set(), "ol": {"start"}, "li": {"id"},
     "pre": set(), "code": set(), "strong": set(), "em": set(), "del": set(),
-    "mark": set(), "kbd": set(), "sup": {"class"}, "br": set(), "span": {"class"},
+    "mark": set(), "u": set(), "kbd": set(), "sup": {"class"}, "br": set(), "span": {"class"},
     "a": {"href", "rel", "target", "id", "class", "aria-label"},
     "figure": {"class"}, "figcaption": set(), "div": {"class"},
     "img": {"src", "alt", "width", "height", "loading", "decoding"},
@@ -239,12 +239,13 @@ def _in_linea(s: str, ctx: _Contesto, riga: int, prof: int = 0, testo: bool = Fa
                 i = fine + 1
                 continue
 
-        # ~~barrato~~, ==evidenziato== e **grassetto** (come *grassetto*, per chi viene dal Markdown)
-        if c in "~=*" and s.startswith(c * 2, i) and _confine(prec) and prof < MAX_PROFONDITA:
+        # ~~barrato~~, ==evidenziato==, ++sottolineato++ e **grassetto** (come *grassetto*,
+        # per chi viene dal Markdown)
+        if c in "~=*+" and s.startswith(c * 2, i) and _confine(prec) and prof < MAX_PROFONDITA:
             fine = _trova_chiusura(s, i + 2, c * 2)
             if fine > i + 2 and not s[i + 2].isspace() and not s[fine - 1].isspace():
                 dentro = _in_linea(s[i + 2:fine], ctx, riga, prof + 1, testo, link)
-                tag = {"~": "del", "=": "mark", "*": "strong"}[c]
+                tag = {"~": "del", "=": "mark", "*": "strong", "+": "u"}[c]
                 fuori.append(dentro if testo else f"<{tag}>{dentro}</{tag}>")
                 i = fine + 2
                 continue
