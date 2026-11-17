@@ -1,0 +1,55 @@
+titolo: hello, world
+data: 2026-11-12
+tipo: pensiero
+ora: 00:00
+tag: diario, nerd
+sommario: The first commit of this diary: what you'll find here and why it's written in a homemade language.
+copertina: home-terminale.webp
+bozza: no
+---
+Every programmer starts with `hello, world`. This diary starts the same way.
+
+I write three kinds of things here, and each has its own branch:
+
+- *thoughts*: whatever is going through my head during the day
+- *chronicles*: stories that are happening right now
+- *past*: how things used to work, explained properly
+
+> [!curiosita]
+> `hello, world` became famous in 1978 with Kernighan and Ritchie's book on the C programming language, but Kernighan had already used it a few years earlier in a tutorial for the B language.
+
+# Why a Homemade Language
+
+No WordPress, no off-the-shelf engine. Posts are plain text files written in a format called _Nota_, built from scratch for this website[^zero]. A small program turns them into static HTML pages: no code runs on the server, so there's nothing to exploit.
+
+| | a typical blog | this diary |
+|---|---|---|
+| server-side code | PHP and database | none |
+| JavaScript | quite a lot | 0 lines |
+| security updates | ~~constant~~ | none required |
+
+> Fewer moving parts, fewer things that can break.
+
+# Photos and Audio
+
+Images are added one per line. When they are adjacent, they automatically become a gallery; a click opens them at full size.
+
+![The music section of the website: equalizer and list of platforms](musica-eza.webp "The ==music== section, inspired by eza -l --icons")
+
+> [!nota]
+> Before going online, metadata is removed from photos: GPS location, phone model, and capture date.
+
+# How It Is Written
+
+The format is intentionally small:
+
+```nota
+# Section Title
+A paragraph with *bold*, _italic_, and a [link](https://mdeangelis.me).
+![what can be seen in the photo](foto.jpg "caption")
+```
+
+[^zero]: Only the Python standard library. No packages downloaded from the internet.
+
+
+
