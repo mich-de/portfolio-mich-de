@@ -20,7 +20,7 @@ Qui scrivo tre tipi di cose, e ognuno ha il suo ramo:
 
 # Perché un linguaggio fatto in casa
 
-Niente WordPress, niente motore preso da altri. I post sono file di testo in un formato che si chiama _Nota_, scritto da zero per questo sito[^zero]. Un piccolo programma li trasforma in pagine HTML statiche: sul sito non gira nessun codice, quindi non c'è niente da bucare.
+Niente WordPress, niente motore preso da altri. I post sono file di testo in un formato che si chiama _Nota_, scritto da zero per questo sito[^uno]. Un piccolo programma li trasforma in pagine HTML statiche: sul sito non gira nessun codice, quindi non c'è niente da bucare.
 
 | | un blog classico | questo diario |
 |---|---|---|
@@ -65,4 +65,4 @@ Se sbaglio qualcosa, la pubblicazione si ferma e mi dice file e numero di riga. 
 
 Benvenuto. Per il resto c'è `git log`, oppure rileggi [perché un linguaggio fatto in casa](#s-perche-un-linguaggio-fatto-in-casa).
 
-[^zero]: Solo la libreria standard di Python: nessun pacchetto scaricato da internet.
+[^uno]: Solo la libreria standard di Python: nessun pacchetto scaricato da internet.
