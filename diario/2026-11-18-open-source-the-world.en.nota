@@ -1,0 +1,66 @@
+titolo: Launch the Open Revolution
+data: 2026-11-18
+ora: 23:58
+tipo: cronaca
+tag: ai, open-source, rust, software, agents
+sommario: How ArtCraft used autonomous agents to entirely open-source Photoshop, Figma, and Office suites, sparking a global movement.
+---
+
+If there is one talk that has made waves in recent months in the world of software development and artificial intelligence, it is Brandon Thomas's keynote (ArtCraft founder) at the latest AI Engineer Conference. A story that started as a crazy experiment — cloning the entire Adobe suite using AI agents — turned in just a few weeks into a true global movement with over 300,000 GitHub stars, 1.7 million daily downloads, and a community of more than 4,000 active developers.
+
+The stated goal is as ambitious as it is radical: **open-sourcing the entire digital world**, taking back the applications and infrastructures that Web 2.0 turned into closed, expensive, rent-extracting services.
+
+---
+
+# 1. From the Open Web 1.0 to Adobe and Netflix's "Rent-Seeking"
+
+To understand the scale of this phenomenon, Thomas takes a step back to the 1990s and early 2000s: an era when the internet was born under the sign of decentralization. Open protocols (like IRC), free and public APIs on every platform, shareable formats, and diffused creativity where personal websites were fully customizable through raw HTML and CSS.
+
+With the advent of Web 2.0, broadband, and smartphones, the ecosystem closed down:
+- Public APIs were revoked.
+- Distribution was locked down by major proprietary app stores.
+- Software turned into monthly subscriptions locked behind predatory clauses (such as Adobe's hidden penalties for anyone trying to cancel their subscription before 12 months).
+
+The internet shifted from being a creative playground to an extractive model where users no longer own anything and continuously pay to "rent" their tools of the trade.
+
+---
+
+# 2. The Photoshop Experiment and Agentic Cloning
+
+Starting from these premises, ArtCraft decided to turn the tide. The company, originally founded to build professional tools for filmmakers and digital artists, noticed an unexpected phenomenon: artists were already using code and APIs to "vibe-code" and customize their workflows independently.
+
+Hence the idea to test the power of AI autonomous agents on the most complex software in the creative world:
+- A model was fed a structured mega-prompt detailing the shape and specs of a photo editing app, based on tutorials, UI/UX standards, file formats, and MCP (Model Context Protocol) standards.
+- Within 24 hours, the system generated a functional, familiar application that started **ten times faster** than original Adobe Photoshop.
+- Not stopping at photo editing, the community and agents replicated the entire Creative Suite (InDesign, Premiere), the Microsoft Office suite, Google Docs, Figma, professional CADs, video editors, Flash, and even an ultra-fast, lightweight PDF reader that puts Adobe Acrobat to shame.
+
+All the code, interfaces, data models, and server components are strictly and 100% *open-source*.
+
+---
+
+# 3. Numbers of a Movement and the Linux Factor
+
+What was supposed to be a niche project unexpectedly exploded on Reddit and Hacker News, driving ArtCraft's Discord server to surpass in volume and traffic historical communities like Suno or Higsfield.
+
+Some technical data points are particularly striking:
+- **1.7 million downloads per day**, with constant vertical growth.
+- **25% of users are on Linux**: an operating system historically neglected by major software houses for professional creative tools, which today finds itself equipped with top-tier alternatives.
+- **Native Rust architecture**: chosen as the mandatory language to ensure instant native performance, memory safety, and cross-platform compatibility (from Windows and macOS all the way to NetBSD and WebAssembly via WASM). The extraordinary part is that you don't need to be a Rust expert to contribute: AI agents guide the compilation and code development natively.
+
+---
+
+# 4. Agentic Development vs. Human Supervision
+
+A crucial turning point in Thomas's talk touches on the very way we do engineering today:
+- For backend work, API design, and critical database migrations, human supervision and rigorous review remain fundamental.
+- For building desktop applications, games, utility tools, and immutable components, **delegation to agents can be 100% total**.
+
+ArtCraft is releasing tools like *Autocraft*, a fully autonomous software factory system that ingests GitHub issues, triages them, develops code through agents, and manages evaluation tests (*evals*) without human intervention.
+
+---
+
+# A New Era for Digital Ownership
+
+Brandon Thomas and the ArtCraft community's vision goes far beyond simply creating free clones of Photoshop. It is a concrete attempt to use the acceleration provided by artificial intelligence to dismantle corporate monopolies, return file and tool ownership to users, and prove that a fully open technological infrastructure is possible.
+
+The real question is no longer whether large software houses will manage to defend their locked-down subscriptions, but how quickly the open-source community will manage to rewrite the rest of the world.
