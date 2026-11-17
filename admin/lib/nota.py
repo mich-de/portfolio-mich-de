@@ -43,8 +43,9 @@ PERCORSO_MEDIA = "/diario/media/"
 
 # Tutto l'HTML che l'interprete può produrre: tag -> attributi ammessi.
 ATTRIBUTI = {
-    "p": {"class"}, "h2": {"id"}, "h3": {"id"}, "blockquote": set(), "hr": set(),
-    "ul": set(), "ol": {"start"}, "li": {"id"},
+    "p": {"class", "data-riga"}, "h2": {"id", "data-riga"}, "h3": {"id", "data-riga"},
+    "blockquote": set(), "hr": set(),
+    "ul": set(), "ol": {"start"}, "li": {"id", "data-riga"},
     "pre": set(), "code": set(), "strong": set(), "em": set(), "del": set(),
     "mark": set(), "u": set(), "kbd": set(), "sup": {"class"}, "br": set(), "span": {"class"},
     "a": {"href", "rel", "target", "id", "class", "aria-label"},
@@ -136,8 +137,9 @@ def _e(testo: str) -> str:
 class _Contesto:
     """Quello che serve ricordare mentre si legge una nota."""
 
-    def __init__(self, file: str, media):
+    def __init__(self, file: str, media, righe: bool = False):
         self.file = file
+        self.righe = righe          # solo per l'anteprima dell'editor: data-riga sui blocchi
         self.media = media          # nome -> (tipo, larghezza, altezza), o None
         self.note = {}              # etichetta -> (testo, riga)
         self.ordine = []            # etichette nell'ordine del primo rimando
@@ -182,6 +184,10 @@ class _Contesto:
         if nome not in self.usati:
             self.usati.append(nome)
         return self.media[nome]
+
+
+def _riga(ctx, da: int, a: int) -> str:
+    return f' data-riga="{da}-{a}"' if ctx.righe else ""
 
 
 # ---------------------------------------------------------------- in linea
@@ -433,7 +439,8 @@ def _corpo(ctx: _Contesto, righe: list, inizio: int) -> tuple:
             if a_capo:
                 testo_riga = testo_riga[:-1]
             parti.append(_in_linea(testo_riga.strip(), ctx, n) + ("<br>" if a_capo else " "))
-        blocchi.append("<p>" + "".join(parti).strip() + "</p>")
+        blocchi.append(f"<p{_riga(ctx, paragrafo[0][1], paragrafo[-1][1])}>"
+                       + "".join(parti).strip() + "</p>")
         if not primo:
             primo = " ".join(_in_linea(t.strip().rstrip("\\"), ctx, n, testo=True)
                              for t, n in paragrafo)
@@ -444,9 +451,9 @@ def _corpo(ctx: _Contesto, righe: list, inizio: int) -> tuple:
         if m:
             fatto = m.group(1) != " "
             classe = "spunta spunta-si" if fatto else "spunta"
-            return (f'<li><span class="{classe}">[{"x" if fatto else " "}]</span> '
+            return (f'<li{_riga(ctx, n, n)}><span class="{classe}">[{"x" if fatto else " "}]</span> '
                     f'{_in_linea(m.group(2), ctx, n)}</li>')
-        return f"<li>{_in_linea(testo, ctx, n)}</li>"
+        return f"<li{_riga(ctx, n, n)}>{_in_linea(testo, ctx, n)}</li>"
 
     def chiudi_elenco():
         nonlocal elenco
@@ -621,7 +628,7 @@ def _corpo(ctx: _Contesto, righe: list, inizio: int) -> tuple:
             if not testo.strip():
                 raise ctx.errore(n, "titoletto vuoto")
             ident = _id_titolo(_in_linea(testo.strip(), ctx, n, testo=True), ctx.ids)
-            blocchi.append(f'<{livello} id="{ident}">{_in_linea(testo.strip(), ctx, n)}</{livello}>')
+            blocchi.append(f'<{livello} id="{ident}"{_riga(ctx, n, n)}>{_in_linea(testo.strip(), ctx, n)}</{livello}>')
         elif r.startswith("!["):
             media(r, n)
         elif r.startswith("> ") or r == ">":
@@ -675,12 +682,14 @@ def _corpo(ctx: _Contesto, righe: list, inizio: int) -> tuple:
 
 # ---------------------------------------------------------------- ingresso
 
-def leggi(nome_file: str, contenuto: str, media=None) -> Nota:
+def leggi(nome_file: str, contenuto: str, media=None, numeri_riga: bool = False) -> Nota:
     """Interpreta il testo di una nota. Solleva ErroreNota se qualcosa non va.
 
     media: dizionario nome file -> (tipo, larghezza, altezza) dei file di
     diario/media/ già controllati (vedi media.py). Senza, immagini e audio
-    danno errore."""
+    danno errore.
+    numeri_riga: segna paragrafi, titoletti e voci di elenco con data-riga="inizio-fine"
+    (serve all'editor per modificare il testo direttamente nell'anteprima)."""
     m = _RE_NOME_FILE.match(nome_file)
     if not m:
         raise ErroreNota(nome_file, 1, "nome file atteso: AAAA-MM-GG-titolo-breve.nota "
@@ -692,7 +701,7 @@ def leggi(nome_file: str, contenuto: str, media=None) -> Nota:
     contenuto = contenuto.lstrip("﻿").replace("\r\n", "\n").replace("\r", "\n")
     righe = contenuto.split("\n")
     _controlla_caratteri(nome_file, righe)
-    ctx = _Contesto(nome_file, media)
+    ctx = _Contesto(nome_file, media, numeri_riga)
 
     campi, fine_testa = _intestazione(nome_file, righe)
     for chiave in OBBLIGATORIE:

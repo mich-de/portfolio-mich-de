@@ -12,7 +12,10 @@ from __future__ import annotations
 
 import base64
 import binascii
+import json
+import os
 import re
+import urllib.parse
 import urllib.error
 import urllib.request
 from collections.abc import Mapping
@@ -84,9 +87,9 @@ def _errore_nota(err: nota.ErroreNota) -> dict:
     return {"errore": err.messaggio, "riga": err.riga}
 
 
-def _leggi_nota(nome: str, testo: str):
+def _leggi_nota(nome: str, testo: str, numeri_riga: bool = False):
     nomi_media = [n for n, _, _ in github.elenco("diario/media")]
-    return nota.leggi(nome, testo, _MediaPigri(nomi_media))
+    return nota.leggi(nome, testo, _MediaPigri(nomi_media), numeri_riga)
 
 
 # ---------------------------------------------------------------- azioni
@@ -143,7 +146,7 @@ def _controlla_testo(nome, testo):
 def anteprima(nome: str, testo: str) -> tuple:
     _controlla_testo(nome, testo)
     try:
-        n = _leggi_nota(nome, testo)
+        n = _leggi_nota(nome, testo, numeri_riga=True)
     except nota.ErroreNota as err:
         return 200, {"ok": False, **_errore_nota(err)}
     except media.ErroreMedia as err:
@@ -259,3 +262,38 @@ def stato_pubblicazione(nome: str) -> tuple:
     except (urllib.error.URLError, TimeoutError):
         online = False
     return 200, {"online": online, "indirizzo": url}
+
+
+MAX_TRADUCI = 5000      # caratteri per richiesta
+LINGUE_TRADUZIONE = ("it", "en")
+
+
+def traduci(testo: str, da: str, a: str) -> tuple:
+    """Traduzione con Google Cloud Translation (API ufficiale, chiave GOOGLE_TRANSLATE_KEY).
+
+    Il testo selezionato esce verso Google solo quando premi "traduci".
+    Senza chiave risponde 501 e l'editor apre translate.google.com in un'altra scheda."""
+    if da not in LINGUE_TRADUZIONE or a not in LINGUE_TRADUZIONE or da == a:
+        raise ValueError("lingue non valide")
+    if not isinstance(testo, str) or not testo.strip():
+        raise ValueError("seleziona prima il testo da tradurre")
+    if len(testo) > MAX_TRADUCI:
+        return 413, {"ok": False, "errore": "testo troppo lungo: al massimo 5000 caratteri per volta"}
+    chiave = os.environ.get("GOOGLE_TRANSLATE_KEY", "")
+    if not chiave:
+        return 501, {"ok": False, "errore": "traduzione nell'editor non attiva (manca la chiave Google)"}
+    corpo = json.dumps({"q": testo, "source": da, "target": a, "format": "text"}).encode("utf-8")
+    richiesta = urllib.request.Request(
+        "https://translation.googleapis.com/language/translate/v2", data=corpo, method="POST",
+        headers={"Content-Type": "application/json", "X-Goog-Api-Key": chiave,
+                 "User-Agent": "admin-mdeangelis"})
+    try:
+        with urllib.request.urlopen(richiesta, timeout=15) as r:
+            dati = json.loads(r.read(1_000_000).decode("utf-8"))
+        tradotto = dati["data"]["translations"][0]["translatedText"]
+    except urllib.error.HTTPError as err:
+        return 502, {"ok": False, "errore": "Google Translate ha risposto con un errore (" + str(err.code)
+                     + "): controlla la chiave e che l'API sia attiva"}
+    except (urllib.error.URLError, TimeoutError, KeyError, IndexError, ValueError):
+        return 502, {"ok": False, "errore": "Google Translate non risponde, riprova"}
+    return 200, {"ok": True, "testo": tradotto}

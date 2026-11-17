@@ -345,6 +345,16 @@ class NuoviBlocchi(unittest.TestCase):
             with self.assertRaises(nota.ErroreNota, msg=nome):
                 nota.leggi(nome, "titolo: X\ndata: 2026-11-12\ntipo: pensiero\n---\nhi")
 
+    def test_righe_per_editor(self):
+        testo = "titolo: X\ndata: 2026-11-12\ntipo: pensiero\n---\nuno\ndue\n\n# Titolo\n- a\n- [x] b\n"
+        n = nota.leggi("2026-11-12-x.nota", testo, numeri_riga=True)
+        self.assertIn('<p data-riga="5-6">uno due</p>', n.html)
+        self.assertIn('data-riga="8-8">Titolo</h2>', n.html)
+        self.assertIn('<li data-riga="9-9">a</li>', n.html)
+        self.assertIn('<li data-riga="10-10"><span class="spunta spunta-si">', n.html)
+        self.assertNotIn("data-riga", nota.leggi("2026-11-12-x.nota", testo).html)
+        self.assertEqual(sicuro(n.html), [])
+
     def test_sottolineato(self):
         self.assertEqual(corpo("++importante++ e *++tutti e due++*"),
                          "<p><u>importante</u> e <strong><u>tutti e due</u></strong></p>")

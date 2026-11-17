@@ -302,7 +302,7 @@
   }
 
   async function anteprima() {
-    if (!aperto()) return;
+    if (!aperto() || stato.inModifica) return;
     clearTimeout(stato.attesa);
     const l = inUso(docs[stato.attivo]) ? stato.attivo : "it";
     const d = docs[l];
@@ -348,6 +348,12 @@
       if (!h.startsWith("#")) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
     }
     vista.replaceChildren(art);
+    vista.dataset.lingua = l;
+    for (const blocco of art.querySelectorAll("[data-riga]")) {
+      blocco.classList.add("ed-modificabile");
+      blocco.title = "clic per modificare qui (Invio conferma, Esc annulla)";
+      for (const s of blocco.querySelectorAll(".spunta")) s.contentEditable = "false";
+    }
     // non coprire il messaggio di un salvataggio appena fatto
     if (!modificato() && $("stato").dataset.tipo !== "ok") avvisa("nessun errore");
     return true;
@@ -656,6 +662,178 @@
   $("g-chiudi").addEventListener("click", () => $("d-media").close());
   for (const id of ["g-cerca", "g-tipo", "g-uso"]) $(id).addEventListener("input", disegnaGalleria);
 
+  // ------------------------------------------------------------ modifica nell'anteprima
+  // Paragrafi, titoletti e voci di elenco si possono correggere direttamente
+  // nell'anteprima: al termine il blocco torna testo Nota e sostituisce le sue righe.
+
+  stato.inModifica = null;
+
+  function scappa(s) {
+    return s.replace(/\\/g, "\\\\").replace(/([*_`\[\]])/g, "\\$1")
+      .replace(/~~/g, "\\~\\~").replace(/==/g, "\\=\\=").replace(/\+\+/g, "\\+\\+");
+  }
+
+  function inNota(nodo) {
+    let out = "";
+    for (const n of nodo.childNodes) {
+      if (n.nodeType === Node.TEXT_NODE) { out += scappa(n.nodeValue.replace(/ /g, " ")); continue; }
+      if (n.nodeType !== Node.ELEMENT_NODE) continue;
+      const tag = n.tagName.toLowerCase();
+      if (n.classList.contains("spunta")) continue;
+      const dentro = () => inNota(n);
+      if (tag === "strong" || tag === "b") out += "*" + dentro() + "*";
+      else if (tag === "em" || tag === "i") out += "_" + dentro() + "_";
+      else if (tag === "u") out += "++" + dentro() + "++";
+      else if (tag === "del" || tag === "s" || tag === "strike") out += "~~" + dentro() + "~~";
+      else if (tag === "mark") out += "==" + dentro() + "==";
+      else if (tag === "code") out += "`" + n.textContent + "`";
+      else if (tag === "kbd") out += "[[" + n.textContent + "]]";
+      else if (tag === "br") out += "\\\n";
+      else if (tag === "sup" && n.classList.contains("rimando")) {
+        const a = n.querySelector("a");
+        const m = a && /^#nota-(.+)$/.exec(a.getAttribute("href") || "");
+        if (m) out += "[^" + m[1] + "]";
+      } else if (tag === "a") out += "[" + dentro() + "](" + (n.getAttribute("href") || "") + ")";
+      else if (tag === "div" || tag === "p") out += (out ? " " : "") + dentro();
+      else out += dentro();
+    }
+    return out;
+  }
+
+  function pulisci(s) {
+    return s.split("\\\n").map((x) => x.replace(/\s+/g, " ").trim()).join("\\\n");
+  }
+
+  function iniziaModifica(blocco) {
+    if (stato.inModifica) return;
+    stato.inModifica = { blocco: blocco, prima: pulisci(inNota(blocco)), lingua: vista.dataset.lingua };
+    blocco.contentEditable = "true";
+    blocco.classList.add("ed-in-modifica");
+    blocco.focus();
+  }
+
+  function fineModifica(conferma) {
+    const m = stato.inModifica;
+    if (!m) return;
+    stato.inModifica = null;
+    m.blocco.contentEditable = "false";
+    m.blocco.classList.remove("ed-in-modifica");
+    const dopo = pulisci(inNota(m.blocco));
+    if (!conferma || dopo === m.prima) { anteprima(); return; }
+    if (!dopo) { avvisa("blocco vuoto: per cancellarlo usa la colonna del testo", "errore"); anteprima(); return; }
+    const d = docs[m.lingua];
+    const [da, a] = m.blocco.dataset.riga.split("-").map(Number);
+    const righe = d.el.value.split("\n");
+    if (!(da >= 1 && a >= da && a <= righe.length)) { anteprima(); return; }
+    const tag = m.blocco.tagName.toLowerCase();
+    const prima = righe[da - 1];
+    const pref = tag === "li" ? (/^(- \[[ xX]\] |- |\d{1,3}\. )/.exec(prima) || [""])[0]
+      : (tag === "h2" || tag === "h3") ? (/^#{1,2} /.exec(prima) || [""])[0] : "";
+    let inizio = 0;
+    for (let i = 0; i < da - 1; i++) inizio += righe[i].length + 1;
+    let fine = inizio;
+    for (let i = da - 1; i < a; i++) fine += righe[i].length + (i < a - 1 ? 1 : 0);
+    attiva(m.lingua);
+    scrivi(inizio, fine, pref + dopo);
+    avvisa("modificato dall'anteprima (righe " + da + (a > da ? "-" + a : "") + ")", "ok");
+  }
+
+  vista.addEventListener("click", (ev) => {
+    const blocco = ev.target.closest(".ed-modificabile");
+    if (stato.inModifica) {
+      if (ev.target.closest("a")) ev.preventDefault();   // mentre scrivi i link non si aprono
+      return;
+    }
+    if (!blocco || ev.ctrlKey || ev.metaKey) return;      // Ctrl+clic su un link lo apre
+    ev.preventDefault();
+    iniziaModifica(blocco);
+  });
+  vista.addEventListener("keydown", (ev) => {
+    if (!stato.inModifica) return;
+    if (ev.key === "Escape") { ev.preventDefault(); fineModifica(false); }
+    else if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); fineModifica(true); }
+    else if ((ev.ctrlKey || ev.metaKey) && !ev.altKey) {
+      const k = ev.key.toLowerCase();
+      const cmd = { b: "bold", i: "italic", u: "underline" }[k];
+      if (cmd) { ev.preventDefault(); document.execCommand(cmd); }
+    }
+  });
+  vista.addEventListener("focusout", (ev) => {
+    if (stato.inModifica && ev.target === stato.inModifica.blocco) fineModifica(true);
+  });
+  // incollando arriva solo testo, niente formattazione da altre pagine
+  vista.addEventListener("paste", (ev) => {
+    if (!stato.inModifica) return;
+    ev.preventDefault();
+    document.execCommand("insertText", false, (ev.clipboardData.getData("text/plain") || "").replace(/\s+/g, " "));
+  });
+
+  // ------------------------------------------------------------ traduzione della selezione
+
+  stato.traduzione = null;
+
+  function urlGoogle(testoDa, da, a) {
+    return "https://translate.google.com/?sl=" + da + "&tl=" + a + "&op=translate&text=" + encodeURIComponent(testoDa);
+  }
+
+  async function traduciSelezione() {
+    if (!aperto()) return;
+    let sel = "", lingua = stato.attivo, origine = null;
+    const dalTesto = document.activeElement === testo || !window.getSelection().toString().trim();
+    if (dalTesto) {
+      sel = testo.value.slice(testo.selectionStart, testo.selectionEnd);
+      origine = { lingua: stato.attivo, a: testo.selectionStart, b: testo.selectionEnd };
+    } else {
+      sel = window.getSelection().toString();
+      lingua = vista.dataset.lingua || stato.attivo;
+    }
+    if (!sel.trim()) { avvisa("seleziona prima il testo da tradurre", "errore"); return; }
+    const verso = lingua === "en" ? ["en", "it"] : ["it", "en"];
+    stato.traduzione = { testo: sel, da: verso[0], a: verso[1], origine: origine };
+    avvisa("traduco…");
+    const dati = await chiama("traduci", { testo: sel, da: verso[0], a: verso[1] });
+    if (dati.stato === 501) {
+      window.open(urlGoogle(sel, verso[0], verso[1]), "_blank", "noopener,noreferrer");
+      avvisa("aperto Google Traduttore in un'altra scheda (la traduzione dentro l'editor non è ancora attiva)");
+      return;
+    }
+    if (!dati.ok) { avvisa(dati.errore || "traduzione non riuscita", "errore"); return; }
+    $("tr-verso").textContent = verso[0].toUpperCase() + " → " + verso[1].toUpperCase();
+    $("tr-originale").textContent = sel.length > 300 ? sel.slice(0, 300) + "…" : sel;
+    $("tr-testo").value = dati.testo;
+    const altra = docs[verso[1]];
+    $("tr-altra").disabled = !inUso(altra);
+    $("tr-altra").textContent = "metti nella colonna " + verso[1].toUpperCase();
+    $("tr-sostituisci").disabled = !origine;
+    $("d-traduci").showModal();
+    avvisa("tradotto con Google Translate", "ok");
+  }
+
+  $("tr-chiudi").addEventListener("click", () => $("d-traduci").close());
+  $("tr-google").addEventListener("click", () => {
+    const t = stato.traduzione;
+    if (t) window.open(urlGoogle(t.testo, t.da, t.a), "_blank", "noopener,noreferrer");
+  });
+  $("tr-copia").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText($("tr-testo").value); avvisa("traduzione copiata", "ok"); }
+    catch (e) { $("tr-testo").select(); avvisa("premi Ctrl+C per copiare", "errore"); }
+  });
+  $("tr-sostituisci").addEventListener("click", () => {
+    const t = stato.traduzione;
+    if (!t || !t.origine) return;
+    $("d-traduci").close();
+    attiva(t.origine.lingua);
+    scrivi(t.origine.a, t.origine.b, $("tr-testo").value);
+  });
+  $("tr-altra").addEventListener("click", () => {
+    const t = stato.traduzione;
+    if (!t) return;
+    $("d-traduci").close();
+    mostraColonna(t.a, true);
+    attiva(t.a);
+    scrivi(testo.selectionStart, testo.selectionEnd, $("tr-testo").value);
+  });
+
   // ------------------------------------------------------------ barra di formattazione
   // Ogni bottone scrive la sintassi Nota (vedi diario/COME-SI-SCRIVE.md).
 
@@ -750,6 +928,7 @@
       scrivi(a, testo.value.length, nuovo, fine - segnaposto.length, fine);
     },
     linea: () => blocco("---", 3, 3),
+    traduci: () => traduciSelezione(),
   };
 
   $("strumenti").addEventListener("click", (ev) => {
@@ -770,8 +949,9 @@
   for (const el of [docs.it.el, docs.en.el]) el.addEventListener("keydown", (ev) => {
     if (!(ev.ctrlKey || ev.metaKey) || ev.altKey) return;
     const k = ev.key.toLowerCase();
+    if (ev.shiftKey && k === "t") { ev.preventDefault(); traduciSelezione(); return; }
     const scorciatoie = { b: "grassetto", i: "corsivo", u: "sottolineato", k: "link" };
-    if (scorciatoie[k]) {
+    if (scorciatoie[k] && !ev.shiftKey) {
       ev.preventDefault();
       FORMATI[scorciatoie[k]]();
     }

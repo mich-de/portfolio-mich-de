@@ -21,7 +21,7 @@ import github   # noqa: E402
 MAX_CORPO = 4_400_000
 
 LETTURA = {"io", "elenco", "post", "file", "stato"}
-SCRITTURA = {"anteprima", "salva", "carica", "nuovo"}
+SCRITTURA = {"anteprima", "salva", "carica", "nuovo", "traduci"}
 
 SICUREZZA = {
     "Cache-Control": "no-store",
@@ -115,6 +115,8 @@ class handler(BaseHTTPRequestHandler):  # noqa: N801 (nome richiesto da Vercel)
                 print("salvataggio di", corpo.get("nome"))
                 return self._rispondi(*azioni.salva(corpo.get("nome"), corpo.get("testo"),
                                                     corpo.get("sha"), email))
+            if azione == "traduci":
+                return self._rispondi(*azioni.traduci(corpo.get("testo"), corpo.get("da"), corpo.get("a")))
             return self._rispondi(*azioni.carica(corpo.get("nome"), corpo.get("dati")))
         except github.ErroreGitHub as err:
             return self._rispondi(err.stato, {"ok": False, "errore": str(err)})

@@ -648,3 +648,41 @@ body.ed {
   .ed-galleria-corpo { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
   .ed-dettaglio { border-left: 0; border-top: 1px solid var(--bordo); max-height: 45vh; }
 }
+
+/* ---------------------------------------------------------------- modifica nell'anteprima */
+
+.ed-vista .ed-modificabile {
+  cursor: text;
+  border-radius: 3px;
+  outline: 1px dashed transparent;
+  outline-offset: 4px;
+}
+
+.ed-vista .ed-modificabile:hover { outline-color: var(--linee); }
+
+.ed-vista .ed-in-modifica,
+.ed-vista .ed-in-modifica:hover {
+  outline: 1px solid var(--rame);
+  background: rgb(208 134 90 / 0.06);
+}
+
+/* ---------------------------------------------------------------- traduzione */
+
+.ed-traduci { width: min(40rem, calc(100vw - 2rem)); }
+
+.ed-traduci textarea {
+  width: 100%;
+  background: var(--fondo);
+  border: 1px solid var(--bordo);
+  border-radius: 4px;
+  padding: 0.5rem;
+  resize: vertical;
+}
+
+.ed-traduci .ed-bottoni { flex-wrap: wrap; }
+
+#tr-originale {
+  border-left: 2px solid var(--linee);
+  padding-left: 0.6rem;
+  white-space: pre-wrap;
+}

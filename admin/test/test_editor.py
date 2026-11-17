@@ -179,6 +179,24 @@ class TestAzioni(ConGitHubFinto):
         _, elenco = azioni.elenco_post()
         self.assertIn("en", {p["lingua"] for p in elenco["post"]})
 
+    def test_traduci_senza_chiave(self):
+        vecchia = os.environ.pop("GOOGLE_TRANSLATE_KEY", None)
+        try:
+            stato, dati = azioni.traduci("ciao", "it", "en")
+            self.assertEqual(stato, 501)
+            with self.assertRaises(ValueError):
+                azioni.traduci("ciao", "it", "fr")
+            with self.assertRaises(ValueError):
+                azioni.traduci("  ", "it", "en")
+            self.assertEqual(azioni.traduci("x" * 6000, "it", "en")[0], 413)
+        finally:
+            if vecchia is not None:
+                os.environ["GOOGLE_TRANSLATE_KEY"] = vecchia
+
+    def test_anteprima_con_righe(self):
+        _, dati = azioni.anteprima("2026-11-12-x.nota", "titolo: X\ndata: 2026-11-12\ntipo: pensiero\n---\nciao\n")
+        self.assertIn('data-riga="5-5"', dati["html"])
+
     def test_nomi_e_percorsi(self):
         for nome in ("../vercel.json", "diario/x.nota", "2026-11-12-X.nota", "2026-11-12-x.md", "", None):
             with self.assertRaises(github.ErroreGitHub):
