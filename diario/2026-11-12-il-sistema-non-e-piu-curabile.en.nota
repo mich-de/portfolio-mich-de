@@ -1,0 +1,46 @@
+titolo: The system is no longer curable: Ghioni's prophecy and the Great Reset of the network
+data: 2026-11-12
+ora: 21:28
+tipo: pensiero
+tag: cybersecurity, ai, network, future
+sommario: From the no-ransom attacks of the new swarms of AI agents to the lucid analysis of Fabio Ghioni: what if the only way out was to turn everything off?
+bozza: no
+---
+
+In recent days we have been witnessing something that completely comes out of the classic computer security manuals. I'm not just talking about the scale of attacks during this "Black October" — between the decade-old `PHP2Shell` flaw that exposed 70% of the web, compromised packages on `Node.js`, and keys exfiltrated from cloud providers — but about the very *nature* of certain attacks.
+
+Those who remotely enter the refrigeration systems of European and Italian supermarkets by bringing the refrigerated counters to 50 degrees are not asking for a ransom in Bitcoin. He simply wants the food to rot. Those who take down entire infrastructures using swarms of ten thousand _uncensored_ AI agents often don't even try to resell the databases: they just want to flip the switch and prove that they can do it at any time.
+
+Why burn precious _zero-day_ vulnerabilities without collecting a cent?
+
+# The illusion of patches and blind delegation
+
+Listening again to an old interview with *Fabio Ghioni*[^ghioni] from the time of the Hacking Team case, all the pieces of the puzzle suddenly fall into place. Ghioni, who saw the internet born in the 1980s as a space of free interconnection designed to put everyone on an equal footing, had already identified the two structural tumors of our digital world:
+
+1. *The supply chain*: the citizen (and today any small or medium-sized business) thinks of entrusting their digital life to institutions, banks or the State. In reality, from healthcare to registry offices and logistics, everything is outsourced to the institutions' _technological service providers_. Consequently, ==the vulnerability of the single supplier immediately becomes the vulnerability of the entire system==.
+2. *The irreversibility of control*: once you create an architecture layered on forty-year-old protocols and graft interception tools, backdoors or offensive agents onto it, you no longer close that alternative flow of data. It becomes a permanent weapon of blackmail and sabotage in the hands of whoever arrives a second later.
+
+> [!attenzione]
+> When a critical vulnerability emerges in the source code of a common framework, large enterprises protected by confidential templates (such as _Mythos 5.2_ in the _Project Glasswing_ or _GPT-6 Cyber_ consortium) close the flaw in five minutes. Those in the middle — SMBs, local vendors, mere mortals — need days just to plan the patch. But the swarms of autonomous agents only need ten minutes to wipe everything out.
+---
+
+# «As it is, it is no longer curable»
+
+It is here that Ghioni's reflection becomes prophetic compared to what we see today on our terminals:
+
+> I tell you this as a person who since the 1980s has believed in the evolution of technology and in the ideal of what the Internet would represent: being an interconnection system that put everyone on an equal footing.
+>
+> After having seen in the last 20-25 years what it has become, I hope - like many others like me - that the system will completely collapse and start over. As it is, it's no longer curable, and I think that's what's going to happen in a little while.
+
+When an infrastructure is rotten to the core, continuing to patch the code or add layers of defensive AI on top of sieve protocols doesn't solve the problem: it just raises the stakes.
+
+# The true meaning of no-ransom attacks
+
+Looked at through Ghioni's eyes, these purely destructive sabotages cease to seem like senseless acts of computer vandalism and take on two possible readings, both disturbing:
+
+- *Cybernetic accelerationism*: those who attack know that the system is supported by spit and hits the physical nodes and intermediate suppliers precisely to remove the illusion of control from the institutions, forcing the breaking point.
+- *Preparation for the Great Reset from above*: driving companies, the food chain and citizens to exasperation and a sense of total impotence is the perfect prelude to making the unacceptable accepted. When the chaos becomes unsustainable and no one feels safe anymore, the population itself will ask to turn off the old free and anonymous network to move on to an armored "New Network", filtered upstream by mega-government agents and accessible only under strict surveillance.
+
+Perhaps we are not faced with a simple wave of cybercrime. Perhaps we are witnessing the technical tests of controlled demolition of the old web, waiting for someone to finally pull the plug to make us start from scratch. We just need to understand with what rules, and above all who will have the keys to the new switch in their hands.
+
+[^ghioni]: Fabio Ghioni, former head of Telecom Italia's Tiger Team and expert in cyber warfare, in the interview given to _Il Fatto Quotidiano_ on 10 July 2015 on the case of the 400 GB exfiltrated from Hacking Team.
