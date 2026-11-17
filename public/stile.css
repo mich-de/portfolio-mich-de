@@ -1208,14 +1208,10 @@ a.ref-tag:hover {
   line-height: 1.8;
 }
 
-/* il testo resta su righe comode; tabelle e gallerie possono allargarsi */
+/* tutto il post sta in una colonna: testo, immagini, tabelle e gallerie hanno la
+   stessa larghezza (una tabella più larga scorre di lato, senza uscire) */
 .nota > * {
   max-width: 70ch;
-}
-
-.nota > .tabella,
-.nota > .galleria {
-  max-width: 62rem;
 }
 
 .nota-titolo {
