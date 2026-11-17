@@ -13,15 +13,19 @@
     ? window.trustedTypes.createPolicy("editor", { createHTML: (s) => s })
     : { createHTML: (s) => s };
 
+  // Un post si apre in coppia: italiano e (se c'è) traduzione inglese, affiancati.
+  const docs = {
+    it: { el: $("testo-it"), etichetta: $("file-it"), nome: null, sha: null, salvato: "" },
+    en: { el: $("testo-en"), etichetta: $("file-en"), nome: null, sha: null, salvato: "" },
+  };
   const stato = {
-    nome: null,          // file aperto
-    sha: null,           // versione letta (null = post nuovo, mai salvato)
-    salvato: "",         // testo all'ultimo salvataggio
+    attivo: "it",        // la colonna dove stai scrivendo: barra e anteprima lavorano lì
+    nomi: new Set(),     // file che esistono già nel repository
     attesa: null,        // timer dell'anteprima automatica
     controllo: null,     // timer del controllo "è online?"
   };
 
-  const testo = $("testo");
+  let testo = docs.it.el;   // la textarea attiva (la usano barra, media e anteprima)
   const vista = $("vista");
 
   function avvisa(msg, tipo) {
@@ -53,24 +57,36 @@
     return dati;
   }
 
-  function modificato() {
-    return stato.nome !== null && testo.value !== stato.salvato;
+  // un documento "esiste" se è aperto e o è già salvato o c'è del testo da salvare
+  function inUso(d) { return d.nome !== null && (d.sha !== null || d.el.value !== ""); }
+  function modificatoDoc(d) { return d.nome !== null && d.el.value !== d.salvato; }
+  function modificato() { return modificatoDoc(docs.it) || modificatoDoc(docs.en); }
+  function aperto() { return docs.it.nome !== null; }
+
+  function attiva(l) {
+    if (docs[l].el.disabled) return;
+    stato.attivo = l;
+    testo = docs[l].el;
+    for (const k of ["it", "en"]) docs[k].el.closest(".ed-colonna").classList.toggle("ed-attiva-col", k === l);
   }
 
   function aggiornaBottoni() {
-    const aperto = stato.nome !== null;
-    const lingua = $("b-lingua");
-    lingua.hidden = !aperto || stato.sha === null;
-    if (aperto) {
-      const inglese = stato.nome.endsWith(".en.nota");
-      lingua.textContent = inglese ? "versione italiana" : "traduzione EN";
+    const ok = aperto();
+    const enInUso = inUso(docs.en);
+    docs.it.el.disabled = !ok;
+    docs.en.el.disabled = !ok || !enInUso;
+    $("crea-en").hidden = !ok || enInUso;
+    $("b-salva").disabled = !ok || !(modificato() || docs.it.sha === null);
+    $("b-anteprima").disabled = !ok;
+    for (const k of ["it", "en"]) {
+      const d = docs[k];
+      d.etichetta.textContent = d.nome === null ? "—"
+        : d.nome + (inUso(d) ? (modificatoDoc(d) ? " [modificato]" : "") : " (non ancora creata)");
     }
-    $("b-salva").disabled = !aperto || (!modificato() && stato.sha !== null);
-    $("b-anteprima").disabled = !aperto;
-    testo.disabled = !aperto;
-    $("file-aperto").textContent = aperto
-      ? (stato.nome + (modificato() ? " [modificato]" : ""))
+    $("file-aperto").textContent = ok
+      ? docs.it.nome.replace(/\.nota$/, "") + (modificato() ? " [modificato]" : "")
       : "nessun file aperto";
+    if (testo.disabled) attiva("it");
   }
 
   // ------------------------------------------------------------ elenco
@@ -107,18 +123,12 @@
       return;
     }
     stato.nomi = new Set(dati.post.map((p) => p.nome));
-    // la traduzione inglese subito sotto il suo post italiano
-    const it = dati.post.filter((p) => p.lingua !== "en");
     const en = new Map(dati.post.filter((p) => p.lingua === "en").map((p) => [p.nome.replace(/\.en\.nota$/, ".nota"), p]));
-    for (const p of it) {
-      ul.append(voce(p.titolo, p.data + (p.ora ? " " + p.ora : "") + " · " + p.tipo,
-        p.bozza ? "bozza" : "", () => apri(p.nome), p.nome === stato.nome));
+    for (const p of dati.post.filter((x) => x.lingua !== "en")) {
       const t = en.get(p.nome);
-      if (t) {
-        const li = voce("↳ " + t.titolo, "English", t.bozza ? "EN bozza" : "EN", () => apri(t.nome), t.nome === stato.nome);
-        li.classList.add("ed-traduzione");
-        ul.append(li);
-      }
+      const lingue = t ? (t.bozza ? " · EN in bozza" : " · EN") : "";
+      ul.append(voce(p.titolo, p.data + (p.ora ? " " + p.ora : "") + " · " + p.tipo + lingue,
+        p.bozza ? "bozza" : "", () => apri(p.nome), p.nome === docs.it.nome));
     }
     if (!dati.post.length) {
       ul.append(Object.assign(document.createElement("li"), { className: "ed-vuoto", textContent: "nessun post" }));
@@ -137,19 +147,29 @@
     return !modificato() || confirm("Ci sono modifiche non salvate. Le perdi?");
   }
 
+  function imposta(l, nome, sha, contenuto) {
+    const d = docs[l];
+    d.nome = nome; d.sha = sha; d.salvato = contenuto; d.el.value = contenuto;
+  }
+
   async function apri(nome) {
     if (!lasciare()) return;
-    avvisa("apro " + nome + "…");
-    const dati = await chiama("post", undefined, "&nome=" + encodeURIComponent(nome));
+    const it = nome.replace(/\.en\.nota$/, ".nota");
+    const en = it.replace(/\.nota$/, ".en.nota");
+    avvisa("apro " + it + "…");
+    const dati = await chiama("post", undefined, "&nome=" + encodeURIComponent(it));
     if (dati.stato !== 200) { avvisa(dati.errore || "non riesco ad aprirlo", "errore"); return; }
-    stato.nome = dati.nome;
-    stato.sha = dati.sha;
-    stato.salvato = dati.testo;
-    testo.value = dati.testo;
+    imposta("it", dati.nome, dati.sha, dati.testo);
+    imposta("en", en, null, "");
+    if (stato.nomi.has(en)) {
+      const t = await chiama("post", undefined, "&nome=" + encodeURIComponent(en));
+      if (t.stato === 200) imposta("en", t.nome, t.sha, t.testo);
+    }
     $("riga-nome").hidden = true;
+    attiva(nome.endsWith(".en.nota") ? "en" : "it");
     aggiornaBottoni();
     caricaElenco();
-    avvisa("aperto " + nome);
+    avvisa("aperto " + it + (docs.en.sha ? " con la traduzione inglese" : ""));
     anteprima();
   }
 
@@ -195,21 +215,22 @@
     const t = oggiRoma();
     const titolo = $("n-titolo").value.trim().replace(/\s+/g, " ");
     const dati = await chiama("nuovo", { titolo: titolo, data: nome.slice(0, 10), ora: t.ora });
-    stato.nome = nome;
-    stato.sha = null;
-    stato.salvato = "";
-    testo.value = dati.testo || "";
+    imposta("it", nome, null, "");
+    docs.it.el.value = dati.testo || "";
+    imposta("en", nome.replace(/\.nota$/, ".en.nota"), null, "");
     $("riga-nome").hidden = false;
     $("nome-file").value = nome;
+    attiva("it");
     aggiornaBottoni();
-    testo.focus();
+    docs.it.el.focus();
     avvisa("nuovo post, non ancora salvato");
     anteprima();
   });
 
   $("nome-file").addEventListener("change", () => {
-    if (stato.sha === null) {
-      stato.nome = $("nome-file").value.trim();
+    if (docs.it.sha === null) {
+      docs.it.nome = $("nome-file").value.trim();
+      docs.en.nome = docs.it.nome.replace(/\.nota$/, ".en.nota");
       aggiornaBottoni();
       anteprima();
     }
@@ -217,51 +238,62 @@
 
   // ------------------------------------------------------------ traduzione inglese
 
-  async function traduzione() {
-    if (stato.nome === null || !lasciare()) return;
-    if (stato.nome.endsWith(".en.nota")) {
-      stato.salvato = testo.value;   // già confermato da lasciare()
-      return apri(stato.nome.replace(/\.en\.nota$/, ".nota"));
-    }
-    const nomeEn = stato.nome.replace(/\.nota$/, ".en.nota");
-    if (stato.nomi && stato.nomi.has(nomeEn)) {
-      stato.salvato = testo.value;
-      return apri(nomeEn);
-    }
-    // nuova traduzione: parte dal testo italiano, in bozza, da tradurre al posto suo
-    let copia = testo.value.replace(/\r\n/g, "\n");
+  // nuova traduzione: copia del testo italiano, in bozza, da sostituire con l'inglese
+  $("b-crea-en").addEventListener("click", () => {
+    if (!aperto()) return;
+    const copia = docs.it.el.value.replace(/\r\n/g, "\n");
     const fine = copia.indexOf("\n---");
     let testa = fine === -1 ? copia : copia.slice(0, fine);
     const corpo = fine === -1 ? "" : copia.slice(fine);
     testa = /^bozza:/m.test(testa) ? testa.replace(/^bozza:.*$/m, "bozza: si") : testa + "\nbozza: si";
-    stato.nome = nomeEn;
-    stato.sha = null;
-    stato.salvato = "";
-    testo.value = testa + corpo;
-    $("riga-nome").hidden = true;
+    docs.en.el.value = testa + corpo;
+    mostraColonna("en", true);
     aggiornaBottoni();
-    testo.focus();
-    avvisa("traduzione inglese nuova, in bozza: sostituisci il testo italiano con l'inglese e salva");
+    attiva("en");
+    docs.en.el.focus();
+    docs.en.el.setSelectionRange(0, 0);
+    avvisa("traduzione inglese creata in bozza: sostituisci il testo italiano con l'inglese e salva");
     anteprima();
+  });
+
+  // ------------------------------------------------------------ colonne visibili
+
+  function mostraColonna(col, si) {
+    const b = document.querySelector('.ed-vista-btn[data-col="' + col + '"]');
+    b.setAttribute("aria-pressed", String(si));
+    document.querySelector('#area [data-col="' + col + '"]').hidden = !si;
+    const visibili = [...document.querySelectorAll("#area > [data-col]")].filter((x) => !x.hidden).length;
+    $("area").dataset.colonne = String(Math.max(1, visibili));
   }
-  $("b-lingua").addEventListener("click", traduzione);
+
+  for (const b of document.querySelectorAll(".ed-vista-btn")) {
+    b.addEventListener("click", () => {
+      const si = b.getAttribute("aria-pressed") !== "true";
+      const accese = [...document.querySelectorAll('.ed-vista-btn[aria-pressed="true"]')].length;
+      if (!si && accese <= 1) return;   // almeno una colonna resta
+      mostraColonna(b.dataset.col, si);
+      if (b.dataset.col === "vista" && si) anteprima();
+    });
+  }
 
   // ------------------------------------------------------------ anteprima
 
-  function mostraErrore(dati) {
+  function mostraErrore(dati, l) {
     const p = document.createElement("p");
     p.className = "ed-errore";
     const b = document.createElement("button");
     b.type = "button";
-    b.textContent = dati.riga ? "riga " + dati.riga : "errore";
-    b.addEventListener("click", () => vaiARiga(dati.riga));
+    b.textContent = (l === "en" ? "EN " : "") + (dati.riga ? "riga " + dati.riga : "errore");
+    b.addEventListener("click", () => vaiARiga(dati.riga, l));
     p.append(b, document.createTextNode(" " + (dati.errore || "errore")));
     vista.replaceChildren(p);
+    mostraColonna("vista", true);
   }
 
-  function vaiARiga(n) {
+  function vaiARiga(n, l) {
     if (!n) return;
-    mostraScheda("scrivi");
+    attiva(l || stato.attivo);
+    mostraColonna(stato.attivo, true);
     const righe = testo.value.split("\n");
     let pos = 0;
     for (let i = 0; i < n - 1 && i < righe.length; i++) pos += righe[i].length + 1;
@@ -272,14 +304,21 @@
   }
 
   async function anteprima() {
-    if (stato.nome === null) return;
+    if (!aperto()) return;
     clearTimeout(stato.attesa);
-    const dati = await chiama("anteprima", { nome: stato.nome, testo: testo.value });
-    if (dati.stato !== 200) { mostraErrore({ errore: dati.errore }); return false; }
-    if (!dati.ok) { mostraErrore(dati); avvisa("c'è un errore alla riga " + dati.riga, "errore"); return false; }
+    const l = inUso(docs[stato.attivo]) ? stato.attivo : "it";
+    const d = docs[l];
+    const dati = await chiama("anteprima", { nome: d.nome, testo: d.el.value });
+    if (dati.stato !== 200) { mostraErrore({ errore: dati.errore }, l); return false; }
+    if (!dati.ok) {
+      mostraErrore(dati, l);
+      avvisa("c'è un errore " + (l === "en" ? "nell'inglese " : "") + "alla riga " + dati.riga, "errore");
+      return false;
+    }
 
     const art = document.createElement("article");
     art.className = "nota";
+    art.lang = l;
     const testa = document.createElement("header");
     testa.className = "ed-testa-anteprima";
     const h1 = document.createElement("h1");
@@ -287,7 +326,7 @@
     h1.textContent = dati.titolo;
     const meta = document.createElement("p");
     meta.className = "ed-meta";
-    meta.textContent = dati.data + (dati.ora ? " " + dati.ora : "") + " · " + dati.tipo +
+    meta.textContent = l.toUpperCase() + " · " + dati.data + (dati.ora ? " " + dati.ora : "") + " · " + dati.tipo +
       " · " + dati.minuti + " min" + (dati.tag.length ? " · #" + dati.tag.join(" #") : "") +
       (dati.bozza ? " · BOZZA (non pubblicato)" : " · si pubblica al salvataggio");
     testa.append(h1, meta);
@@ -311,46 +350,72 @@
       if (!h.startsWith("#")) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
     }
     vista.replaceChildren(art);
-    if (!modificato()) avvisa("nessun errore");
+    // non coprire il messaggio di un salvataggio appena fatto
+    if (!modificato() && $("stato").dataset.tipo !== "ok") avvisa("nessun errore");
     return true;
   }
 
-  testo.addEventListener("input", () => {
-    aggiornaBottoni();
-    clearTimeout(stato.attesa);
-    stato.attesa = setTimeout(anteprima, 1500);
-  });
+  for (const l of ["it", "en"]) {
+    const el = docs[l].el;
+    el.addEventListener("focus", () => {
+      if (stato.attivo !== l) { attiva(l); anteprima(); }
+    });
+    el.addEventListener("input", () => {
+      aggiornaBottoni();
+      clearTimeout(stato.attesa);
+      stato.attesa = setTimeout(anteprima, 1500);
+    });
+  }
 
   // ------------------------------------------------------------ salva
 
+  async function salvaDoc(l) {
+    const d = docs[l];
+    const contenuto = d.el.value;
+    const dati = await chiama("salva", { nome: d.nome, testo: contenuto, sha: d.sha });
+    if (!dati.ok) {
+      if (dati.riga !== undefined) mostraErrore(dati, l);
+      avvisa("non salvato" + (l === "en" ? " (inglese)" : "") + ": " + (dati.errore || "errore")
+        + (dati.riga ? " (riga " + dati.riga + ")" : ""), "errore");
+      return null;
+    }
+    d.sha = dati.sha;
+    d.salvato = contenuto;
+    return dati;
+  }
+
   async function salva() {
-    if (stato.nome === null) return;
+    if (!aperto()) return;
     $("b-salva").disabled = true;
     avvisa("controllo e salvo…");
-    const testoOra = testo.value;
-    const dati = await chiama("salva", { nome: stato.nome, testo: testoOra, sha: stato.sha });
-    if (!dati.ok) {
-      aggiornaBottoni();
-      if (dati.riga !== undefined) mostraErrore(dati);
-      avvisa("non salvato: " + (dati.errore || "errore") + (dati.riga ? " (riga " + dati.riga + ")" : ""), "errore");
-      return;
+    // prima l'italiano: la traduzione ha bisogno che esista (e sia pubblicato, se la pubblichi)
+    const fatti = [];
+    for (const l of ["it", "en"]) {
+      const d = docs[l];
+      const daSalvare = l === "it" ? (modificatoDoc(d) || d.sha === null) : (inUso(d) && modificatoDoc(d));
+      if (!daSalvare) continue;
+      const dati = await salvaDoc(l);
+      if (!dati) { aggiornaBottoni(); return; }
+      fatti.push([l, dati]);
     }
-    stato.sha = dati.sha;
-    stato.salvato = testoOra;
     $("riga-nome").hidden = true;
     aggiornaBottoni();
     caricaElenco();
-    if (dati.bozza) {
-      avvisa("salvato come bozza: non è online", "ok");
+    const online = fatti.filter(([, x]) => !x.bozza);
+    const cosa = fatti.map(([l]) => l.toUpperCase()).join(" e ");
+    if (!fatti.length) {
+      avvisa("niente da salvare");
+    } else if (!online.length) {
+      avvisa("salvato " + cosa + " come bozza: non è online", "ok");
     } else {
-      avvisa("salvato: il sito si aggiorna in circa un minuto…", "ok");
-      controllaOnline(dati.indirizzo, 0);
+      avvisa("salvato " + cosa + ": il sito si aggiorna in circa un minuto…", "ok");
+      const [l, x] = online[online.length - 1];
+      controllaOnline(docs[l].nome, x.indirizzo, 0);
     }
   }
 
-  function controllaOnline(indirizzo, giri) {
+  function controllaOnline(nome, indirizzo, giri) {
     clearTimeout(stato.controllo);
-    const nome = stato.nome;
     stato.controllo = setTimeout(async () => {
       const dati = await chiama("stato", undefined, "&nome=" + encodeURIComponent(nome));
       if (dati.online && giri >= 3) {
@@ -362,7 +427,7 @@
         s.append(a);
         s.dataset.tipo = "ok";
       } else if (giri < 18) {
-        controllaOnline(indirizzo, giri + 1);
+        controllaOnline(nome, indirizzo, giri + 1);
       } else {
         avvisa("la pubblicazione ci sta mettendo più del solito: controlla la build su Vercel", "errore");
       }
@@ -372,8 +437,7 @@
   // ------------------------------------------------------------ media
 
   function inserisci(s) {
-    if (stato.nome === null) { avvisa("apri prima un post", "errore"); return; }
-    mostraScheda("scrivi");
+    if (!aperto()) { avvisa("apri prima un post", "errore"); return; }
     const i = testo.selectionStart;
     const prima = testo.value.slice(0, i);
     const a_capo = prima && !prima.endsWith("\n") ? "\n\n" : "";
@@ -437,7 +501,7 @@
     if (!dati.ok) { avvisa("non caricato: " + (dati.errore || "errore"), "errore"); return; }
     avvisa("caricato " + nome + " (pulito dai metadati)", "ok");
     caricaElenco();
-    if (stato.nome !== null) {
+    if (aperto()) {
       inserisci(dati.tipo === "audio" ? "![titolo del brano](" + nome + ")" : "![descrivi cosa si vede](" + nome + ")");
     }
   });
@@ -553,7 +617,7 @@
     blocco("> [!" + tipo + "]\n" + corpo, ("> [!" + tipo + "]\n> ").length, ("> [!" + tipo + "]\n").length + corpo.length);
   });
 
-  testo.addEventListener("keydown", (ev) => {
+  for (const el of [docs.it.el, docs.en.el]) el.addEventListener("keydown", (ev) => {
     if (!(ev.ctrlKey || ev.metaKey) || ev.altKey) return;
     const k = ev.key.toLowerCase();
     const scorciatoie = { b: "grassetto", i: "corsivo", u: "sottolineato", k: "link" };
@@ -563,21 +627,10 @@
     }
   });
 
-  // ------------------------------------------------------------ schede (telefono)
-
-  function mostraScheda(quale) {
-    const vedi = quale === "vedi";
-    $("s-scrivi").setAttribute("aria-selected", String(!vedi));
-    $("s-vedi").setAttribute("aria-selected", String(vedi));
-    document.body.dataset.scheda = vedi ? "vedi" : "scrivi";
-  }
-  $("s-scrivi").addEventListener("click", () => mostraScheda("scrivi"));
-  $("s-vedi").addEventListener("click", () => { mostraScheda("vedi"); anteprima(); });
-
   // ------------------------------------------------------------ comandi
 
   $("b-nuovo").addEventListener("click", nuovoPost);
-  $("b-anteprima").addEventListener("click", () => { mostraScheda("vedi"); anteprima(); });
+  $("b-anteprima").addEventListener("click", () => { mostraColonna("vista", true); anteprima(); });
   $("b-salva").addEventListener("click", salva);
 
   document.addEventListener("keydown", (ev) => {

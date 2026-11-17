@@ -14,7 +14,6 @@
     <p class="ed-prompt"><span class="ed-chi" id="chi">…</span>:<span class="ed-dove">~/diario</span>$ <span id="file-aperto">nessun file aperto</span></p>
     <nav class="ed-azioni" aria-label="Azioni">
       <button type="button" id="b-nuovo">nuovo post</button>
-      <button type="button" id="b-lingua" hidden>traduzione EN</button>
       <button type="button" id="b-anteprima" disabled>anteprima <kbd>Ctrl+Invio</kbd></button>
       <button type="button" id="b-salva" class="ed-primario" disabled>salva <kbd>Ctrl+S</kbd></button>
       <a href="/cdn-cgi/access/logout" class="ed-esci">esci</a>
@@ -76,14 +75,27 @@
           </label>
         </div>
       </div>
-      <div class="ed-schede" role="tablist" aria-label="Vista">
-        <button type="button" role="tab" id="s-scrivi" aria-selected="true" aria-controls="testo">scrivi</button>
-        <button type="button" role="tab" id="s-vedi" aria-selected="false" aria-controls="vista">anteprima</button>
+      <div class="ed-viste" role="group" aria-label="Colonne visibili">
+        <button type="button" class="ed-vista-btn" data-col="it" aria-pressed="true">italiano</button>
+        <button type="button" class="ed-vista-btn" data-col="en" aria-pressed="true">english</button>
+        <button type="button" class="ed-vista-btn" data-col="vista" aria-pressed="true">anteprima</button>
       </div>
-      <div class="ed-area">
-        <textarea id="testo" spellcheck="true" lang="it" disabled
-                  aria-label="Testo del post in formato Nota" placeholder="Apri un post a sinistra o creane uno nuovo."></textarea>
-        <section class="ed-vista" id="vista" aria-label="Anteprima" aria-live="polite">
+      <div class="ed-area" id="area">
+        <div class="ed-colonna" data-col="it">
+          <p class="ed-col-testa"><span class="ed-col-lingua">IT</span> <span id="file-it">—</span></p>
+          <textarea id="testo-it" class="ed-testo" spellcheck="true" lang="it" disabled
+                    aria-label="Testo italiano del post, in formato Nota" placeholder="Apri un post a sinistra o creane uno nuovo."></textarea>
+        </div>
+        <div class="ed-colonna" data-col="en">
+          <p class="ed-col-testa"><span class="ed-col-lingua">EN</span> <span id="file-en">—</span></p>
+          <textarea id="testo-en" class="ed-testo" spellcheck="true" lang="en" disabled
+                    aria-label="English text of the post, in Nota format" placeholder="Nessuna traduzione inglese."></textarea>
+          <p class="ed-crea" id="crea-en" hidden>
+            <button type="button" id="b-crea-en">crea la traduzione inglese</button>
+            <span class="ed-nota-piccola">Parte da una copia del testo italiano, in bozza: lo sostituisci con l'inglese.</span>
+          </p>
+        </div>
+        <section class="ed-vista" id="vista" data-col="vista" aria-label="Anteprima" aria-live="polite">
           <p class="ed-vuoto">L'anteprima compare qui.</p>
         </section>
       </div>
