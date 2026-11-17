@@ -133,12 +133,10 @@
     if (!dati.post.length) {
       ul.append(Object.assign(document.createElement("li"), { className: "ed-vuoto", textContent: "nessun post" }));
     }
-    const um = $("elenco-media");
-    um.replaceChildren();
-    for (const m of dati.media) {
-      um.append(voce(m.nome, Math.max(1, Math.round(m.dimensione / 1024)) + " KB", "inserisci",
-        () => inserisci("![descrivi cosa si vede](" + m.nome + ")"), false));
-    }
+    stato.media = dati.media;
+    stato.titoli = Object.fromEntries(dati.post.map((p) => [p.nome, p.titolo]));
+    $("n-media").textContent = "(" + dati.media.length + ")";
+    if ($("d-media").open) disegnaGalleria();
   }
 
   // ------------------------------------------------------------ apri, nuovo
@@ -473,7 +471,7 @@
     });
   }
 
-  $("carica").addEventListener("change", async (ev) => {
+  async function caricaFile(ev) {
     const file = ev.target.files[0];
     ev.target.value = "";
     if (!file) return;
@@ -500,11 +498,163 @@
     const dati = await chiama("carica", { nome: nome, dati: await base64(blob) });
     if (!dati.ok) { avvisa("non caricato: " + (dati.errore || "errore"), "errore"); return; }
     avvisa("caricato " + nome + " (pulito dai metadati)", "ok");
-    caricaElenco();
-    if (aperto()) {
+    stato.scelto = nome;
+    await caricaElenco();
+    // dalla galleria resta lì per sceglierlo; dalla barra laterale va subito nel testo
+    if (ev.target.id === "carica" && aperto()) {
       inserisci(dati.tipo === "audio" ? "![titolo del brano](" + nome + ")" : "![descrivi cosa si vede](" + nome + ")");
     }
+  }
+  $("carica").addEventListener("change", caricaFile);
+  $("carica-g").addEventListener("change", caricaFile);
+
+  // ------------------------------------------------------------ galleria dei media
+
+  stato.media = [];
+  stato.scelto = null;
+
+  function kb(n) { return n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB"; }
+
+  function disegnaGalleria() {
+    const cerca = $("g-cerca").value.trim().toLowerCase();
+    const tipo = $("g-tipo").value, uso = $("g-uso").value;
+    const ul = $("g-griglia");
+    ul.replaceChildren();
+    const visibili = stato.media.filter((m) =>
+      (!cerca || m.nome.includes(cerca)) && (!tipo || m.tipo === tipo) &&
+      (!uso || (uso === "usati") === (m.usato_da.length > 0)));
+    for (const m of visibili) {
+      const li = document.createElement("li");
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "ed-miniatura" + (stato.scelto === m.nome ? " ed-attiva" : "");
+      b.title = m.nome;
+      if (m.tipo === "immagine") {
+        const img = document.createElement("img");
+        img.src = "/diario/media/" + encodeURIComponent(m.nome);
+        img.alt = "";
+        img.loading = "lazy";
+        img.decoding = "async";
+        b.append(img);
+      } else {
+        const s = document.createElement("span");
+        s.className = "ed-audio-icona";
+        s.textContent = "♪";
+        b.append(s);
+      }
+      const n = document.createElement("span");
+      n.className = "ed-miniatura-nome";
+      n.textContent = m.nome;
+      const info = document.createElement("span");
+      info.className = "ed-miniatura-info";
+      info.textContent = kb(m.dimensione) + (m.usato_da.length ? " · in " + m.usato_da.length + " post" : " · non usato");
+      b.append(n, info);
+      b.addEventListener("click", () => { stato.scelto = m.nome; disegnaGalleria(); });
+      li.append(b);
+      ul.append(li);
+    }
+    if (!visibili.length) {
+      ul.append(Object.assign(document.createElement("li"), { className: "ed-vuoto",
+        textContent: stato.media.length ? "nessun file con questi filtri" : "nessun file caricato" }));
+    }
+    dettaglio(stato.media.find((m) => m.nome === stato.scelto));
+  }
+
+  function dettaglio(m) {
+    const box = $("g-dettaglio");
+    box.replaceChildren();
+    if (!m) {
+      box.append(Object.assign(document.createElement("p"), { className: "ed-vuoto", textContent: "Scegli un file per vederlo qui." }));
+      return;
+    }
+    const src = "/diario/media/" + encodeURIComponent(m.nome);
+    const misure = document.createElement("p");
+    misure.className = "ed-meta";
+    misure.textContent = m.tipo + " · " + kb(m.dimensione);
+    if (m.tipo === "immagine") {
+      const img = document.createElement("img");
+      img.src = src; img.alt = ""; img.className = "ed-dettaglio-img";
+      img.addEventListener("load", () => {
+        misure.textContent = "immagine · " + img.naturalWidth + "×" + img.naturalHeight + " px · " + kb(m.dimensione);
+      });
+      box.append(img);
+    } else {
+      const a = document.createElement("audio");
+      a.src = src; a.controls = true; a.preload = "none";
+      box.append(a);
+    }
+    const h = document.createElement("h3");
+    h.textContent = m.nome;
+    box.append(h, misure);
+
+    const azioni = document.createElement("div");
+    azioni.className = "ed-bottoni";
+    const ins = document.createElement("button");
+    ins.type = "button";
+    ins.className = "ed-primario";
+    ins.textContent = "inserisci nel testo";
+    ins.disabled = !aperto();
+    ins.addEventListener("click", () => {
+      $("d-media").close();
+      inserisci(m.tipo === "audio" ? "![titolo del brano](" + m.nome + ")" : "![descrivi cosa si vede](" + m.nome + ")");
+    });
+    azioni.append(ins);
+    if (m.tipo === "immagine") {
+      const cop = document.createElement("button");
+      cop.type = "button";
+      cop.textContent = "usa come copertina";
+      cop.disabled = !aperto();
+      cop.addEventListener("click", () => { $("d-media").close(); copertina(m.nome); });
+      azioni.append(cop);
+    }
+    box.append(azioni);
+
+    const uso = document.createElement("p");
+    uso.className = "ed-nota-piccola";
+    if (!m.usato_da.length) {
+      uso.textContent = "Non è usato da nessun post: online non va finché un post non lo usa.";
+      box.append(uso);
+    } else {
+      uso.textContent = "Usato in:";
+      const ul = document.createElement("ul");
+      ul.className = "ed-usato";
+      for (const p of m.usato_da) {
+        const li = document.createElement("li");
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "ed-link";
+        b.textContent = (p.endsWith(".en.nota") ? "EN · " : "") + (stato.titoli[p] || p);
+        b.addEventListener("click", () => { $("d-media").close(); apri(p); });
+        li.append(b);
+        ul.append(li);
+      }
+      box.append(uso, ul);
+    }
+  }
+
+  // copertina: nell'intestazione del testo attivo (sostituisce quella che c'è)
+  function copertina(nome) {
+    if (!aperto()) return;
+    const v = testo.value;
+    const fine = v.indexOf("\n---");
+    if (fine === -1) { avvisa("manca la riga --- che chiude l'intestazione", "errore"); return; }
+    const testa = v.slice(0, fine);
+    const m = /^copertina:.*$/m.exec(testa);
+    if (m) {
+      scrivi(m.index, m.index + m[0].length, "copertina: " + nome);
+    } else {
+      scrivi(fine, fine, "\ncopertina: " + nome);
+    }
+    avvisa("copertina: " + nome, "ok");
+  }
+
+  $("b-galleria").addEventListener("click", () => {
+    disegnaGalleria();
+    $("d-media").showModal();
+    $("g-cerca").focus();
   });
+  $("g-chiudi").addEventListener("click", () => $("d-media").close());
+  for (const id of ["g-cerca", "g-tipo", "g-uso"]) $(id).addEventListener("input", disegnaGalleria);
 
   // ------------------------------------------------------------ barra di formattazione
   // Ogni bottone scrive la sintassi Nota (vedi diario/COME-SI-SCRIVE.md).
@@ -581,7 +731,7 @@
       const nuovo = "[" + sel + "](https://)";
       scrivi(a, b, nuovo, sel.length + 3, nuovo.length - 1);
     },
-    immagine: () => $("carica").click(),
+    immagine: () => $("b-galleria").click(),
     tabella: () => blocco(
       "| Colonna 1 | Colonna 2 | Colonna 3 |\n" +
       "|-----------|-----------|-----------|\n" +

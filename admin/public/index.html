@@ -26,12 +26,12 @@
       <ul class="ed-elenco" id="elenco-post"><li class="ed-vuoto">caricamento…</li></ul>
 
       <h2 class="ed-titoletto">media</h2>
+      <button type="button" id="b-galleria" class="ed-galleria-btn">galleria <span id="n-media"></span></button>
       <label class="ed-carica">
         <input type="file" id="carica" accept="image/jpeg,image/png,image/webp,image/gif,audio/mpeg,audio/ogg">
         <span>carica immagine o audio</span>
       </label>
       <p class="ed-nota-piccola">Le foto vengono ripulite da posizione e dati del telefono prima di essere salvate.</p>
-      <ul class="ed-elenco ed-media" id="elenco-media"></ul>
     </aside>
 
     <main class="ed-principale">
@@ -103,6 +103,34 @@
   </div>
 
   <footer class="ed-stato" role="status" id="stato">pronto</footer>
+
+  <dialog id="d-media" class="ed-dialogo ed-galleria" aria-labelledby="t-galleria">
+    <div class="ed-galleria-testa">
+      <h2 id="t-galleria">media</h2>
+      <input type="search" id="g-cerca" placeholder="cerca per nome…" aria-label="Cerca per nome" autocomplete="off">
+      <select id="g-tipo" aria-label="Tipo">
+        <option value="">tutti</option>
+        <option value="immagine">immagini</option>
+        <option value="audio">audio</option>
+      </select>
+      <select id="g-uso" aria-label="Uso">
+        <option value="">usati e non</option>
+        <option value="usati">usati in un post</option>
+        <option value="liberi">non usati</option>
+      </select>
+      <label class="ed-carica ed-carica-piccola">
+        <input type="file" id="carica-g" accept="image/jpeg,image/png,image/webp,image/gif,audio/mpeg,audio/ogg">
+        <span>+ carica</span>
+      </label>
+      <button type="button" id="g-chiudi" aria-label="Chiudi la galleria">chiudi</button>
+    </div>
+    <div class="ed-galleria-corpo">
+      <ul class="ed-griglia" id="g-griglia" aria-label="File caricati"></ul>
+      <aside class="ed-dettaglio" id="g-dettaglio" aria-live="polite">
+        <p class="ed-vuoto">Scegli un file per vederlo qui.</p>
+      </aside>
+    </div>
+  </dialog>
 
   <dialog id="d-nuovo" class="ed-dialogo">
     <form method="dialog" id="f-nuovo">

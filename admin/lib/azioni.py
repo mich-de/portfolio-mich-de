@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import base64
 import binascii
+import re
 import urllib.error
 import urllib.request
 from collections.abc import Mapping
@@ -90,19 +91,33 @@ def _leggi_nota(nome: str, testo: str):
 
 # ---------------------------------------------------------------- azioni
 
+def _usa(testo: str, nome: str) -> bool:
+    """Il post usa questo file? (riga ![..](nome) o copertina: nome)"""
+    return bool(re.search(r"\]\(" + re.escape(nome) + r"(?:\s|\))", testo)
+                or re.search(r"(?m)^copertina:\s*" + re.escape(nome) + r"\s*$", testo))
+
+
 def elenco_post() -> tuple:
-    post = []
+    post, testi = [], {}
     for nome, sha, _ in github.elenco("diario"):
         if not github.RE_POST.match(nome):
             continue
-        campi = intestazione(github.leggi(github.percorso_post(nome)).decode("utf-8", "replace"))
+        testo = github.leggi(github.percorso_post(nome)).decode("utf-8", "replace")
+        testi[nome] = testo
+        campi = intestazione(testo)
         post.append({"nome": nome, "sha": sha, "titolo": campi.get("titolo", nome),
                      "data": campi.get("data", ""), "ora": campi.get("ora", ""),
                      "tipo": campi.get("tipo", ""), "bozza": _bozza(campi),
                      "lingua": "en" if nome.endswith(".en.nota") else "it"})
     post.sort(key=lambda p: (p["data"], p["ora"], p["nome"]), reverse=True)
-    media_ = [{"nome": n, "dimensione": d} for n, _, d in github.elenco("diario/media")
-              if github.RE_MEDIA.match(n)]
+    media_ = []
+    for n, _, d in github.elenco("diario/media"):
+        if not github.RE_MEDIA.match(n):
+            continue
+        usato = sorted(p for p, testo in testi.items() if _usa(testo, n))
+        media_.append({"nome": n, "dimensione": d,
+                       "tipo": "audio" if n.endswith((".mp3", ".ogg")) else "immagine",
+                       "usato_da": usato})
     return 200, {"post": post, "media": media_}
 
 
