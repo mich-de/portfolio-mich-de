@@ -9,7 +9,6 @@ dietro Cloudflare Access (applicazione `admin`, regola "Solo io").
 |-----------------|----------------------------------------------------------------------|
 | `GITHUB_TOKEN`  | chiave fine-grained: solo questo repository, permesso Contents in lettura e scrittura |
 | `ADMIN_EMAILS`  | indirizzi ammessi, separati da virgola (gli stessi della regola Cloudflare) |
-
 | `GOOGLE_TRANSLATE_KEY` | facoltativa: chiave di Google Cloud Translation per tradurre la selezione dentro l'editor. Senza, il bottone "traduci" apre translate.google.com |
 
 Facoltative: `CF_TEAM_DOMAIN`, `CF_AUD` (già impostate nel codice),
