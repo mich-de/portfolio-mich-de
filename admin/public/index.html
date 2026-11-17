@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>admin · mdeangelis.me</title>
+  <link rel="stylesheet" href="/sito/stile.css">
+  <link rel="stylesheet" href="/editor.css">
+  <script src="/editor.js" defer></script>
+</head>
+<body class="ed">
+  <header class="ed-barra">
+    <p class="ed-prompt"><span class="ed-chi" id="chi">…</span>:<span class="ed-dove">~/diario</span>$ <span id="file-aperto">nessun file aperto</span></p>
+    <nav class="ed-azioni" aria-label="Azioni">
+      <button type="button" id="b-nuovo">nuovo post</button>
+      <button type="button" id="b-anteprima" disabled>anteprima <kbd>Ctrl+Invio</kbd></button>
+      <button type="button" id="b-salva" class="ed-primario" disabled>salva <kbd>Ctrl+S</kbd></button>
+      <a href="/cdn-cgi/access/logout" class="ed-esci">esci</a>
+    </nav>
+  </header>
+
+  <div class="ed-corpo">
+    <aside class="ed-lato" aria-label="File">
+      <h2 class="ed-titoletto">post</h2>
+      <ul class="ed-elenco" id="elenco-post"><li class="ed-vuoto">caricamento…</li></ul>
+
+      <h2 class="ed-titoletto">media</h2>
+      <label class="ed-carica">
+        <input type="file" id="carica" accept="image/jpeg,image/png,image/webp,image/gif,audio/mpeg,audio/ogg">
+        <span>carica immagine o audio</span>
+      </label>
+      <p class="ed-nota-piccola">Le foto vengono ripulite da posizione e dati del telefono prima di essere salvate.</p>
+      <ul class="ed-elenco ed-media" id="elenco-media"></ul>
+    </aside>
+
+    <main class="ed-principale">
+      <div class="ed-nome" id="riga-nome" hidden>
+        <label for="nome-file">nome del file</label>
+        <input id="nome-file" spellcheck="false" autocomplete="off" pattern="\d{4}-\d{2}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.nota">
+      </div>
+      <div class="ed-schede" role="tablist" aria-label="Vista">
+        <button type="button" role="tab" id="s-scrivi" aria-selected="true" aria-controls="testo">scrivi</button>
+        <button type="button" role="tab" id="s-vedi" aria-selected="false" aria-controls="vista">anteprima</button>
+      </div>
+      <div class="ed-area">
+        <textarea id="testo" spellcheck="true" lang="it" disabled
+                  aria-label="Testo del post in formato Nota" placeholder="Apri un post a sinistra o creane uno nuovo."></textarea>
+        <section class="ed-vista" id="vista" aria-label="Anteprima" aria-live="polite">
+          <p class="ed-vuoto">L'anteprima compare qui.</p>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <footer class="ed-stato" role="status" id="stato">pronto</footer>
+
+  <dialog id="d-nuovo" class="ed-dialogo">
+    <form method="dialog" id="f-nuovo">
+      <h2>nuovo post</h2>
+      <label for="n-titolo">titolo</label>
+      <input id="n-titolo" required maxlength="120" autocomplete="off">
+      <label for="n-nome">nome del file</label>
+      <input id="n-nome" required spellcheck="false" autocomplete="off">
+      <p class="ed-nota-piccola">Il post nasce come bozza: va online solo quando cambi <code>bozza: si</code> in <code>bozza: no</code> e salvi.</p>
+      <div class="ed-bottoni">
+        <button type="button" id="n-annulla">annulla</button>
+        <button type="submit" class="ed-primario">crea</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

@@ -1,0 +1,372 @@
+/* Editor di admin.mdeangelis.me. Prende palette e font dal sito (/sito/stile.css)
+   e aggiunge solo la disposizione a tre colonne: file, testo, anteprima. */
+
+body.ed {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.ed button,
+.ed input,
+.ed textarea {
+  font: inherit;
+  color: inherit;
+}
+
+.ed button,
+.ed .ed-esci {
+  background: var(--pannello-alto);
+  border: 1px solid var(--bordo);
+  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  color: var(--testo);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.ed button:hover:not(:disabled),
+.ed .ed-esci:hover {
+  border-color: var(--rame);
+  color: var(--perla);
+}
+
+.ed button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.ed button:focus-visible,
+.ed input:focus-visible,
+.ed textarea:focus-visible,
+.ed a:focus-visible {
+  outline: 2px solid var(--rame);
+  outline-offset: 2px;
+}
+
+.ed .ed-primario {
+  background: var(--rame);
+  border-color: var(--rame);
+  color: var(--fondo);
+  font-weight: 600;
+}
+
+.ed .ed-primario:hover:not(:disabled) {
+  background: var(--rame-chiaro);
+  color: var(--fondo);
+}
+
+.ed kbd {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-left: 0.3rem;
+}
+
+/* ---------------------------------------------------------------- barra */
+
+.ed-barra {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: var(--pannello);
+  border-bottom: 1px solid var(--bordo);
+}
+
+.ed-prompt {
+  margin: 0;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+
+.ed-chi { color: var(--salvia); }
+.ed-dove { color: var(--rame); }
+
+.ed-azioni {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* ---------------------------------------------------------------- corpo */
+
+.ed-corpo {
+  display: grid;
+  grid-template-columns: 17rem 1fr;
+  min-height: 0;
+}
+
+.ed-lato {
+  border-right: 1px solid var(--bordo);
+  padding: 0.75rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 6rem);
+  position: sticky;
+  top: 3rem;
+}
+
+.ed-titoletto {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--commento);
+  margin: 0.75rem 0 0.4rem;
+}
+
+.ed-titoletto::before { content: "# "; color: var(--rame); }
+
+.ed-elenco {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.ed .ed-voce {
+  width: 100%;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 0.5rem;
+  background: transparent;
+  border-color: transparent;
+  padding: 0.35rem 0.5rem;
+}
+
+.ed .ed-voce.ed-attiva {
+  border-color: var(--rame);
+  background: var(--pannello-alto);
+}
+
+.ed-voce-titolo {
+  color: var(--perla);
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+.ed-voce-info {
+  grid-column: 1;
+  font-size: 0.75rem;
+  color: var(--commento);
+}
+
+.ed-etichetta {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+  font-size: 0.7rem;
+  color: var(--rame-chiaro);
+  border: 1px solid var(--bordo);
+  border-radius: 3px;
+  padding: 0 0.3rem;
+}
+
+.ed-vuoto,
+.ed-nota-piccola {
+  color: var(--commento);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.ed-carica {
+  display: block;
+  border: 1px dashed var(--linee);
+  border-radius: 4px;
+  padding: 0.6rem;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.ed-carica:hover,
+.ed-carica:focus-within { border-color: var(--rame); }
+
+.ed-carica input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+/* ---------------------------------------------------------------- testo e anteprima */
+
+.ed-principale {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ed-nome {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--bordo);
+  font-size: 0.85rem;
+}
+
+.ed-nome input {
+  flex: 1;
+  background: var(--pannello);
+  border: 1px solid var(--bordo);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+}
+
+.ed-nome input:invalid { border-color: var(--rame); }
+
+.ed-schede { display: none; }
+
+.ed-area {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 0;
+}
+
+.ed textarea {
+  width: 100%;
+  min-height: calc(100vh - 6.5rem);
+  resize: none;
+  border: 0;
+  border-right: 1px solid var(--bordo);
+  background: var(--fondo);
+  padding: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  tab-size: 2;
+}
+
+.ed textarea:focus-visible { outline-offset: -2px; }
+
+.ed-vista {
+  padding: 1rem 1.5rem 3rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 6.5rem);
+}
+
+.ed-vista .nota { max-width: none; margin: 0; }
+
+.ed-testa-anteprima .nota-titolo { margin-top: 0; }
+
+.ed-meta {
+  color: var(--commento);
+  font-size: 0.8rem;
+}
+
+.ed-vista .nota-copertina img {
+  max-width: 100%;
+  height: auto;
+}
+
+.ed-errore {
+  border: 1px solid var(--rame);
+  border-radius: 4px;
+  padding: 0.75rem;
+  color: var(--perla);
+}
+
+.ed-errore button { margin-right: 0.5rem; }
+
+/* ---------------------------------------------------------------- stato */
+
+.ed-stato {
+  position: sticky;
+  bottom: 0;
+  padding: 0.35rem 1rem;
+  background: var(--pannello);
+  border-top: 1px solid var(--bordo);
+  font-size: 0.8rem;
+  color: var(--tenue);
+  overflow-wrap: anywhere;
+}
+
+.ed-stato::before { content: "> "; color: var(--rame); }
+.ed-stato[data-tipo="errore"] { color: var(--rame-chiaro); }
+.ed-stato[data-tipo="ok"] { color: var(--salvia); }
+
+/* ---------------------------------------------------------------- dialogo */
+
+.ed-dialogo {
+  background: var(--pannello);
+  color: var(--testo);
+  border: 1px solid var(--rame);
+  border-radius: 6px;
+  width: min(32rem, calc(100vw - 2rem));
+  padding: 1.25rem;
+}
+
+.ed-dialogo::backdrop { background: rgb(0 0 0 / 0.6); }
+
+.ed-dialogo h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: var(--perla);
+}
+
+.ed-dialogo label {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--commento);
+}
+
+.ed-dialogo input {
+  width: 100%;
+  background: var(--fondo);
+  border: 1px solid var(--bordo);
+  border-radius: 4px;
+  padding: 0.35rem 0.5rem;
+}
+
+.ed-bottoni {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* ---------------------------------------------------------------- telefono */
+
+@media (max-width: 52rem) {
+  .ed-corpo { grid-template-columns: 1fr; }
+
+  .ed-lato {
+    position: static;
+    max-height: none;
+    border-right: 0;
+    border-bottom: 1px solid var(--bordo);
+  }
+
+  .ed-schede {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem 0;
+  }
+
+  .ed-schede [aria-selected="true"] {
+    border-color: var(--rame);
+    color: var(--perla);
+  }
+
+  .ed-area { grid-template-columns: 1fr; }
+
+  .ed textarea {
+    border-right: 0;
+    min-height: 70vh;
+  }
+
+  .ed-vista { max-height: none; }
+
+  body.ed:not([data-scheda="vedi"]) .ed-vista,
+  body.ed[data-scheda="vedi"] textarea { display: none; }
+}
+
+.ed [hidden] { display: none !important; }

@@ -10,6 +10,8 @@
 - Deploy: Vercel, `vercel.json` con `framework: null`, `outputDirectory: public`, `buildCommand` che lancia i test e poi `genera.py`. Un errore in un post ferma la build: il sito resta com'era.
 - Bozze (`bozza: si`): solo nelle anteprime Vercel (`VERCEL_ENV=preview`) o in locale con `DIARIO_BOZZE=1`.
 
+- Editor `admin/` (admin.mdeangelis.me, progetto Vercel separato con Root Directory `admin`): funzione Python `admin/api/editor.py` (solo libreria standard) dietro Cloudflare Access. Ogni richiesta verifica il token RS256 di Access (`admin/lib/accesso.py`) e l'email in `ADMIN_EMAILS`; le modifiche diventano commit su `main` via API GitHub (`GITHUB_TOKEN`, permesso Contents sul solo repository). `admin/lib/nota.py` e `media.py` sono copie di `strumenti/`: dopo averli cambiati ricopiali (`strumenti/test_admin.py` lo controlla). Test: `python3 -m unittest discover -s admin/test`.
+
 ## Regole
 - Non aggiungere script né stili inline: la CSP (`default-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; media-src 'self'`) li blocca.
 - Animazioni solo in CSS e sempre dentro `@media (prefers-reduced-motion: no-preference)`.
