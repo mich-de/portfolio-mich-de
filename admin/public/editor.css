@@ -481,3 +481,16 @@ body.ed {
 .ed .ed-traduzione .ed-voce-titolo { color: var(--tenue); }
 
 .ed-vista .nota-titolo { font-size: clamp(1.4rem, 2vw, 2rem); line-height: 1.2; }
+
+/* barre di scorrimento sottili, nei colori del sito (invece di quelle grigie di sistema) */
+.ed,
+.ed * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--linee) transparent;
+}
+
+.ed ::-webkit-scrollbar { width: 8px; height: 8px; }
+.ed ::-webkit-scrollbar-track { background: transparent; }
+.ed ::-webkit-scrollbar-thumb { background: var(--bordo); border-radius: 8px; }
+.ed ::-webkit-scrollbar-thumb:hover { background: var(--rame); }
+.ed ::-webkit-scrollbar-corner { background: transparent; }

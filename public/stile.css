@@ -2171,3 +2171,15 @@ a.ref-tag:hover {
   content: "$ git checkout ";
   color: var(--commento);
 }
+
+/* Barre di scorrimento sottili, nei colori del sito */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--linee) var(--fondo);
+}
+
+.tabella,
+.nota pre {
+  scrollbar-width: thin;
+  scrollbar-color: var(--linee) transparent;
+}
