@@ -8,6 +8,7 @@ rilancia
 
     python3 strumenti/genera.py
 """
+import dataclasses
 import datetime
 import os
 import re
@@ -413,7 +414,7 @@ def pagina(t: dict, note=()) -> str:
     <nav aria-label="{e(t["nav_label"])}">
       <ul>
 {nav}
-        <li><a href="/diario/"><span class="n" aria-hidden="true">{len(t["nav"]) + 1}:</span>{e(t["nav_diario"])}</a></li>
+        <li><a href="{diario_di(t["lang"])}"><span class="n" aria-hidden="true">{len(t["nav"]) + 1}:</span>{e(t["nav_diario"])}</a></li>
         <li><a class="barra-lingua" href="{altro_href}" hreflang="{altro_lang}" lang="{altro_lang}" aria-label="{e(altro_nome)}">{altro_breve}</a></li>
       </ul>
     </nav>
@@ -539,33 +540,106 @@ def pagina_404() -> str:
 
 # ---------- Diario: post scritti in Nota (vedi strumenti/nota.py) ----------
 #
-# diario/AAAA-MM-GG-titolo.nota  ->  /diario/AAAA-MM-GG-titolo/
+# diario/AAAA-MM-GG-titolo.nota     ->  /diario/AAAA-MM-GG-titolo/
+# diario/AAAA-MM-GG-titolo.en.nota  ->  /en/diario/AAAA-MM-GG-titolo/  (traduzione, facoltativa)
 # L'indice è un "git log", ogni post un "git show", i tipi sono rami.
 
 DIARIO = ROOT / "diario"
 AUTORE = "Michele De Angelis"
-GIORNI = "lun mar mer gio ven sab dom".split()
-GIORNI_LUNGHI = "lunedì martedì mercoledì giovedì venerdì sabato domenica".split()
-MESI_LUNGHI = ("gennaio febbraio marzo aprile maggio giugno luglio agosto "
-               "settembre ottobre novembre dicembre").split()
-# tipo del post -> (ramo, cosa contiene)
-RAMI = {
-    "pensiero": ("pensieri", "pensieri del giorno"),
-    "cronaca": ("cronache", "storie che stanno succedendo adesso"),
-    "passato": ("passato", "come funzionavano le cose una volta"),
-}
 DIARIO_INTRO = "pensieri del giorno, storie di adesso e cose del passato spiegate da un nerd."
 
+# Tutti i testi del diario nelle due lingue. Ramo = tipo di post (stesso ordine nelle due lingue).
+DIA = {
+    "it": {
+        "lingua": "it", "locale": "it_IT", "base": "/diario/", "casa": "/",
+        "nome": "Diario", "intro": DIARIO_INTRO,
+        "giorni": "lun mar mer gio ven sab dom".split(),
+        "giorni_lunghi": "lunedì martedì mercoledì giovedì venerdì sabato domenica".split(),
+        "mesi_lunghi": ("gennaio febbraio marzo aprile maggio giugno luglio agosto "
+                        "settembre ottobre novembre dicembre").split(),
+        "rami": {"pensiero": ("pensieri", "pensieri del giorno"),
+                 "cronaca": ("cronache", "storie che stanno succedendo adesso"),
+                 "passato": ("passato", "come funzionavano le cose una volta")},
+        "tutto": "tutto", "min_lettura": "min di lettura", "leggi": "leggi l'articolo",
+        "successivo": "successivo", "precedente": "precedente", "ore": ", ore ",
+        "ramo": "Ramo:", "lettura": "Lettura:", "tag": "Tag:",
+        "avviso_bozza": "[bozza] questo post non è pubblicato: lo vedi solo nell'anteprima.",
+        "ramo_vuoto": "fatal: il ramo '{}' non ha ancora commit",
+        "ramo_vuoto2": "niente qui per ora: torna presto.",
+        "vuoto": "fatal: il tuo branch corrente 'main' non ha ancora commit",
+        "vuoto2": "il diario è appena nato: il primo post è in arrivo.",
+        "commit_tag": "{} commit con #{}", "commit_ramo": "{} commit su {}", "commit_main": "{} commit, ramo main",
+        "intro_tag": "tutti i post con il tag #{}: {}.",
+        "descr": "Il diario di Michele De Angelis: ",
+        "descr_tag": "I post con il tag #{} dal diario di Michele De Angelis.",
+        "descr_ramo": "{}, dal diario di Michele De Angelis.",
+        "tag_titolo": "Tag", "tag_descr": "Tutti gli argomenti del diario di Michele De Angelis.",
+        "tag_intro": "gli argomenti del diario: tocca un tag per vedere i post.",
+        "tag_nessuno": "ancora nessun tag.", "tag_n": "{} tag",
+        "parole": "{} parole, ~{} min",
+        "a_tipi": "Tipi di post", "a_argomenti": "Argomenti", "a_tag_post": "Tag di questo post",
+        "a_simili": "Post simili", "a_altri": "Altri post",
+        "feed": "Diario di MDEANGELIS", "feed_link": "feed atom",
+        "altra": "Read in English", "altra_lingua": "en",
+        "skip": "Vai al contenuto", "nav_label": "Sezioni",
+    },
+    "en": {
+        "lingua": "en", "locale": "en_US", "base": "/en/diario/", "casa": "/en/",
+        "nome": "Journal",
+        "intro": "thoughts of the day, stories from right now and how things used to work, explained by a nerd.",
+        "giorni": "Mon Tue Wed Thu Fri Sat Sun".split(),
+        "giorni_lunghi": "Monday Tuesday Wednesday Thursday Friday Saturday Sunday".split(),
+        "mesi_lunghi": ("January February March April May June July August "
+                        "September October November December").split(),
+        "rami": {"pensiero": ("thoughts", "thoughts of the day"),
+                 "cronaca": ("stories", "stories happening right now"),
+                 "passato": ("past", "how things used to work")},
+        "tutto": "everything", "min_lettura": "min read", "leggi": "read the article",
+        "successivo": "newer", "precedente": "older", "ore": ", ",
+        "ramo": "Branch:", "lettura": "Reading:", "tag": "Tags:",
+        "avviso_bozza": "[draft] this post is not published: you only see it in the preview.",
+        "ramo_vuoto": "fatal: branch '{}' has no commits yet",
+        "ramo_vuoto2": "nothing here yet: come back soon.",
+        "vuoto": "fatal: your current branch 'main' does not have any commits yet",
+        "vuoto2": "no posts translated into English yet: the Italian journal is at /diario/.",
+        "commit_tag": "{} commits with #{}", "commit_ramo": "{} commits on {}", "commit_main": "{} commits, branch main",
+        "intro_tag": "all posts tagged #{}: {}.",
+        "descr": "Michele De Angelis's journal: ",
+        "descr_tag": "Posts tagged #{} from Michele De Angelis's journal.",
+        "descr_ramo": "{}, from Michele De Angelis's journal.",
+        "tag_titolo": "Tags", "tag_descr": "All the topics of Michele De Angelis's journal.",
+        "tag_intro": "the topics of the journal: tap a tag to see its posts.",
+        "tag_nessuno": "no tags yet.", "tag_n": "{} tags",
+        "parole": "{} words, ~{} min",
+        "a_tipi": "Post types", "a_argomenti": "Topics", "a_tag_post": "Tags of this post",
+        "a_simili": "Similar posts", "a_altri": "More posts",
+        "feed": "MDEANGELIS's journal", "feed_link": "atom feed",
+        "altra": "Leggi in italiano", "altra_lingua": "it",
+        "skip": "Skip to content", "nav_label": "Sections",
+    },
+}
+# compatibilità: i nomi usati altrove e nei test
+RAMI = DIA["it"]["rami"]
+RAMI_DESCR = {r: d for r, d in RAMI.values()}
 
-def data_breve(d: datetime.date) -> str:
-    return f"{GIORNI[d.weekday()]} {d.day} {MESI['it'][d.month - 1]} {d.year}"
+
+def data_breve(d: datetime.date, lingua: str = "it") -> str:
+    return f"{DIA[lingua]['giorni'][d.weekday()]} {d.day} {MESI[lingua][d.month - 1]} {d.year}"
 
 
-def data_lunga(d: datetime.date) -> str:
-    return f"{GIORNI_LUNGHI[d.weekday()]} {d.day} {MESI_LUNGHI[d.month - 1]} {d.year}"
+def data_lunga(d: datetime.date, lingua: str = "it") -> str:
+    D = DIA[lingua]
+    return f"{D['giorni_lunghi'][d.weekday()]} {d.day} {D['mesi_lunghi'][d.month - 1]} {d.year}"
 
 
 MEDIA = {}   # nome -> media.Media, riempito da carica_diario
+TRADUZIONI = {}   # slug -> traduzione inglese, riempito da main
+TAG_LINGUA = {"it": set(), "en": set()}   # tag che hanno una pagina in ciascuna lingua
+
+
+def diario_di(lingua: str) -> str:
+    """Dove porta "diario" da una pagina in questa lingua: l'inglese solo se c'è qualcosa da leggere."""
+    return DIA["en"]["base"] if lingua == "en" and TRADUZIONI else DIA["it"]["base"]
 
 
 def carica_media(errori: list) -> dict:
@@ -586,10 +660,48 @@ def carica_media(errori: list) -> dict:
     return trovati
 
 
-def carica_diario(bozze: bool) -> list:
-    """Legge tutti i post. Un solo errore ferma tutto: niente va online a metà."""
+def controlla_diario(note: list) -> list:
+    """Le regole tra post diversi (le stesse le applica l'editor prima di salvare).
+
+    - un link a un altro post deve portare a un post che esiste, e che sia pubblicato
+      se è pubblicato chi lo cita;
+    - una traduzione .en.nota ha bisogno del post italiano, e può essere pubblicata
+      solo se lo è anche lui."""
+    errori = []
+    it = {n.slug: n for n in note if n.lingua == "it"}
+    for n in note:
+        if n.lingua == "en":
+            if n.slug not in it:
+                errori.append(f"diario/{n.file}:1: manca il post italiano {n.slug}.nota di cui questa è la traduzione")
+                continue
+            if it[n.slug].bozza and not n.bozza:
+                errori.append(f"diario/{n.file}:1: il post italiano è ancora una bozza: "
+                              "pubblica prima quello (o lascia bozza: si anche qui)")
+        for altro, riga in n.collegamenti:
+            if altro not in it:
+                errori.append(f"diario/{n.file}:{riga}: il post {altro} non esiste")
+            elif it[altro].bozza and not n.bozza:
+                errori.append(f"diario/{n.file}:{riga}: il post {altro} è ancora una bozza")
+    return errori
+
+
+def completa_traduzione(en, it):
+    """Quello che la traduzione non dice lo prende dal post italiano: ora, tag, copertina."""
+    cambi = {}
+    if not en.ora and it.ora:
+        cambi["ora"] = it.ora
+    if not en.tag and it.tag:
+        cambi["tag"] = it.tag
+    if not en.copertina and it.copertina:
+        cambi["copertina"] = it.copertina
+        cambi["media"] = tuple(dict.fromkeys(en.media + (it.copertina,)))
+    return dataclasses.replace(en, **cambi) if cambi else en
+
+
+def carica_diario(bozze: bool) -> tuple:
+    """Legge tutti i post: (italiani, traduzioni inglesi). Un solo errore ferma tutto."""
     if not DIARIO.is_dir():
-        return []
+        return [], []
     errori = []
     MEDIA.clear()
     MEDIA.update(carica_media(errori))
@@ -607,20 +719,14 @@ def carica_diario(bozze: bool) -> list:
             errori.append(f"diario/{f.name}: il file deve essere salvato in UTF-8")
         except nota.ErroreNota as err:
             errori.append(f"diario/{err}")
-    # i link ad altri post devono portare a un post che esiste (e che è pubblicato,
-    # se anche questo lo è)
-    stato = {n.slug: n.bozza for n in note}
-    for n in note:
-        for altro, riga in n.collegamenti:
-            if altro not in stato:
-                errori.append(f"diario/{n.file}:{riga}: il post {altro} non esiste")
-            elif stato[altro] and not n.bozza:
-                errori.append(f"diario/{n.file}:{riga}: il post {altro} è ancora una bozza")
+    errori += controlla_diario(note)
     if errori:
         sys.exit("Errori nel diario, non ho pubblicato niente:\n  " + "\n  ".join(errori))
     if not bozze:
         note = [n for n in note if not n.bozza]
-    return ordina(note)
+    it = {n.slug: n for n in note if n.lingua == "it"}
+    en = [completa_traduzione(n, it[n.slug]) for n in note if n.lingua == "en" and n.slug in it]
+    return ordina(list(it.values())), ordina(en)
 
 
 def ordina(note: list) -> list:
@@ -643,17 +749,41 @@ def istante(n) -> str:
     return f"{n.data.isoformat()}T{n.ora}:00{fuso_roma(n.data)}"
 
 
+def indirizzo(n) -> str:
+    """/diario/<slug>/ per i post italiani, /en/diario/<slug>/ per le traduzioni."""
+    return DIA[n.lingua]["base"] + n.slug + "/"
+
+
+def html_post(n) -> str:
+    """Nelle traduzioni i link ad altri post vanno alla loro versione inglese, se c'è."""
+    if n.lingua != "en":
+        return n.html
+    out = n.html
+    for altro, _ in n.collegamenti:
+        if altro in TRADUZIONI:
+            out = out.replace(f'href="/diario/{altro}/', f'href="/en/diario/{altro}/')
+    return out
+
+
 def apertura(cmd: str, log: str) -> str:
     """Console che si apre al caricamento della pagina, come quella del menu."""
     return salto({"salti": {"x": (cmd, log)}}, "x").replace('class="salto"', 'class="salto salto-subito"', 1)
 
 
 def testa(titolo: str, descrizione: str, percorso: str, og_tipo: str = "website",
-          noindex: bool = False, extra: str = "", immagine: tuple = ("/img/og.jpg", 1200, 630)) -> str:
+          noindex: bool = False, extra: str = "", immagine: tuple = ("/img/og.jpg", 1200, 630),
+          lingua: str = "it", alternative: dict = None) -> str:
+    """alternative: {lingua: percorso} della stessa pagina nelle due lingue (hreflang)."""
+    D = DIA[lingua]
     img, img_w, img_h = immagine
     robots = '\n  <meta name="robots" content="noindex">' if noindex else ""
+    alt = ""
+    if alternative and len(alternative) > 1:
+        alt = "".join(f'\n  <link rel="alternate" hreflang="{l}" href="{SITE}{alternative[l]}">'
+                      for l in nota.LINGUE if l in alternative)
+        alt += f'\n  <link rel="alternate" hreflang="x-default" href="{SITE}{alternative.get("it", percorso)}">'
     return f"""<!doctype html>
-<html lang="it">
+<html lang="{lingua}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -662,15 +792,15 @@ def testa(titolo: str, descrizione: str, percorso: str, og_tipo: str = "website"
   <meta name="referrer" content="no-referrer">
   <meta name="theme-color" content="#14181e">
   <meta name="color-scheme" content="dark">{robots}
-  <link rel="canonical" href="{SITE}{percorso}">
-  <link rel="alternate" type="application/atom+xml" title="Diario di MDEANGELIS" href="/diario/feed.xml">
+  <link rel="canonical" href="{SITE}{percorso}">{alt}
+  <link rel="alternate" type="application/atom+xml" title="{e(D["feed"])}" href="{D["base"]}feed.xml">
   <link rel="icon" href="/img/icona.png" type="image/png">
   <link rel="apple-touch-icon" href="/img/icona.png">
   <link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/stile.css">
   <meta property="og:type" content="{og_tipo}">
   <meta property="og:site_name" content="MDEANGELIS">
-  <meta property="og:locale" content="it_IT">
+  <meta property="og:locale" content="{D["locale"]}">
   <meta property="og:title" content="{e(titolo)}">
   <meta property="og:description" content="{e(descrizione)}">
   <meta property="og:url" content="{SITE}{percorso}">
@@ -681,29 +811,36 @@ def testa(titolo: str, descrizione: str, percorso: str, og_tipo: str = "website"
 </head>"""
 
 
-def barra_diario(corrente: str) -> str:
-    t = TESTI["it"]
+def barra_diario(corrente: str, lingua: str = "it", altra: str = "") -> str:
+    """altra: indirizzo della stessa pagina nell'altra lingua (se c'è)."""
+    t, D = TESTI[lingua], DIA[lingua]
     voci = "\n".join(
-        f'        <li><a href="/#{a}"><span class="n" aria-hidden="true">{i}:</span>{e(n)}</a></li>'
+        f'        <li><a href="{D["casa"]}#{a}"><span class="n" aria-hidden="true">{i}:</span>{e(n)}</a></li>'
         for i, (a, n) in enumerate(t["nav"], 1))
+    lingua_link = ""
+    if altra:
+        l2 = D["altra_lingua"]
+        nome2 = TESTI[l2]["altro"][3] if l2 == "it" else "English"
+        lingua_link = (f'\n        <li><a class="barra-lingua" href="{altra}" hreflang="{l2}" lang="{l2}" '
+                       f'aria-label="{e(nome2)}">{l2.upper()}</a></li>')
     return f"""  <a class="salta" href="#contenuto">{e(t["skip"])}</a>
 
   <header class="barra">
-    <a class="barra-casa" href="/" aria-label="MDEANGELIS, home">
+    <a class="barra-casa" href="{D["casa"]}" aria-label="MDEANGELIS, home">
       <img src="/img/icona.png" alt="" width="28" height="28">
       <span class="barra-sessione" aria-hidden="true">[mde] {len(t["nav"]) + 1}:diario</span>
     </a>
     <nav aria-label="{e(t["nav_label"])}">
       <ul>
 {voci}
-        <li><a class="barra-qui" href="/diario/" aria-current="{corrente}"><span class="n" aria-hidden="true">{len(t["nav"]) + 1}:</span>diario</a></li>
+        <li><a class="barra-qui" href="{D["base"]}" aria-current="{corrente}"><span class="n" aria-hidden="true">{len(t["nav"]) + 1}:</span>{e(t["nav_diario"])}</a></li>{lingua_link}
       </ul>
     </nav>
   </header>"""
 
 
-def piede_diario(file: str) -> str:
-    t = TESTI["it"]
+def piede_diario(file: str, lingua: str = "it") -> str:
+    t, D = TESTI[lingua], DIA[lingua]
     return f"""  <footer class="stato">
     <p class="stato-riga" aria-hidden="true">
       <span class="stato-modo">{e(t["modo"])}</span>
@@ -712,22 +849,24 @@ def piede_diario(file: str) -> str:
       <span class="stato-pos">100%</span>
     </p>
     <p class="stato-note">© 2026 Michele De Angelis. {e(t["footer"])}
-      <a href="/diario/feed.xml">feed atom</a>
-      <a href="/">home</a></p>
+      <a href="{D["base"]}feed.xml">{e(D["feed_link"])}</a>
+      <a href="{D["casa"]}">home</a></p>
   </footer>"""
 
 
 def riferimenti(n, primo: bool) -> str:
-    ramo = RAMI[n.tipo][0]
+    D = DIA[n.lingua]
+    ramo = D["rami"][n.tipo][0]
     refs = ['<span class="ref-head">HEAD -&gt; main</span>'] if primo else []
-    refs.append(f'<a class="ref-ramo" href="/diario/{ramo}/">{ramo}</a>')
-    refs += [f'<a class="ref-tag" href="/diario/tag/{x}/">tag: {e(x)}</a>' for x in n.tag]
-    bozza = ' <span class="ref-bozza">[bozza]</span>' if n.bozza else ""
+    refs.append(f'<a class="ref-ramo" href="{D["base"]}{ramo}/">{ramo}</a>')
+    refs += [f'<a class="ref-tag" href="{D["base"]}tag/{x}/">tag: {e(x)}</a>' for x in n.tag]
+    bozza = f' <span class="ref-bozza">[{"bozza" if n.lingua == "it" else "draft"}]</span>' if n.bozza else ""
     return '<span class="log-ref">(' + ", ".join(refs) + ")</span>" + bozza
 
 
 def voce_log(n, primo: bool) -> str:
     """Un commit del log: intestazione git e, sotto, la scheda cliccabile del post."""
+    D = DIA[n.lingua]
     miniatura = ""
     if n.copertina:
         c = MEDIA[n.copertina]
@@ -735,12 +874,12 @@ def voce_log(n, primo: bool) -> str:
                      f'width="{c.larghezza}" height="{c.altezza}" loading="lazy" decoding="async">')
     return f"""        <li class="log-voce">
           <p class="log-commit"><span class="log-parola" aria-hidden="true">commit </span><span class="log-hash" aria-hidden="true">{n.hash[:7]}</span> {riferimenti(n, primo)}</p>
-          <p class="log-meta"><span class="log-chiave" aria-hidden="true">Date:   </span><time datetime="{istante(n)}">{data_breve(n.data)}{" " + n.ora if n.ora else ""}</time>, {n.minuti} min di lettura</p>
+          <p class="log-meta"><span class="log-chiave" aria-hidden="true">Date:   </span><time datetime="{istante(n)}">{data_breve(n.data, n.lingua)}{" " + n.ora if n.ora else ""}</time>, {n.minuti} {D["min_lettura"]}</p>
           <article class="log-scheda{" con-mini" if n.copertina else ""}">
             <div class="log-testo">
-              <h2 class="log-titolo"><a href="/diario/{n.slug}/">{e(n.titolo)}</a></h2>
+              <h2 class="log-titolo"><a href="{indirizzo(n)}">{e(n.titolo)}</a></h2>
               <p class="log-sommario">{e(n.sommario)}</p>
-              <p class="log-apri" aria-hidden="true"><span class="log-cmd">$ git show {n.hash[:7]}</span><span class="log-leggi">leggi l'articolo <span class="log-freccia">-&gt;</span></span></p>
+              <p class="log-apri" aria-hidden="true"><span class="log-cmd">$ git show {n.hash[:7]}</span><span class="log-leggi">{e(D["leggi"])} <span class="log-freccia">-&gt;</span></span></p>
             </div>{miniatura}
           </article>
         </li>"""
@@ -755,13 +894,13 @@ def conta_tag(note: list) -> list:
     return sorted(conti.items(), key=lambda c: (-c[1], c[0]))
 
 
-def lista_tag(tag_e_conti, corrente: str = "", conta: bool = True) -> str:
+def lista_tag(tag_e_conti, corrente: str = "", conta: bool = True, lingua: str = "it") -> str:
     """I tag come etichette cliccabili, in stile `git tag -l`."""
     voci = []
     for x, quanti in tag_e_conti:
         attivo = ' aria-current="page"' if x == corrente else ""
         numero = f' <span class="tag-conta">{quanti}</span>' if conta else ""
-        voci.append(f'<li><a href="/diario/tag/{x}/"{attivo}>#{e(x)}{numero}</a></li>')
+        voci.append(f'<li><a href="{DIA[lingua]["base"]}tag/{x}/"{attivo}>#{e(x)}{numero}</a></li>')
     return '<ul class="tag-lista">' + "".join(voci) + "</ul>"
 
 
@@ -774,24 +913,27 @@ def correlati(n, tutte: list, quanti: int = 3) -> list:
 
 
 def voce_oneline(a) -> str:
-    return (f'        <li><a href="/diario/{a.slug}/"><span class="log-hash" aria-hidden="true">{a.hash[:7]}</span>'
+    return (f'        <li><a href="{indirizzo(a)}"><span class="log-hash" aria-hidden="true">{a.hash[:7]}</span>'
             f'<span class="vic-titolo">{e(a.titolo)}</span>'
-            f'<time class="commento" datetime="{a.data.isoformat()}">{a.data.day} {MESI["it"][a.data.month - 1]}</time></a></li>')
+            f'<time class="commento" datetime="{a.data.isoformat()}">{a.data.day} {MESI[a.lingua][a.data.month - 1]}</time></a></li>')
 
 
-def pagina_tag_indice(tutte: list) -> str:
+def pagina_tag_indice(tutte: list, lingua: str = "it") -> str:
     """/diario/tag/: tutti i tag, come `git tag -l`."""
+    D = DIA[lingua]
     conti = conta_tag(tutte)
-    corpo = (f"    {lista_tag(conti)}" if conti else
-             '    <p class="commento"><span aria-hidden="true"># </span>ancora nessun tag.</p>')
-    return f"""{testa("Tag | Diario | MDEANGELIS", "Tutti gli argomenti del diario di Michele De Angelis.", "/diario/tag/")}
+    corpo = (f"    {lista_tag(conti, lingua=lingua)}" if conti else
+             f'    <p class="commento"><span aria-hidden="true"># </span>{e(D["tag_nessuno"])}</p>')
+    altre = {"it": "/diario/tag/", "en": "/en/diario/tag/"}
+    return f"""{testa(D["tag_titolo"] + " | " + D["nome"] + " | MDEANGELIS", D["tag_descr"], D["base"] + "tag/",
+                 lingua=lingua, alternative=altre)}
 <body>
-{barra_diario("true")}
+{barra_diario("true", lingua, altre[D["altra_lingua"]])}
 
   <main id="contenuto" class="diario">
-    {apertura("cd ~/diario && git tag -l", f"{len(conti)} tag")}
+    {apertura("cd ~/diario && git tag -l", D["tag_n"].format(len(conti)))}
     <h1 class="titolo"><span class="hash" aria-hidden="true">~/diario/</span>tag</h1>
-    <p class="commento intro"><span aria-hidden="true"># </span>gli argomenti del diario: tocca un tag per vedere i post.</p>
+    <p class="commento intro"><span aria-hidden="true"># </span>{e(D["tag_intro"])}</p>
 
     {prompt("git tag -l --sort=-count", "~/diario")}
 {corpo}
@@ -799,20 +941,23 @@ def pagina_tag_indice(tutte: list) -> str:
     {prompt('<span class="cursore"></span>', "~/diario")}
   </main>
 
-{piede_diario("diario/tag/")}
+{piede_diario(D["base"].lstrip("/") + "tag/", lingua)}
 </body>
 </html>
 """
 
 
-def pagina_indice(note: list, tutte: list, ramo=None, tag=None) -> str:
+def pagina_indice(note: list, tutte: list, ramo=None, tag=None, lingua: str = "it") -> str:
     """L'indice del diario, di un solo tipo di post (ramo) o di un tag."""
-    percorso = f"/diario/tag/{tag}/" if tag else (f"/diario/{ramo}/" if ramo else "/diario/")
+    D = DIA[lingua]
+    base = D["base"]
+    percorso = f"{base}tag/{tag}/" if tag else (f"{base}{ramo}/" if ramo else base)
+    descr_rami = {r: d for r, d in D["rami"].values()}
     righe_rami = []
     for nome, descr, conta, href in (
-            [("main", "tutto", len(tutte), "/diario/")]
-            + [(r, d, sum(1 for n in tutte if n.tipo == tipo), f"/diario/{r}/")
-               for tipo, (r, d) in RAMI.items()]):
+            [("main", D["tutto"], len(tutte), base)]
+            + [(r, d, sum(1 for n in tutte if n.tipo == tipo), f"{base}{r}/")
+               for tipo, (r, d) in D["rami"].items()]):
         qui = not tag and (ramo or "main") == nome
         corrente = ' aria-current="page"' if qui else ""
         segno = "*" if qui else " "
@@ -826,37 +971,47 @@ def pagina_indice(note: list, tutte: list, ramo=None, tag=None) -> str:
         corpo = '      <ol class="log">\n' + "\n".join(
             voce_log(n, i == 0 and not ramo and not tag) for i, n in enumerate(note)) + "\n      </ol>"
     elif ramo:
-        corpo = (f'      <p class="errore-msg">fatal: il ramo \'{ramo}\' non ha ancora commit</p>\n'
-                 f'      <p class="commento"><span aria-hidden="true"># </span>niente qui per ora: torna presto.</p>')
+        corpo = (f'      <p class="errore-msg">{e(D["ramo_vuoto"].format(ramo))}</p>\n'
+                 f'      <p class="commento"><span aria-hidden="true"># </span>{e(D["ramo_vuoto2"])}</p>')
     else:
-        corpo = ('      <p class="errore-msg">fatal: il tuo branch corrente \'main\' non ha ancora commit</p>\n'
-                 '      <p class="commento"><span aria-hidden="true"># </span>il diario è appena nato: il primo post è in arrivo.</p>')
+        corpo = (f'      <p class="errore-msg">{e(D["vuoto"])}</p>\n'
+                 f'      <p class="commento"><span aria-hidden="true"># </span>{e(D["vuoto2"])}</p>')
 
     if tag:
-        titolo_pag = f"#{tag} | Diario | MDEANGELIS"
-        descr_pag = f"I post con il tag #{tag} dal diario di Michele De Angelis."
-        log = f"{len(note)} commit con #{tag}"
+        titolo_pag = f"#{tag} | {D['nome']} | MDEANGELIS"
+        descr_pag = D["descr_tag"].format(tag)
+        log = D["commit_tag"].format(len(note), tag)
         h1 = f'<span class="hash" aria-hidden="true">~/diario/tag/</span>#{e(tag)}'
     elif ramo:
-        titolo_pag = f"{ramo} | Diario | MDEANGELIS"
-        descr_pag = RAMI_DESCR[ramo].capitalize() + ", dal diario di Michele De Angelis."
-        log = f"{len(note)} commit su {ramo}"
+        titolo_pag = f"{ramo} | {D['nome']} | MDEANGELIS"
+        descr_pag = D["descr_ramo"].format(descr_rami[ramo].capitalize())
+        log = D["commit_ramo"].format(len(note), ramo)
         h1 = f'<span class="hash" aria-hidden="true">~/diario/</span>{e(ramo)}'
     else:
-        titolo_pag = "Diario | MDEANGELIS"
-        descr_pag = "Il diario di Michele De Angelis: " + DIARIO_INTRO
-        log = f"{len(note)} commit, ramo main"
+        titolo_pag = f"{D['nome']} | MDEANGELIS"
+        descr_pag = D["descr"] + D["intro"]
+        log = D["commit_main"].format(len(note))
         h1 = '<span class="hash" aria-hidden="true">~/</span>diario'
-    intro = (f"tutti i post con il tag #{tag}: {len(note)}." if tag
-             else (RAMI_DESCR[ramo] + "." if ramo else DIARIO_INTRO))
+    intro = (D["intro_tag"].format(tag, len(note)) if tag
+             else (descr_rami[ramo] + "." if ramo else D["intro"]))
     conti = conta_tag(tutte)
     blocco_tag = ""
     if conti:
         blocco_tag = (f'\n    {prompt("git tag -l", "~/diario")}\n'
-                      f'    <nav aria-label="Argomenti">{lista_tag(conti, tag or "")}</nav>\n')
-    return f"""{testa(titolo_pag, descr_pag, percorso)}
+                      f'    <nav aria-label="{e(D["a_argomenti"])}">{lista_tag(conti, tag or "", lingua=lingua)}</nav>\n')
+    # la stessa pagina nell'altra lingua (i rami hanno nomi diversi: si passa per il tipo)
+    l2 = D["altra_lingua"]
+    if ramo:
+        tipo = next(k for k, (r, _) in D["rami"].items() if r == ramo)
+        altra = DIA[l2]["base"] + DIA[l2]["rami"][tipo][0] + "/"
+    elif tag:
+        altra = DIA[l2]["base"] + f"tag/{tag}/" if tag in TAG_LINGUA[l2] else ""
+    else:
+        altra = DIA[l2]["base"]
+    altre = {lingua: percorso, l2: altra} if altra else {lingua: percorso}
+    return f"""{testa(titolo_pag, descr_pag, percorso, lingua=lingua, alternative=altre)}
 <body>
-{barra_diario("page" if not ramo and not tag else "true")}
+{barra_diario("page" if not ramo and not tag else "true", lingua, altra)}
 
   <main id="contenuto" class="diario">
     {apertura("cd ~/diario && " + comando, log)}
@@ -864,7 +1019,7 @@ def pagina_indice(note: list, tutte: list, ramo=None, tag=None) -> str:
     <p class="commento intro"><span aria-hidden="true"># </span>{e(intro)}</p>
 
     {prompt("git branch", "~/diario")}
-    <nav aria-label="Tipi di post">
+    <nav aria-label="{e(D["a_tipi"])}">
       <ul class="rami">
 {righe_rami}
       </ul>
@@ -876,44 +1031,43 @@ def pagina_indice(note: list, tutte: list, ramo=None, tag=None) -> str:
     {prompt('<span class="cursore"></span>', "~/diario")}
   </main>
 
-{piede_diario("diario/" + (f"tag/{tag}/" if tag else (ramo + "/" if ramo else "")))}
+{piede_diario(percorso.lstrip("/"), lingua)}
 </body>
 </html>
 """
 
 
-RAMI_DESCR = {r: d for r, d in RAMI.values()}
-
-
-def pagina_post(n, piu_nuovo, piu_vecchio, tutte=()) -> str:
-    ramo, descr_ramo = RAMI[n.tipo]
-    tag = " ".join(f'<a class="ref-tag" href="/diario/tag/{x}/">#{e(x)}</a>' for x in n.tag)
+def pagina_post(n, piu_nuovo, piu_vecchio, tutte=(), altra=None) -> str:
+    """altra: lo stesso post nell'altra lingua, se esiste (link e hreflang)."""
+    D = DIA[n.lingua]
+    base = D["base"]
+    ramo, descr_ramo = D["rami"][n.tipo]
+    tag = " ".join(f'<a class="ref-tag" href="{base}tag/{x}/">#{e(x)}</a>' for x in n.tag)
     conti = dict(conta_tag(tutte or [n]))
     fine_tag = ""
     if n.tag:
         fine_tag = (f'\n    {prompt("git tag --contains " + n.hash[:7], "~/diario")}\n'
-                    f'    <nav aria-label="Tag di questo post">'
-                    f'{lista_tag([(x, conti.get(x, 1)) for x in n.tag])}</nav>')
+                    f'    <nav aria-label="{e(D["a_tag_post"])}">'
+                    f'{lista_tag([(x, conti.get(x, 1)) for x in n.tag], lingua=n.lingua)}</nav>')
         simili = correlati(n, list(tutte))
         if simili:
             griglia = "|".join("#" + x for x in n.tag[:3])
             fine_tag += (f'\n    {prompt(e(f"git log --oneline -E --grep={chr(34)}{griglia}{chr(34)} -3"), "~/diario")}\n'
-                         f'    <nav aria-label="Post simili">\n      <ul class="vicini oneline">\n'
+                         f'    <nav aria-label="{e(D["a_simili"])}">\n      <ul class="vicini oneline">\n'
                          + "\n".join(voce_oneline(a) for a in simili) + "\n      </ul>\n    </nav>")
-    riga_tag = (f'\n        <div><dt>Tag:</dt><dd>{tag}</dd></div>' if n.tag else "")
-    avviso = ('\n    <p class="avviso-bozza">[bozza] questo post non è pubblicato: '
-              'lo vedi solo nell\'anteprima.</p>' if n.bozza else "")
+    riga_tag = (f'\n        <div><dt>{D["tag"]}</dt><dd>{tag}</dd></div>' if n.tag else "")
+    avviso = f'\n    <p class="avviso-bozza">{e(D["avviso_bozza"])}</p>' if n.bozza else ""
     vicini = []
-    for etichetta, altro in (("successivo", piu_nuovo), ("precedente", piu_vecchio)):
-        if altro is not None:
+    for etichetta, vicino in ((D["successivo"], piu_nuovo), (D["precedente"], piu_vecchio)):
+        if vicino is not None:
             vicini.append(
-                f'        <li><a href="/diario/{altro.slug}/"><span class="vic-dove">{etichetta}</span>'
-                f'<span class="log-hash" aria-hidden="true">{altro.hash[:7]}</span>'
-                f'<span class="vic-titolo">{e(altro.titolo)}</span></a></li>')
+                f'        <li><a href="{indirizzo(vicino)}"><span class="vic-dove">{etichetta}</span>'
+                f'<span class="log-hash" aria-hidden="true">{vicino.hash[:7]}</span>'
+                f'<span class="vic-titolo">{e(vicino.titolo)}</span></a></li>')
     vicini_html = ""
     if vicini:
         vicini_html = (f'\n    {prompt("git log --oneline -1 HEAD~1", "~/diario")}\n'
-                       f'    <nav aria-label="Altri post">\n      <ul class="vicini">\n'
+                       f'    <nav aria-label="{e(D["a_altri"])}">\n      <ul class="vicini">\n'
                        + "\n".join(vicini) + "\n      </ul>\n    </nav>")
     immagine = ("/img/og.jpg", 1200, 630)
     copertina = ""
@@ -924,57 +1078,68 @@ def pagina_post(n, piu_nuovo, piu_vecchio, tutte=()) -> str:
                      f'width="{c.larghezza}" height="{c.altezza}" decoding="async"></figure>')
     extra = (f'\n  <meta property="article:published_time" content="{istante(n)}">'
              f'\n  <meta property="article:author" content="{AUTORE}">')
-    return f"""{testa(n.titolo + " | Diario | MDEANGELIS", n.sommario, f"/diario/{n.slug}/",
-                 og_tipo="article", noindex=n.bozza, extra=extra, immagine=immagine)}
+    altre, lingua_html, altra_url = {n.lingua: indirizzo(n)}, "", ""
+    if altra is not None:
+        altra_url = indirizzo(altra)
+        altre[altra.lingua] = altra_url
+        lingua_html = (f'\n    <p class="lingua-post"><a href="{altra_url}" hreflang="{altra.lingua}" '
+                       f'lang="{altra.lingua}">{e(D["altra"])}</a></p>')
+    return f"""{testa(n.titolo + " | " + D["nome"] + " | MDEANGELIS", n.sommario, indirizzo(n),
+                 og_tipo="article", noindex=n.bozza, extra=extra, immagine=immagine,
+                 lingua=n.lingua, alternative=altre)}
 <body>
-{barra_diario("true")}
+{barra_diario("true", n.lingua, altra_url)}
 
   <main id="contenuto" class="diario">
-    {apertura("git show " + n.hash[:7], f"{n.parole} parole, ~{n.minuti} min")}{avviso}
+    {apertura("git show " + n.hash[:7], D["parole"].format(n.parole, n.minuti))}{avviso}
     {prompt("git show " + n.hash[:7], "~/diario")}
     <dl class="commit">
       <div><dt>commit</dt><dd class="log-hash">{n.hash}</dd></div>
       <div><dt>Author:</dt><dd>{AUTORE}</dd></div>
-      <div><dt>Date:</dt><dd><time datetime="{istante(n)}">{data_lunga(n.data)}{", ore " + n.ora if n.ora else ""}</time></dd></div>
-      <div><dt>Ramo:</dt><dd><a class="ref-ramo" href="/diario/{ramo}/">{ramo}</a> <span class="commento"># {e(descr_ramo)}</span></dd></div>{riga_tag}
-      <div><dt>Lettura:</dt><dd>~{n.minuti} min</dd></div>
-    </dl>
+      <div><dt>Date:</dt><dd><time datetime="{istante(n)}">{data_lunga(n.data, n.lingua)}{D["ore"] + n.ora if n.ora else ""}</time></dd></div>
+      <div><dt>{D["ramo"]}</dt><dd><a class="ref-ramo" href="{base}{ramo}/">{ramo}</a> <span class="commento"># {e(descr_ramo)}</span></dd></div>{riga_tag}
+      <div><dt>{D["lettura"]}</dt><dd>~{n.minuti} min</dd></div>
+    </dl>{lingua_html}
 
     <article class="nota" aria-labelledby="t-nota">
       <h1 id="t-nota" class="nota-titolo">{e(n.titolo)}</h1>{copertina}
-{n.html}
+{html_post(n)}
     </article>
 {fine_tag}{vicini_html}
 
     {prompt('cd .. <span class="cursore"></span>', "~/diario")}
-    <p class="azioni"><a class="bottone bottone-linea" href="/diario/"><span aria-hidden="true">cd </span>~/diario</a></p>
+    <p class="azioni"><a class="bottone bottone-linea" href="{base}"><span aria-hidden="true">cd </span>~/diario</a></p>
   </main>
 
-{piede_diario("diario/" + n.file)}
+{piede_diario("diario/" + n.file, n.lingua)}
 </body>
 </html>
 """
 
 
 def blocco_diario(t: dict, note) -> str:
-    """Sezione in home con gli ultimi tre post (solo se ce ne sono)."""
+    """Sezione in home con gli ultimi tre post (solo se ce ne sono).
+    In inglese: la traduzione quando c'è, se no il post italiano (segnato come tale)."""
     if not note:
         return ""
+    lingua = t["lang"]
+    scelti = [TRADUZIONI.get(n.slug, n) if lingua == "en" else n for n in note[:3]]
     voci = "\n".join(
-        f'        <li><a href="/diario/{n.slug}/" lang="it"><span class="log-hash" aria-hidden="true">{n.hash[:7]}</span>'
+        f'        <li><a href="{indirizzo(n)}" lang="{n.lingua}"><span class="log-hash" aria-hidden="true">{n.hash[:7]}</span>'
         f'<span class="vic-titolo">{e(n.titolo)}</span>'
-        f'<time class="commento" datetime="{n.data.isoformat()}">{n.data.day} {MESI[t["lang"]][n.data.month - 1]}</time></a></li>'
-        for n in note[:3])
+        f'<time class="commento" datetime="{n.data.isoformat()}">{n.data.day} {MESI[lingua][n.data.month - 1]}</time></a></li>'
+        for n in scelti)
+    nota_lingua = t["dia_nota"] if any(n.lingua != lingua for n in scelti) else ""
     return f"""
     <section class="blocco" id="diario" aria-labelledby="t-dia">
       {salto(t, "diario")}
       <h2 id="t-dia" class="titolo"><span class="hash" aria-hidden="true">## </span>{e(t["dia_titolo"])}</h2>
-      <p class="commento"><span aria-hidden="true"># </span>{e(t["dia_intro"] + t["dia_nota"])}</p>
+      <p class="commento"><span aria-hidden="true"># </span>{e(t["dia_intro"] + nota_lingua)}</p>
       {prompt("git log --oneline -3", "~/diario")}
       <ul class="vicini oneline">
 {voci}
       </ul>
-      <p class="azioni"><a class="bottone bottone-linea" href="/diario/"><span aria-hidden="true">cd </span>~/diario<span class="visivamente-nascosto">: {e(t["dia_tutto"])}</span></a></p>
+      <p class="azioni"><a class="bottone bottone-linea" href="{diario_di(lingua)}"><span aria-hidden="true">cd </span>~/diario<span class="visivamente-nascosto">: {e(t["dia_tutto"])}</span></a></p>
     </section>"""
 
 
@@ -984,14 +1149,16 @@ def assoluti(html: str, url: str) -> str:
             .replace('href="#', f'href="{url}#'))
 
 
-def feed(note: list) -> str:
+def feed(note: list, lingua: str = "it") -> str:
     """Feed Atom: per chi legge con un lettore RSS."""
+    D = DIA[lingua]
+
     def quando(n):
         return istante(n) if n.ora else f"{n.data.isoformat()}T08:00:00{fuso_roma(n.data)}"
     aggiornato = quando(note[0]) if note else "2026-11-12T08:00:00+01:00"
     voci = []
     for n in note:
-        url = f"{SITE}/diario/{n.slug}/"
+        url = SITE + indirizzo(n)
         categorie = "".join(f'\n    <category term="{e(x)}"/>' for x in (n.tipo,) + n.tag)
         voci.append(f"""  <entry>
     <title>{e(n.titolo)}</title>
@@ -1000,15 +1167,15 @@ def feed(note: list) -> str:
     <published>{quando(n)}</published>
     <updated>{quando(n)}</updated>{categorie}
     <summary>{e(n.sommario)}</summary>
-    <content type="html">{e(assoluti(n.html, url))}</content>
+    <content type="html">{e(assoluti(html_post(n), url))}</content>
   </entry>""")
     return f"""<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="it">
-  <title>Diario di MDEANGELIS</title>
-  <subtitle>{e(DIARIO_INTRO)}</subtitle>
-  <link rel="alternate" type="text/html" href="{SITE}/diario/"/>
-  <link rel="self" type="application/atom+xml" href="{SITE}/diario/feed.xml"/>
-  <id>{SITE}/diario/</id>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{lingua}">
+  <title>{e(D["feed"])}</title>
+  <subtitle>{e(D["intro"])}</subtitle>
+  <link rel="alternate" type="text/html" href="{SITE}{D["base"]}"/>
+  <link rel="self" type="application/atom+xml" href="{SITE}{D["base"]}feed.xml"/>
+  <id>{SITE}{D["base"]}</id>
   <updated>{aggiornato}</updated>
   <author><name>{AUTORE}</name><uri>{SITE}/</uri></author>
   <generator>genera.py + nota v{nota.VERSIONE}</generator>
@@ -1017,16 +1184,29 @@ def feed(note: list) -> str:
 """
 
 
-def sitemap(note: list) -> str:
-    alt = ('\n    <xhtml:link rel="alternate" hreflang="it" href="{s}/"/>'
-           '\n    <xhtml:link rel="alternate" hreflang="en" href="{s}/en/"/>').format(s=SITE)
-    url = [f"  <url>\n    <loc>{SITE}/</loc>{alt}\n  </url>",
-           f"  <url>\n    <loc>{SITE}/en/</loc>{alt}\n  </url>",
-           f"  <url>\n    <loc>{SITE}/diario/</loc>\n  </url>"]
-    url += [f"  <url>\n    <loc>{SITE}/diario/{n.slug}/</loc>\n    <lastmod>{n.data.isoformat()}</lastmod>\n  </url>"
-            for n in note if not n.bozza]
-    url += [f"  <url>\n    <loc>{SITE}/diario/tag/{x}/</loc>\n  </url>"
-            for x, _ in conta_tag([n for n in note if not n.bozza])]
+def sitemap(note: list, inglesi: list = ()) -> str:
+    def voce(loc, alternative=None, lastmod=None):
+        alt = ""
+        if alternative and len(alternative) > 1:
+            alt = "".join(f'\n    <xhtml:link rel="alternate" hreflang="{l}" href="{SITE}{p}"/>'
+                          for l, p in alternative.items())
+        mod = f"\n    <lastmod>{lastmod}</lastmod>" if lastmod else ""
+        return f"  <url>\n    <loc>{SITE}{loc}</loc>{mod}{alt}\n  </url>"
+    note = [n for n in note if not n.bozza]
+    inglesi = [n for n in inglesi if not n.bozza]
+    tradotti = {n.slug for n in inglesi}
+    case = {"it": "/", "en": "/en/"}
+    url = [voce("/", case), voce("/en/", case), voce("/diario/")]
+    for n in note:
+        alt = {"it": indirizzo(n), "en": "/en/diario/" + n.slug + "/"} if n.slug in tradotti else None
+        url.append(voce(indirizzo(n), alt, n.data.isoformat()))
+    url += [voce(f"/diario/tag/{x}/") for x, _ in conta_tag(note)]
+    if inglesi:
+        url.append(voce("/en/diario/"))
+        for n in inglesi:
+            url.append(voce(indirizzo(n), {"it": "/diario/" + n.slug + "/", "en": indirizzo(n)},
+                            n.data.isoformat()))
+        url += [voce(f"/en/diario/tag/{x}/") for x, _ in conta_tag(inglesi)]
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
             'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + "\n".join(url) + "\n</urlset>\n")
@@ -1037,40 +1217,56 @@ def scrivi(percorso: Path, testo: str) -> None:
     percorso.write_text(testo, encoding="utf-8")
 
 
+def genera_diario(cartella: Path, note: list, lingua: str, altre: dict) -> None:
+    """Tutte le pagine del diario in una lingua. altre: slug -> stesso post nell'altra lingua."""
+    D = DIA[lingua]
+    TAG_LINGUA[lingua] = {x for x, _ in conta_tag(note)}
+    scrivi(cartella / "index.html", pagina_indice(note, note, lingua=lingua))
+    for tipo, (ramo, _) in D["rami"].items():
+        scrivi(cartella / ramo / "index.html",
+               pagina_indice([n for n in note if n.tipo == tipo], note, ramo, lingua=lingua))
+    for i, n in enumerate(note):
+        piu_nuovo = note[i - 1] if i > 0 else None
+        piu_vecchio = note[i + 1] if i + 1 < len(note) else None
+        scrivi(cartella / n.slug / "index.html",
+               pagina_post(n, piu_nuovo, piu_vecchio, note, altre.get(n.slug)))
+    scrivi(cartella / "tag" / "index.html", pagina_tag_indice(note, lingua))
+    for x, _ in conta_tag(note):
+        scrivi(cartella / "tag" / x / "index.html",
+               pagina_indice([n for n in note if x in n.tag], note, tag=x, lingua=lingua))
+    scrivi(cartella / "feed.xml", feed([n for n in note if not n.bozza], lingua))
+
+
 def main() -> None:
     # Le bozze si vedono solo nelle anteprime di Vercel (o con DIARIO_BOZZE=1 in locale).
     bozze = os.environ.get("VERCEL_ENV") == "preview" or os.environ.get("DIARIO_BOZZE") == "1"
-    note = carica_diario(bozze)           # prima di scrivere qualsiasi file
+    note, inglesi = carica_diario(bozze)   # prima di scrivere qualsiasi file
     pubblicate = [n for n in note if not n.bozza]
+    TRADUZIONI.clear()
+    TRADUZIONI.update({n.slug: n for n in inglesi})
+    italiani = {n.slug: n for n in note}
+    TAG_LINGUA["it"] = {x for x, _ in conta_tag(note)}
+    TAG_LINGUA["en"] = {x for x, _ in conta_tag(inglesi)}
 
     scrivi(OUT / "index.html", pagina(TESTI["it"], pubblicate))
     scrivi(OUT / "en" / "index.html", pagina(TESTI["en"], pubblicate))
     scrivi(OUT / "404.html", pagina_404())
 
-    cartella = OUT / "diario"
-    if cartella.exists():                 # via le pagine dei post cancellati o rinominati
-        shutil.rmtree(cartella)
-    scrivi(cartella / "index.html", pagina_indice(note, note))
-    for tipo, (ramo, _) in RAMI.items():
-        scrivi(cartella / ramo / "index.html",
-               pagina_indice([n for n in note if n.tipo == tipo], note, ramo))
-    for i, n in enumerate(note):
-        piu_nuovo = note[i - 1] if i > 0 else None
-        piu_vecchio = note[i + 1] if i + 1 < len(note) else None
-        scrivi(cartella / n.slug / "index.html", pagina_post(n, piu_nuovo, piu_vecchio, note))
-    scrivi(cartella / "tag" / "index.html", pagina_tag_indice(note))
-    for x, _ in conta_tag(note):
-        scrivi(cartella / "tag" / x / "index.html",
-               pagina_indice([n for n in note if x in n.tag], note, tag=x))
-    scrivi(cartella / "feed.xml", feed(pubblicate))
-    for nome in sorted({m for n in note for m in n.media}):   # solo i file usati, già ripuliti
-        destinazione = cartella / "media" / nome
+    for cartella in (OUT / "diario", OUT / "en" / "diario"):
+        if cartella.exists():             # via le pagine dei post cancellati o rinominati
+            shutil.rmtree(cartella)
+    genera_diario(OUT / "diario", note, "it", TRADUZIONI)
+    genera_diario(OUT / "en" / "diario", inglesi, "en", italiani)
+
+    for nome in sorted({m for n in note + inglesi for m in n.media}):   # solo i file usati, già ripuliti
+        destinazione = OUT / "diario" / "media" / nome
         destinazione.parent.mkdir(parents=True, exist_ok=True)
         destinazione.write_bytes(MEDIA[nome].dati)
-    scrivi(OUT / "sitemap.xml", sitemap(note))
+    scrivi(OUT / "sitemap.xml", sitemap(note, inglesi))
 
     bozze_txt = f", {len(note) - len(pubblicate)} bozze" if bozze else ""
-    print(f"Pagine generate in {OUT}: {len(pubblicate)} post{bozze_txt}")
+    print(f"Pagine generate in {OUT}: {len(pubblicate)} post, "
+          f"{sum(1 for n in inglesi if not n.bozza)} traduzioni{bozze_txt}")
 
 
 if __name__ == "__main__":

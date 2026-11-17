@@ -119,5 +119,65 @@ class Pagine(unittest.TestCase):
         self.assertIn("git log --grep=&quot;#ai&quot;", indice)
 
 
+class Traduzioni(unittest.TestCase):
+    IT = nota.leggi("2026-11-12-ciao.nota",
+                    "titolo: Ciao\ndata: 2026-11-12\nora: 21:00\ntipo: pensiero\ntag: ai\n---\n"
+                    "Vedi [l'altro](/diario/2026-11-10-altro/).")
+    ALTRO = nota.leggi("2026-11-10-altro.nota", "titolo: Altro\ndata: 2026-11-10\ntipo: passato\n---\nx")
+    EN = nota.leggi("2026-11-12-ciao.en.nota",
+                    "titolo: Hello\ndata: 2026-11-12\ntipo: pensiero\n---\n"
+                    "See [the other one](/diario/2026-11-10-altro/).")
+
+    def setUp(self):
+        genera.TRADUZIONI.clear()
+        genera.TAG_LINGUA.update({"it": set(), "en": set()})
+
+    def tearDown(self):
+        genera.TRADUZIONI.clear()
+
+    def test_nome_e_lingua(self):
+        self.assertEqual((self.EN.slug, self.EN.lingua), ("2026-11-12-ciao", "en"))
+        self.assertEqual(self.IT.lingua, "it")
+        self.assertEqual(genera.indirizzo(self.EN), "/en/diario/2026-11-12-ciao/")
+
+    def test_eredita_ora_e_tag(self):
+        en = genera.completa_traduzione(self.EN, self.IT)
+        self.assertEqual((en.ora, en.tag), ("21:00", ("ai",)))
+
+    def test_pagine_collegate(self):
+        en = genera.completa_traduzione(self.EN, self.IT)
+        genera.TRADUZIONI[en.slug] = en
+        it_html = genera.pagina_post(self.IT, None, None, [self.IT], en)
+        self.assertIn('<link rel="alternate" hreflang="en" href="' + genera.SITE + '/en/diario/2026-11-12-ciao/">', it_html)
+        self.assertIn('class="lingua-post"><a href="/en/diario/2026-11-12-ciao/"', it_html)
+        en_html = genera.pagina_post(en, None, None, [en], self.IT)
+        self.assertIn('<html lang="en">', en_html)
+        self.assertIn('Leggi in italiano', en_html)
+        self.assertIn('href="/en/diario/thoughts/"', en_html)
+        # l'altro post non è tradotto: il link resta all'italiano
+        self.assertIn('href="/diario/2026-11-10-altro/"', en_html)
+        genera.TRADUZIONI["2026-11-10-altro"] = self.ALTRO
+        self.assertIn('href="/en/diario/2026-11-10-altro/"', genera.pagina_post(en, None, None, [en]))
+        for html in (it_html, en_html, genera.pagina_indice([en], [en], lingua="en"),
+                     genera.pagina_tag_indice([en], "en")):
+            self.assertNotRegex(html, r"(?i)<script|\sstyle=|\son[a-z]+=")
+
+    def test_regole(self):
+        bozza_it = nota.leggi("2026-11-12-ciao.nota", "titolo: C\ndata: 2026-11-12\ntipo: pensiero\nbozza: si\n---\nx")
+        orfana = nota.leggi("2026-11-13-sola.en.nota", "titolo: S\ndata: 2026-11-13\ntipo: pensiero\n---\nx")
+        self.assertEqual(genera.controlla_diario([self.IT, self.ALTRO, self.EN]), [])
+        self.assertIn("bozza", genera.controlla_diario([bozza_it, self.ALTRO, self.EN])[0])
+        self.assertIn("manca il post italiano", genera.controlla_diario([orfana])[0])
+
+    def test_feed_e_sitemap(self):
+        en = genera.completa_traduzione(self.EN, self.IT)
+        radice = ET.fromstring(genera.feed([en], "en"))
+        self.assertEqual(radice.get("{http://www.w3.org/XML/1998/namespace}lang"), "en")
+        mappa = genera.sitemap([self.IT, self.ALTRO], [en])
+        ET.fromstring(mappa)
+        self.assertIn('hreflang="en" href="' + genera.SITE + '/en/diario/2026-11-12-ciao/"', mappa)
+        self.assertIn("<loc>" + genera.SITE + "/en/diario/</loc>", mappa)
+
+
 if __name__ == "__main__":
     unittest.main()

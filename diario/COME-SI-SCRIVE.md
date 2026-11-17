@@ -169,7 +169,25 @@ spariscono i tag ID3. Il formato viene riconosciuto leggendo il file, non dal
 nome: un file che non è davvero un'immagine viene rifiutato. Online vanno solo
 i file usati da almeno un post.
 
-## 4. Pubblicare
+## 4. Traduzione inglese (facoltativa)
+
+Accanto al post metti un file con lo stesso nome e `.en` prima di `.nota`:
+
+```
+2026-11-20-il-modem-a-56k.nota      ->  mdeangelis.me/diario/2026-11-20-il-modem-a-56k/
+2026-11-20-il-modem-a-56k.en.nota   ->  mdeangelis.me/en/diario/2026-11-20-il-modem-a-56k/
+```
+
+- Stessa intestazione, con titolo e sommario in inglese. `tipo` resta in italiano
+  (`pensiero`, `cronaca`, `passato`); se mancano `ora`, `tag` o `copertina`
+  vengono presi dal post italiano.
+- I link ad altri post scrivili come in italiano (`/diario/...`): se quel post ha
+  la traduzione, il link porta da solo alla versione inglese.
+- La traduzione va online solo se è online anche il post italiano.
+- Nelle pagine compare il link "Read in English" / "Leggi in italiano".
+- Dall'editor: apri il post italiano e premi **traduzione EN**.
+
+## 5. Pubblicare
 
 ### Dall'editor (consigliato)
 

@@ -338,6 +338,13 @@ class NuoviBlocchi(unittest.TestCase):
                          "<p><del>vecchio</del> <mark>nuovo</mark> <kbd>Ctrl</kbd>+<kbd>C</kbd></p>")
         self.assertEqual(corpo("cd ~/diario e ~3 min, a == b"), "<p>cd ~/diario e ~3 min, a == b</p>")
 
+    def test_traduzione(self):
+        n = nota.leggi("2026-11-12-x.en.nota", "titolo: X\ndata: 2026-11-12\ntipo: pensiero\n---\nhi")
+        self.assertEqual((n.slug, n.lingua), ("2026-11-12-x", "en"))
+        for nome in ("2026-11-12-x.fr.nota", "2026-11-12-x.EN.nota", "2026-11-12-x.en.en.nota"):
+            with self.assertRaises(nota.ErroreNota, msg=nome):
+                nota.leggi(nome, "titolo: X\ndata: 2026-11-12\ntipo: pensiero\n---\nhi")
+
     def test_sottolineato(self):
         self.assertEqual(corpo("++importante++ e *++tutti e due++*"),
                          "<p><u>importante</u> e <strong><u>tutti e due</u></strong></p>")

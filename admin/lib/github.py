@@ -25,7 +25,7 @@ REPO = os.environ.get("GITHUB_REPO", "mich-de/portfolio-mich-de")
 RAMO = os.environ.get("GITHUB_BRANCH", "main")
 API = "https://api.github.com"
 
-RE_POST = re.compile(r"^\d{4}-\d{2}-\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\.nota$")
+RE_POST = re.compile(r"^\d{4}-\d{2}-\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*(?:\.en)?\.nota$")
 RE_MEDIA = re.compile(r"^[a-z0-9][a-z0-9-]{0,60}\.(jpg|jpeg|png|webp|gif|mp3|ogg)$")
 
 

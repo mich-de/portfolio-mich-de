@@ -155,6 +155,30 @@ class TestAzioni(ConGitHubFinto):
         self.assertEqual(stato, 422)
         self.assertIn("2026-11-12-c", dati["errore"])
 
+    def test_traduzioni(self):
+        en = "titolo: Hi\ndata: 2026-11-10\ntipo: pensiero\n---\nhello\n"
+        stato, dati = azioni.salva("2026-11-10-pubblicato.en.nota", en, None, "io@example.com")
+        self.assertEqual(stato, 200, dati)
+        self.assertTrue(dati["indirizzo"].endswith("/en/diario/2026-11-10-pubblicato/"))
+        # traduzione pubblicata di una bozza: no; in bozza: sì
+        bozza_en = "titolo: Hi\ndata: 2026-11-11\ntipo: pensiero\n---\nhello\n"
+        stato, dati = azioni.salva("2026-11-11-bozza.en.nota", bozza_en, None, "io@example.com")
+        self.assertEqual(stato, 422)
+        stato, _ = azioni.salva("2026-11-11-bozza.en.nota", bozza_en.replace("---", "bozza: si\n---"),
+                                None, "io@example.com")
+        self.assertEqual(stato, 200)
+        # traduzione senza italiano
+        stato, dati = azioni.salva("2026-11-09-sola.en.nota", en.replace("11-10", "11-09"), None, "io@example.com")
+        self.assertEqual(stato, 422)
+        self.assertIn("italiano", dati["errore"])
+        # l'italiano non torna bozza se l'inglese è online
+        stato, dati = azioni.salva("2026-11-10-pubblicato.nota", PUBBLICATO.replace("---", "bozza: si\n---"),
+                                   dati_sha(self.gh, "2026-11-10-pubblicato.nota"), "io@example.com")
+        self.assertEqual(stato, 422)
+        self.assertIn("inglese", dati["errore"])
+        _, elenco = azioni.elenco_post()
+        self.assertIn("en", {p["lingua"] for p in elenco["post"]})
+
     def test_nomi_e_percorsi(self):
         for nome in ("../vercel.json", "diario/x.nota", "2026-11-12-X.nota", "2026-11-12-x.md", "", None):
             with self.assertRaises(github.ErroreGitHub):

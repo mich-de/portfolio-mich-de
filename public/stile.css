@@ -2160,3 +2160,18 @@ a.ref-tag:hover {
     transition: none !important;
   }
 }
+
+/* Diario: link alla stessa pagina nell'altra lingua */
+.lingua-post {
+  margin: 0.75rem 0 2rem;
+  font-size: 0.875rem;
+}
+
+.lingua-post a {
+  color: var(--rame-chiaro);
+}
+
+.lingua-post a::before {
+  content: "$ git checkout ";
+  color: var(--commento);
+}

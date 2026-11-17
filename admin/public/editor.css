@@ -425,3 +425,6 @@ body.ed {
 }
 
 .ed [hidden] { display: none !important; }
+
+.ed .ed-traduzione .ed-voce { padding-left: 1.25rem; }
+.ed .ed-traduzione .ed-voce-titolo { color: var(--tenue); }

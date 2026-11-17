@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <title>MDEANGELIS&#x27;s journal</title>
+  <subtitle>thoughts of the day, stories from right now and how things used to work, explained by a nerd.</subtitle>
+  <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/"/>
+  <link rel="self" type="application/atom+xml" href="https://mdeangelis.vercel.app/en/diario/feed.xml"/>
+  <id>https://mdeangelis.vercel.app/en/diario/</id>
+  <updated>2026-11-12T08:00:00+01:00</updated>
+  <author><name>Michele De Angelis</name><uri>https://mdeangelis.vercel.app/</uri></author>
+  <generator>genera.py + nota v2</generator>
+
+</feed>

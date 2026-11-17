@@ -64,7 +64,8 @@ RIQUADRI = {"nota": ("r-nota", "nota"), "consiglio": ("r-consiglio", "consiglio"
             "attenzione": ("r-attenzione", "attenzione"),
             "curiosita": ("r-curiosita", "curiosità"), "curiosità": ("r-curiosita", "curiosità")}
 
-_RE_NOME_FILE = re.compile(r"^(\d{4}-\d{2}-\d{2})-([a-z0-9]+(?:-[a-z0-9]+)*)\.nota$")
+_RE_NOME_FILE = re.compile(r"^(\d{4}-\d{2}-\d{2})-([a-z0-9]+(?:-[a-z0-9]+)*)(\.en)?\.nota$")
+LINGUE = ("it", "en")          # AAAA-MM-GG-titolo.nota e la sua traduzione AAAA-MM-GG-titolo.en.nota
 _RE_ORA = re.compile(r"^([01][0-9]|2[0-3]):[0-5][0-9]$")
 _RE_TAG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 _RE_LINGUAGGIO = re.compile(r"^[a-z0-9+#.-]{0,20}$")
@@ -116,6 +117,7 @@ class Nota:
     media: tuple = ()            # file di diario/media/ usati dal post
     collegamenti: tuple = ()     # (slug di un altro post, riga)
     ora: str = ""                # HH:MM, ora italiana; ordina i post dello stesso giorno
+    lingua: str = "it"           # "en" per le traduzioni (file .en.nota)
 
     @property
     def hash(self) -> str:
@@ -682,7 +684,9 @@ def leggi(nome_file: str, contenuto: str, media=None) -> Nota:
     m = _RE_NOME_FILE.match(nome_file)
     if not m:
         raise ErroreNota(nome_file, 1, "nome file atteso: AAAA-MM-GG-titolo-breve.nota "
-                                       "(minuscole, cifre e trattini)")
+                                       "(minuscole, cifre e trattini; .en.nota per la traduzione inglese)")
+    lingua = "en" if m.group(3) else "it"
+    slug = nome_file[:-len(".en.nota")] if m.group(3) else nome_file[:-len(".nota")]
     if len(contenuto.encode("utf-8")) > MAX_FILE:
         raise ErroreNota(nome_file, 1, "file troppo grande")
     contenuto = contenuto.lstrip("﻿").replace("\r\n", "\n").replace("\r", "\n")
@@ -749,7 +753,7 @@ def leggi(nome_file: str, contenuto: str, media=None) -> Nota:
     else:
         sommario = primo if len(primo) <= 180 else primo[:177].rsplit(" ", 1)[0] + "…"
 
-    return Nota(file=nome_file, slug=nome_file[:-5], titolo=titolo, data=data,
+    return Nota(file=nome_file, slug=slug, titolo=titolo, data=data,
                 tipo=tipo, tag=tag, sommario=sommario, bozza=bozza, html=html_corpo,
                 parole=parole, copertina=copertina, media=tuple(ctx.usati),
-                collegamenti=tuple(ctx.collegamenti), ora=ora)
+                collegamenti=tuple(ctx.collegamenti), ora=ora, lingua=lingua)

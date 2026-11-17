@@ -157,4 +157,39 @@
 &lt;p&gt;Forse non siamo davanti a una semplice ondata di criminalità informatica. Forse stiamo assistendo alle prove tecniche di demolizione controllata del vecchio web, in attesa che qualcuno stacchi definitivamente la spina per farci ricominciare da zero. Bisognerà solo capire con quali regole, e soprattutto chi avrà in mano le chiavi del nuovo interruttore.&lt;/p&gt;
 &lt;section class=&quot;note-piede&quot; aria-label=&quot;Note&quot;&gt;&lt;ol&gt;&lt;li id=&quot;nota-ghioni&quot;&gt;Fabio Ghioni, ex responsabile del Tiger Team di Telecom Italia ed esperto di guerra cibernetica, nell&amp;#x27;intervista rilasciata a &lt;em&gt;Il Fatto Quotidiano&lt;/em&gt; il 10 luglio 2015 sul caso dei 400 GB esfiltrati a Hacking Team. &lt;a class=&quot;torna&quot; href=&quot;https://mdeangelis.vercel.app/diario/2026-11-12-il-sistema-non-e-piu-curabile/#rif-ghioni-1&quot; aria-label=&quot;torna al testo&quot;&gt;↑&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/section&gt;</content>
   </entry>
+  <entry>
+    <title>hello, world</title>
+    <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/diario/2026-11-12-hello-world/"/>
+    <id>https://mdeangelis.vercel.app/diario/2026-11-12-hello-world/</id>
+    <published>2026-11-12T00:00:00+01:00</published>
+    <updated>2026-11-12T00:00:00+01:00</updated>
+    <category term="pensiero"/>
+    <category term="diario"/>
+    <category term="nerd"/>
+    <summary>Il primo commit del diario: cosa ci troverai e perché è scritto in un linguaggio fatto in casa.</summary>
+    <content type="html">&lt;p&gt;Ogni programmatore comincia con &lt;code&gt;hello, world&lt;/code&gt;. Questo diario comincia allo stesso modo.&lt;/p&gt;
+&lt;p&gt;Qui scrivo tre tipi di cose, e ognuno ha il suo ramo:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;pensieri&lt;/strong&gt;: quello che mi passa per la testa in giornata&lt;/li&gt;&lt;li&gt;&lt;strong&gt;cronache&lt;/strong&gt;: storie che stanno succedendo adesso&lt;/li&gt;&lt;li&gt;&lt;strong&gt;passato&lt;/strong&gt;: come funzionavano le cose una volta, spiegate bene&lt;/li&gt;&lt;/ul&gt;
+&lt;aside class=&quot;riquadro r-curiosita&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ curiosità ]&lt;/p&gt;&lt;p&gt;&lt;code&gt;hello, world&lt;/code&gt; diventa famoso nel 1978 con il libro di Kernighan e Ritchie sul linguaggio C, ma Kernighan l&amp;#x27;aveva già usato qualche anno prima in un tutorial sul linguaggio B.&lt;/p&gt;&lt;/aside&gt;
+&lt;h2 id=&quot;s-perche-un-linguaggio-fatto-in-casa&quot;&gt;Perché un linguaggio fatto in casa&lt;/h2&gt;
+&lt;p&gt;Niente WordPress, niente motore preso da altri. I post sono file di testo in un formato che si chiama &lt;em&gt;Nota&lt;/em&gt;, scritto da zero per questo sito&lt;sup class=&quot;rimando&quot;&gt;&lt;a href=&quot;https://mdeangelis.vercel.app/diario/2026-11-12-hello-world/#nota-zero&quot; id=&quot;rif-zero-1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;. Un piccolo programma li trasforma in pagine HTML statiche: sul sito non gira nessun codice, quindi non c&amp;#x27;è niente da bucare.&lt;/p&gt;
+&lt;div class=&quot;tabella&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;un blog classico&lt;/th&gt;&lt;th&gt;questo diario&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;codice sul server&lt;/td&gt;&lt;td&gt;PHP e database&lt;/td&gt;&lt;td&gt;nessuno&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;JavaScript&lt;/td&gt;&lt;td&gt;parecchio&lt;/td&gt;&lt;td&gt;0 righe&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;aggiornamenti di sicurezza&lt;/td&gt;&lt;td&gt;&lt;del&gt;continui&lt;/del&gt;&lt;/td&gt;&lt;td&gt;nessuno da fare&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;blockquote&gt;&lt;p&gt;Meno parti mobili, meno cose che si rompono.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&quot;s-foto-e-suoni&quot;&gt;Foto e suoni&lt;/h2&gt;
+&lt;p&gt;Le immagini si mettono una per riga. Se sono vicine diventano una galleria; un clic le apre a grandezza piena.&lt;/p&gt;
+&lt;figure class=&quot;nota-img&quot;&gt;&lt;a class=&quot;apri&quot; href=&quot;https://mdeangelis.vercel.app/diario/media/musica-eza.webp&quot;&gt;&lt;img src=&quot;https://mdeangelis.vercel.app/diario/media/musica-eza.webp&quot; alt=&quot;La sezione musica del sito: equalizzatore e elenco delle piattaforme&quot; width=&quot;1280&quot; height=&quot;800&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;La sezione &lt;mark&gt;musica&lt;/mark&gt;, in stile eza -l --icons&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;aside class=&quot;riquadro r-nota&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ nota ]&lt;/p&gt;&lt;p&gt;Prima di andare online, dalle foto vengono tolti i metadati: posizione GPS, modello del telefono, data dello scatto.&lt;/p&gt;&lt;/aside&gt;
+&lt;h2 id=&quot;s-come-si-scrive&quot;&gt;Come si scrive&lt;/h2&gt;
+&lt;p&gt;Il formato è volutamente piccolo:&lt;/p&gt;
+&lt;pre&gt;&lt;span class=&quot;nota-lingua&quot;&gt;nota&lt;/span&gt;&lt;code&gt;# Titolo della sezione
+Un paragrafo con *grassetto*, _corsivo_ e un [link](https://mdeangelis.me).
+![cosa si vede nella foto](foto.jpg &amp;quot;didascalia&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Se sbaglio qualcosa, la pubblicazione si ferma e mi dice file e numero di riga. Un post rotto non arriva mai online.&lt;/p&gt;
+&lt;ol&gt;&lt;li&gt;scrivo il file&lt;/li&gt;&lt;li&gt;faccio commit&lt;/li&gt;&lt;li&gt;un minuto dopo è sul sito&lt;/li&gt;&lt;/ol&gt;
+&lt;h3 id=&quot;s-lista-delle-cose-da-fare&quot;&gt;Lista delle cose da fare&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;span class=&quot;spunta spunta-si&quot;&gt;[x]&lt;/span&gt; scrivere il linguaggio&lt;/li&gt;&lt;li&gt;&lt;span class=&quot;spunta spunta-si&quot;&gt;[x]&lt;/span&gt; pubblicare il primo post&lt;/li&gt;&lt;li&gt;&lt;span class=&quot;spunta&quot;&gt;[ ]&lt;/span&gt; scrivere il secondo&lt;/li&gt;&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;Benvenuto. Per il resto c&amp;#x27;è &lt;code&gt;git log&lt;/code&gt;, oppure rileggi &lt;a href=&quot;https://mdeangelis.vercel.app/diario/2026-11-12-hello-world/#s-perche-un-linguaggio-fatto-in-casa&quot;&gt;perché un linguaggio fatto in casa&lt;/a&gt;.&lt;/p&gt;
+&lt;section class=&quot;note-piede&quot; aria-label=&quot;Note&quot;&gt;&lt;ol&gt;&lt;li id=&quot;nota-zero&quot;&gt;Solo la libreria standard di Python: nessun pacchetto scaricato da internet. &lt;a class=&quot;torna&quot; href=&quot;https://mdeangelis.vercel.app/diario/2026-11-12-hello-world/#rif-zero-1&quot; aria-label=&quot;torna al testo&quot;&gt;↑&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/section&gt;</content>
+  </entry>
 </feed>

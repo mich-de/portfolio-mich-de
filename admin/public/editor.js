@@ -59,6 +59,12 @@
 
   function aggiornaBottoni() {
     const aperto = stato.nome !== null;
+    const lingua = $("b-lingua");
+    lingua.hidden = !aperto || stato.sha === null;
+    if (aperto) {
+      const inglese = stato.nome.endsWith(".en.nota");
+      lingua.textContent = inglese ? "versione italiana" : "traduzione EN";
+    }
     $("b-salva").disabled = !aperto || (!modificato() && stato.sha !== null);
     $("b-anteprima").disabled = !aperto;
     testo.disabled = !aperto;
@@ -100,9 +106,19 @@
       ul.append(Object.assign(document.createElement("li"), { className: "ed-vuoto", textContent: dati.errore || "errore" }));
       return;
     }
-    for (const p of dati.post) {
+    stato.nomi = new Set(dati.post.map((p) => p.nome));
+    // la traduzione inglese subito sotto il suo post italiano
+    const it = dati.post.filter((p) => p.lingua !== "en");
+    const en = new Map(dati.post.filter((p) => p.lingua === "en").map((p) => [p.nome.replace(/\.en\.nota$/, ".nota"), p]));
+    for (const p of it) {
       ul.append(voce(p.titolo, p.data + (p.ora ? " " + p.ora : "") + " · " + p.tipo,
         p.bozza ? "bozza" : "", () => apri(p.nome), p.nome === stato.nome));
+      const t = en.get(p.nome);
+      if (t) {
+        const li = voce("↳ " + t.titolo, "English", t.bozza ? "EN bozza" : "EN", () => apri(t.nome), t.nome === stato.nome);
+        li.classList.add("ed-traduzione");
+        ul.append(li);
+      }
     }
     if (!dati.post.length) {
       ul.append(Object.assign(document.createElement("li"), { className: "ed-vuoto", textContent: "nessun post" }));
@@ -198,6 +214,37 @@
       anteprima();
     }
   });
+
+  // ------------------------------------------------------------ traduzione inglese
+
+  async function traduzione() {
+    if (stato.nome === null || !lasciare()) return;
+    if (stato.nome.endsWith(".en.nota")) {
+      stato.salvato = testo.value;   // già confermato da lasciare()
+      return apri(stato.nome.replace(/\.en\.nota$/, ".nota"));
+    }
+    const nomeEn = stato.nome.replace(/\.nota$/, ".en.nota");
+    if (stato.nomi && stato.nomi.has(nomeEn)) {
+      stato.salvato = testo.value;
+      return apri(nomeEn);
+    }
+    // nuova traduzione: parte dal testo italiano, in bozza, da tradurre al posto suo
+    let copia = testo.value.replace(/\r\n/g, "\n");
+    const fine = copia.indexOf("\n---");
+    let testa = fine === -1 ? copia : copia.slice(0, fine);
+    const corpo = fine === -1 ? "" : copia.slice(fine);
+    testa = /^bozza:/m.test(testa) ? testa.replace(/^bozza:.*$/m, "bozza: si") : testa + "\nbozza: si";
+    stato.nome = nomeEn;
+    stato.sha = null;
+    stato.salvato = "";
+    testo.value = testa + corpo;
+    $("riga-nome").hidden = true;
+    aggiornaBottoni();
+    testo.focus();
+    avvisa("traduzione inglese nuova, in bozza: sostituisci il testo italiano con l'inglese e salva");
+    anteprima();
+  }
+  $("b-lingua").addEventListener("click", traduzione);
 
   // ------------------------------------------------------------ anteprima
 

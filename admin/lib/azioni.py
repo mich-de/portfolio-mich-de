@@ -98,7 +98,8 @@ def elenco_post() -> tuple:
         campi = intestazione(github.leggi(github.percorso_post(nome)).decode("utf-8", "replace"))
         post.append({"nome": nome, "sha": sha, "titolo": campi.get("titolo", nome),
                      "data": campi.get("data", ""), "ora": campi.get("ora", ""),
-                     "tipo": campi.get("tipo", ""), "bozza": _bozza(campi)})
+                     "tipo": campi.get("tipo", ""), "bozza": _bozza(campi),
+                     "lingua": "en" if nome.endswith(".en.nota") else "it"})
     post.sort(key=lambda p: (p["data"], p["ora"], p["nome"]), reverse=True)
     media_ = [{"nome": n, "dimensione": d} for n, _, d in github.elenco("diario/media")
               if github.RE_MEDIA.match(n)]
@@ -155,6 +156,23 @@ def salva(nome: str, testo: str, sha, email: str) -> tuple:
         return 409, {"ok": False, "errore": "il post è cambiato nel frattempo: ricarica e riprova",
                      "riga": 0}
 
+    # Traduzioni: servono il post italiano, e pubblicato se si pubblica la traduzione.
+    # Un post italiano non torna bozza se la sua traduzione è online.
+    if n.lingua == "en":
+        italiano = n.slug + ".nota"
+        if italiano not in esistenti:
+            return 422, {"ok": False, "riga": 1, "errore": "manca il post italiano " + italiano
+                         + ": la traduzione si crea dal post italiano"}
+        if not n.bozza and _bozza(intestazione(github.leggi(github.percorso_post(italiano))
+                                               .decode("utf-8", "replace"))):
+            return 422, {"ok": False, "riga": 0, "errore": "il post italiano è ancora una bozza: "
+                         "pubblica prima quello (o lascia bozza: si)"}
+    elif n.bozza and n.slug + ".en.nota" in esistenti:
+        inglese = github.leggi(github.percorso_post(n.slug + ".en.nota")).decode("utf-8", "replace")
+        if not _bozza(intestazione(inglese)):
+            return 422, {"ok": False, "riga": 0, "errore": "la traduzione inglese è online: "
+                         "rimettila in bozza prima di questo post"}
+
     # Le stesse regole della build: i link ad altri post devono portare a post che
     # esistono, e un post pubblicato non può puntare a una bozza (né diventarlo
     # se altri post pubblicati lo citano).
@@ -170,7 +188,7 @@ def salva(nome: str, testo: str, sha, email: str) -> tuple:
     if n.bozza and nome in esistenti:
         citazione = "(/diario/" + n.slug + "/"
         for altro in esistenti:
-            if altro == nome:
+            if altro == nome or n.lingua == "en":
                 continue
             t = github.leggi(github.percorso_post(altro)).decode("utf-8", "replace")
             if citazione in t and not _bozza(intestazione(t)):
@@ -182,8 +200,9 @@ def salva(nome: str, testo: str, sha, email: str) -> tuple:
                  + ("Bozza: non pubblicato." if n.bozza else "Pubblicato."))
     nuovo_sha = github.scrivi(github.percorso_post(nome), testo.replace("\r\n", "\n").encode("utf-8"),
                               messaggio, sha)
+    base = "/en/diario/" if n.lingua == "en" else "/diario/"
     return 200, {"ok": True, "sha": nuovo_sha, "bozza": n.bozza,
-                 "indirizzo": SITO + "/diario/" + n.slug + "/"}
+                 "indirizzo": SITO + base + n.slug + "/"}
 
 
 def carica(nome: str, dati_b64: str) -> tuple:
@@ -214,7 +233,10 @@ def file_media(nome: str) -> tuple:
 def stato_pubblicazione(nome: str) -> tuple:
     """Il post è già online? (la build di Vercel richiede circa un minuto)"""
     github.percorso_post(nome)
-    url = SITO + "/diario/" + nome[:-5] + "/"
+    if nome.endswith(".en.nota"):
+        url = SITO + "/en/diario/" + nome[:-len(".en.nota")] + "/"
+    else:
+        url = SITO + "/diario/" + nome[:-len(".nota")] + "/"
     richiesta = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "admin-mdeangelis"})
     try:
         with urllib.request.urlopen(richiesta, timeout=5) as r:
