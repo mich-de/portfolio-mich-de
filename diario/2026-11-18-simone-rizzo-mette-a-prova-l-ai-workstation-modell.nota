@@ -1,0 +1,43 @@
+titolo: Simone Rizzo mette a prova l'AI Workstation: modelli locali a 27 miliardi di parametri e 32 GB di VRAM
+data: 2026-11-18
+ora: 13:25
+tipo: cronaca
+tag: hardware, ai, workstation, locale, test
+sommario: Test pratici reali con una custom build ASUS, scheda video con 32 GB di VRAM e l'uso di Qwen in locale per coding, analisi dati e simulazioni 3D.
+bozza: no
+---
+
+Nel panorama tecnologico attuale, la possibilità di far girare modelli di intelligenza artificiale di grandi dimensioni direttamente in locale — senza dipendere da API esterne, abbonamenti mensili o server di terze parti — rappresenta una svolta fondamentale per la privacy e la sovranità dei dati. In un recente video pubblicato sul canale di ASUS Italia, *Simone Rizzo* ha messo alla prova una potente configurazione hardware personalizzata pensata proprio per l'inferenza e lo sviluppo locale.
+
+La workstation testata è una custom build assemblata da Draco, basata su scheda madre ASUS ProArt B850, processore AMD Ryzen 9 9900X, 64 GB di RAM DDR5 e, soprattutto, una scheda video ASUS equipaggiata con ben **32 GB di VRAM**, una dotazione cruciale per ospitare modelli generativi densi senza compromettere la finestra di contesto (*Context Window*).
+
+---
+
+# 1. L'ecosistema dei Model Runner e la scelta del modello
+
+Per sfruttare l'hardware, nel video viene utilizzato **AnyLocal Studio** (un Inference Engine e Model Runner all'avanguardia). L'obiettivo principale del test è l'esecuzione di un Large Language Model open-weight di fascia alta: il modello cinese **Qwen 3.8 da 27 miliardi di parametri**, noto per le sue spiccate capacità agentiche e di supporto alle chiamate di funzione (*tool calls*).
+
+Poiché un modello a piena precisione (Bfloat 16) richiederebbe oltre 56 GB di VRAM (superando la capacità della scheda), vengono testate diverse tecniche di quantizzazione:
+- **Quantizzazione standard uniforme**: approssima tutti i parametri della rete allo stesso modo per ridurre l'occupazione di memoria.
+- **Quantizzazione non uniforme dinamica (IQ3_S)**: sviluppata da laboratori di ricerca specializzati, permette di quantizzare in modo differenziato i vari layer della rete (spingendo la riduzione dove vi è meno densità informativa e preservando la precisione dove necessario), riducendo l'impronta di memoria a circa 24-29 GB e mantenendo quasi inalterate le performance.
+
+---
+
+# 2. Casi d'uso reali: ricerca web, analisi dati e coding
+
+Durante il test, la workstation viene sottoposta a carichi di lavoro intensi (inclusa la registrazione dello schermo in 5K), dimostrando prestazioni eccellenti con una velocità di generazione compresa tra i 40 e i 60 token al secondo.
+
+1. **Ricerca Web e Agentic Tool Use**: Attivando i moduli di ricerca in tempo reale e il ragionamento logico (*Chain of Thought*), il modello analizza normative complesse (come l'articolo 50 dell'AI Act europeo) fornendo risposte dettagliate corredate da citazioni e fonti verificabili.
+2. **Analisi di dati aziendali sensibili**: Caricando un file CSV contenente centinaia di record di vendita e magazzino direttamente in locale, l'agente scrive codice Python al volo (tramite la libreria `pandas`) per interrogare i dati, individuare i prodotti più venduti, analizzare i margini e generare una dashboard HTML interattiva completa di grafici e metriche di business, senza che alcun dato aziendale esca dal computer.
+3. **Simulazioni 3D complesse (One-shot Coding)**: Sottoponendo al modello un task creativo avanzato — la creazione di una simulazione interattiva 3D del sistema solare con controlli orbitali e parametri regolabili — il sistema genera autonomamente un file HTML/JS perfettamente funzionante dopo una fase di ragionamento approfondito.
+
+---
+
+# 3. Oltre il testo: generazione d'immagini e multimedia
+
+La versatilità dell'hardware non si limita ai modelli linguistici testuali. All'interno dell'hub di AnyLocal Studio è possibile scaricare e gestire moduli per:
+- **Generazione e manipolazione di immagini** (tramite modelli diffusion come Qwen Image / FLUX), sfruttando passaggi di denoising in tempo reale e capacità di training locale.
+- **Generazione video e audio** (Text-to-Speech e clonazione vocale), aprendo la strada a un vero e proprio ecosistema multimediale autonomo.
+
+> [!consiglio]
+> Il vantaggio principale di una configurazione dotata di abbondante VRAM (come i 32 GB testati) non è solo la possibilità di caricare il modello, ma soprattutto il lusso di poter impostare finestre di contesto enormi (fino a oltre 260.000 token), indispensabili per lavorare su codebase estese, documenti lunghi e flussi di lavoro agentici complessi senza incorrere in colli di bottiglia hardware.
