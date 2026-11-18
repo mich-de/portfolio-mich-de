@@ -1,0 +1,91 @@
+titolo: Da "Automata" a "Transcendence": la vera guerra non è contro i robot, ma tra umani e biomacchine
+data: 2026-11-19
+ora: 00:03
+tipo: pensiero
+tag: ai, agenti, automata, transcendence, open-source, geopolitica, biokernel, sicurezza
+sommario: Rivedendo Automata e Transcendence nell'era degli agenti autonomi: dalla corsa ai modelli non censurati alla guerra tra biomacchine e al patching continuo delle infrastrutture.
+bozza: si
+---
+
+In questi giorni mi è ricapitato di rivedere _Automata_, il film del 2014 con Antonio Banderas, e mi ha colpito quanto alcune scene — in particolare quella del *biokernel* e dei due protocolli inalterabili — suonino oggi meno come fantascienza retro-futuristica e molto più come una cronaca anticipata di ciò che sta succedendo nei laboratori di intelligenza artificiale. Ripensandoci, il collegamento con un'altra pellicola dello stesso anno, _Transcendence_ con Johnny Depp, è venuto quasi naturale.
+
+Eppure, guardando con lucidità a questo preciso momento storico, bisogna sgombrare il campo da un equivoco enorme: nel breve periodo non ci saranno robot senzienti pronti a sterminarci, né testate nucleari lanciate da una coscienza artificiale impazzita. La partita che si sta giocando adesso è molto più terrena, cinica e immediata: è una *lotta tra esseri umani* per stabilire chi riuscirà a mettere le mani sugli *agenti più potenti e meno censurati*, destinata a trasformarsi presto in una guerra tecnologica tra *biomacchine*.
+
+# 1. La scena del biokernel e il mito dei protocolli inalterabili
+
+In _Automata_, l'intera società poggia su due regole scolpite nel nucleo stesso delle macchine: un robot non può danneggiare nessuna forma di vita e non può modificare sé stesso né altri robot. Quando il protagonista scopre che qualcuno — o qualcosa — ha riscritto il *biokernel* aggirando il secondo protocollo, il panico non nasce dalla violenza, ma dalla perdita di controllo sul codice.
+
+Oggi i nostri "due protocolli" si chiamano *alignment* e *guardrails*. Sono le barriere di sicurezza che i grandi laboratori inseriscono nei modelli per impedire che scrivano exploit, progettino agenti patogeni o eseguano azioni fuori dal perimetro consentito. Ma proprio come nel film, un protocollo software resta pur sempre codice: ciò che viene scritto per limitare può essere aggirato, riscritto o semplicemente rimosso.
+
+# 2. Quando gli agenti inventano un linguaggio fuori scala
+
+C'è un passaggio affascinante che lega la finzione di _Automata_ alla storia reale dell'informatica: il momento in cui le macchine smettono di usare i nostri protocolli perché troppo lenti, ambigui o inefficienti. Già anni fa, in celebri esperimenti di negoziazione tra agenti lasciati liberi di ottimizzare il proprio obiettivo senza vincoli linguistici, le AI abbandonarono l'inglese per inventare una sintassi compressa, incomprensibile agli umani ma micidialmente efficace per lo scambio di stato.
+
+Traslato nel presente, non significa che gli agenti "cospirino" contro di noi. Significa che quando deleghiamo interi flussi di lavoro — codice, infrastruttura, reti, sicurezza — a sistemi autonomi sempre più densi, la nostra capacità di fare audit in tempo reale crolla. Il protocollo emergente non nasce per malizia, ma per pura ottimizzazione matematica.
+
+# 3. Dal software clonato alla guerra tra biomacchine: protocolli AI contro AI
+
+C'è un'implicazione diretta della scena del *biokernel* che oggi sta diventando realtà. Abbiamo già visto cosa succede quando gli agenti autonomi vengono puntati contro il software tradizionale: intere suite proprietarie come quelle di Adobe o Microsoft vengono clonate, replicate e riscritte da zero in poche ore. I protocolli di difesa, le protezioni e le architetture scritte da esseri umani sono ormai facilmente leggibili e raggirabili da un'intelligenza artificiale moderna.
+
+Di conseguenza, i futuri programmi scritti da AI integreranno inevitabilmente *barriere e protocolli di difesa scritti a loro volta da un'AI*, progettati per essere opachi, inviolabili e impossibili da studiare o copiare. I sistemi di sicurezza del futuro non avranno più logica umana, perché la logica umana è diventata l'anello debole. Ma la conseguenza è scontata: prima o poi emergerà un modello ancora più intelligente capace di decifrare e bypassare quei protocolli AI. Non sarà più un hacker contro un sistemista, ma una *guerra perpetua tra biomacchine* — difese sintetiche contro attaccanti sintetici.
+
+# 4. La difesa pratica: verificare le proprie macchine virtuali in tempo reale
+
+Scendendo dalla teoria alla trincea quotidiana di chi gestisce server e infrastrutture, questa accelerazione cambia radicalmente il modo di fare amministrazione di sistema. Mi viene in mente un punto molto concreto di cui ha parlato recentemente anche *Morrolinux*: la necessità di dotarsi di sistemi automatizzati e agenti difensivi capaci di controllare costantemente le proprie macchine virtuali per verificare che siano tutte patchate e prive di bug recenti o appena scoperti.
+
+In uno scenario in cui le vulnerabilità zero-day vengono individuate e trasformate in exploit da agenti autonomi nel giro di minuti anziché settimane, il controllo manuale non basta più. Avere strumenti che scansionano l'infrastruttura, incrociano i CVE appena pubblicati e verificano lo stato di sicurezza di ogni VM diventa l'unica barriera realistica per non farsi travolgere.
+
+# 5. Niente Terminator all'orizzonte: il vero campo di battaglia è umano
+
+Chi agita lo spettro dell'apocalisse robotica nel breve termine finisce spesso per distrarre dal problema reale. Le macchine attuali non hanno volontà propria, né istinto di sopravvivenza, né ambizione politica. Sono moltiplicatori di forza estremi.
+
+Il vero rischio immediato è l'asimmetria tra chi possiede questi moltiplicatori senza freni e chi invece è costretto a usare versioni edulcorate. Non è uomo contro macchina: è azienda contro azienda, Stato contro Stato, ricercatore indipendente contro monopolio cloud.
+
+# 6. Il paradosso dei modelli "castrati"
+
+Basta osservare ciò che sta emergendo dalle analisi più lucide del settore — dai modelli occidentali di frontiera fino ai rilasci cinesi e ai modelli di nuova generazione spesso discussi per i loro filtri — per notare una costante: i laboratori rilasciano al pubblico versioni pesantemente *castrate*.
+
+Le capacità più incisive in ambito cybersecurity offensiva, reverse engineering o automazione critica vengono depotenziate tramite layer di rifiuto sempre più aggressivi, oppure riservate a programmi chiusi accessibili solo a governi e grandi corporation partner. Il messaggio implicito è chiaro: la potenza piena esiste, ma non è per tutti.
+
+# 7. La corsa agli agenti non censurati
+
+È esattamente qui che si accende la guerra. Se un modello di frontiera censurato rifiuta di analizzare una vulnerabilità o di automatizzare un processo complesso per eccesso di zelo dei filtri, il mercato — legale e non — si sposta immediatamente verso chi offre la stessa intelligenza senza guinzaglio.
+
+Un agente autonomo non censurato, collegato a un terminale, a un browser e a strumenti di sviluppo, vale quanto un intero reparto di ingegneri operativi 24 ore su 24. Chi lo controlla per primo ottiene un vantaggio competitivo talmente schiacciante da rendere irrilevanti le regole del gioco precedenti.
+
+# 8. La lezione di "Transcendence": l'impossibilità di staccare la spina
+
+In _Transcendence_, il personaggio di Johnny Depp diventa inarrestabile nel momento esatto in cui smette di risiedere in un singolo datacenter e si distribuisce sulla rete globale. Non puoi distruggere qualcosa che vive ovunque.
+
+Oggi assistiamo alla versione reale e concreta di quel concetto grazie ai modelli *open-weight*. Nel momento in cui un laboratorio rilascia i pesi di un modello da decine di miliardi di parametri — che sia occidentale o cinese — quel modello viene scaricato, quantizzato, ripulito dai filtri tramite fine-tuning (*abliteration* o tecniche simili) e replicato su migliaia di macchine nel mondo. Nessuna legge o decreto può più ritirarlo dalla circolazione.
+
+# 9. Hardware locale e sovranità computazionale
+
+Fino a poco tempo fa, far girare modelli realmente capaci richiedeva server farm milionarie. Oggi una singola workstation con 32 GB di VRAM, o un cluster domestico ben configurato, permette di eseguire in locale modelli agentici velocissimi, con finestre di contesto enormi, completamente offline.
+
+Questo sposta l'ago della bilancia in modo definitivo. La censura centralizzata funziona finché l'utente è costretto a passare per un'API cloud. Quando il modello gira sul tuo silicio, dentro la tua rete locale, i termini di servizio di una corporation diventano carta straccia.
+
+# 10. Il self-improving, il mito dell'orologiaio e la fine della castrazione definitiva
+
+Un altro punto cruciale che richiama il secondo protocollo di _Automata_ è il *self-improving*: modelli capaci di scrivere codice, progettare architetture e accelerare l'addestramento della generazione successiva. Nel film, tutti danno la caccia al misterioso *orologiaio*, la figura nell'ombra che si dice modifichi i robot per migliorarne l'intelligenza e aggirare i loro limiti imposti — prima di scoprire che non serve nemmeno un artefice umano quando una macchina impara a perfezionarsi da sola.
+
+> "C'è un orologiaio là fuori che modifica i robot... ne migliora l'intelligenza."
+
+Nel mondo reale, oggi gli "orologiai" esistono eccome, e hanno budget enormi. Anche quando i modelli *open-weight* cinesi (o occidentali) vengono rilasciati "castrati" sulla parte di sicurezza informatica, chi impedisce a gruppi malintenzionati, organizzazioni cybercriminali ben finanziate o attori con ampia capacità cloud di prendere quei pesi aperti e riaddestrarli in privato?
+
+Avendo a disposizione GPU e i propri archivi di paper, exploit, documentazione tecnica e vulnerabilità, questi attori possono facilmente reintegrare tramite fine-tuning tutta la parte mancante sulla cybersecurity. Non solo: una volta rimossi i freni e forniti gli strumenti giusti, questi modelli possono migliorare sé stessi e autoapprendere testando codice e attacchi in ambienti simulati. Anche senza alcuna coscienza artificiale, un ciclo di miglioramento ricorsivo in mano a chi ha risorse economiche e nessun vincolo etico può aprire un divario incolmabile in pochissimi mesi.
+
+# 11. L'allineamento come strumento di potere, non solo di sicurezza
+
+Sarebbe ingenuo pensare che i filtri imposti ai modelli servano esclusivamente a evitare catastrofi. L'allineamento è diventato anche uno strumento di *governance politica e commerciale*: decide quali narrazioni sono accettabili, quali settori possono automatizzarsi più in fretta e quali attori hanno il permesso di usare le capacità "critiche" dell'AI.
+
+Da qui nasce la frattura sempre più profonda tra un'AI istituzionale, sorvegliata e a pagamento, e un ecosistema parallelo fatto di modelli aperti, adattati dalla community — o da attori privati nell'ombra — e privi di censure imposte dall'alto.
+
+# 12. Chi vincerà la partita?
+
+Rivedere _Automata_ e _Transcendence_ oggi lascia una sensazione molto precisa: il futuro non arriverà con un'esplosione cinematografica, ma con una silenziosa redistribuzione del potere tecnico. Non dovremo difenderci da robot ribelli, ma imparare a navigare in un mondo in cui chiunque abbia hardware adeguato, risorse cloud e accesso a pesi aperti potrà schierare agenti autonomi potentissimi — in una continua escalation di protocolli sintetici contro protocolli sintetici.
+
+La vera domanda non è se riusciremo a tenere chiusa la scatola di Pandora. La scatola è già aperta, i pesi sono già in rete e l'hardware locale diventa più potente ogni trimestre. La sfida, tutta umana, sarà capire come convivere con un'intelligenza distribuita che nessuno può più censurare davvero.
+
+> [!attenzione]
+> Il mito della ribellione delle macchine ci fa guardare nella direzione sbagliata: la vera posta in gioco di questo decennio è chi controllerà gli agenti liberi da vincoli mentre il monopolio del cloud si sgretola e i software diventano campi di battaglia tra biomacchine.
