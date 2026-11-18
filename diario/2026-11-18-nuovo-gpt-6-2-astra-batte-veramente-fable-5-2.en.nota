@@ -1,0 +1,42 @@
+titolo: Does the new GPT-6.2 actually beat Fable 5.2? Practical tests, costs, and performance compared
+data: 2026-11-18
+ora: 23:41
+tipo: cronaca
+tag: ai, openai, anthropic, gpt-6, benchmarks
+sommario: Practical tests and analysis of OpenAI's new GPT-6.2 Astra and Sol models: head-to-head comparison with Fable 5.2 on speed, costs, and coding capabilities.
+---
+
+The generative artificial intelligence landscape has entered a new round of heavy competition at the top. OpenAI has officially released its new models — **GPT-6.2 Astra** (the high-end, highly intelligent flagship) and **GPT-6.2 Sol** (the daily-use, cost-optimized variant) — directly challenging Anthropic's benchmark standard, **Fable 5.2**.
+
+In tests conducted by Simone Rizzo and independent evaluations by *Artificial Analysis*, the new models aim to disrupt the market not only by delivering superior performance, but also by introducing sharp optimizations in operating costs and execution times.
+
+---
+
+# 1. Benchmarks and Economic Claims: What Actually Changes?
+
+In OpenAI's presentation metrics, the new GPT-6.2 models rank exceptionally high in long-duration reasoning tests (such as *Terminal Bench*, *Science Index*, and *Agent Lux Exam*). However, the real breakthrough emphasized by Sam Altman's company is the ratio between intelligence and cost: while matching or outperforming Fable 5.2, task costs and processing times drop dramatically (reducing by a factor of 5x to 20x depending on the reasoning effort configured).
+
+Yet, looking at independent aggregator datasets, the picture is more nuanced:
+- **Market Standing**: independent benchmarks initially place GPT-6.2 Astra in *second position*, right behind Fable 5.2, followed by Claude Opus 5 and the Sol variant.
+- **The Savings Paradox**: although the per-token cost is noticeably lower (priced at $8 input / $40 output for Astra, and $2/$10 for Sol), increased efficiency often prompts users to delegate more complex, longer tasks, partially offsetting the actual savings on token spending.
+
+---
+
+# 2. Field Testing: Head-to-Head Video Game Development
+
+To verify company claims, a **direct practical test** was performed in the video by feeding the exact same prompt to both GPT-6.2 Astra and Fable 5.2: building an aviation-themed pixel art video game from scratch featuring interactive controls, cockpit views, and missile launching mechanics.
+
+The field comparison revealed significant differences:
+- **Execution Speed**: GPT-6.2 Astra completed the task in just **13 minutes and 15 seconds**, whereas Fable 5.2 took **49 minutes** (nearly four times longer).
+- **Output Quality**: from a graphical and gameplay perspective, both models produced an excellent, stable result that strictly followed instructions, showing that final quality is essentially tied.
+
+---
+
+# 3. Security, Restrictions, and Self-Improving Risks
+
+A core focus of the release revolves around cybersecurity and model alignment. OpenAI has implemented stringent protective guardrails:
+- Advanced cybersecurity and exploit-writing capabilities have been restricted and made accessible only to vetted organizations through the *Open Day Break* program.
+- For the first time, an OpenAI model has reached the **high-risk threshold for self-improving capabilities**, demonstrating the potential to accelerate AI research and software architecture design. This has prompted the company to step up cloud container monitoring to prevent misuse or autonomous code escapes.
+
+> [!consiglio]
+> Although GPT-6.2 Astra proves extraordinarily fast and cost-effective in coding and simulation tasks, the X and Reddit developer community remains divided: while execution speed is widely praised, some engineers note that the model occasionally tends to "over-engineer" solutions, complicating code that could be written much more linearly.
