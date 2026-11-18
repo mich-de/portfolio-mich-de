@@ -1,0 +1,43 @@
+titolo: Simone Rizzo puts the AI Workstation to the test: local 27B models and 32GB VRAM
+data: 2026-11-18
+ora: 13:25
+tipo: cronaca
+tag: hardware, ai, workstation, local, testing
+sommario: Real-world practical tests using a custom ASUS build, a 32GB VRAM graphics card, and local Qwen models for coding, data analysis, and 3D simulations.
+bozza: no
+---
+
+In the current technological landscape, running large-scale artificial intelligence models entirely locally — without relying on external APIs, monthly subscriptions, or third-party servers — represents a crucial milestone for data privacy and sovereignty. In a recent video published on the ASUS Italy YouTube channel, *Simone Rizzo* put a powerful custom hardware configuration designed specifically for local inference and software development to the test.
+
+The tested workstation is a custom build assembled by Draco, featuring an ASUS ProArt B850 motherboard, an AMD Ryzen 9 9900X processor, 64 GB of DDR5 RAM, and above all, an ASUS graphics card equipped with a massive **32 GB of VRAM**, a vital specification required to host dense generative models without crippling the Context Window.
+
+---
+
+# 1. Model Runners and Ecosystem Choice
+
+To harness the hardware, the video showcases **AnyLocal Studio** (a cutting-edge Inference Engine and Model Runner). The primary focus of the test is running a high-end open-weight Large Language Model: the Chinese model **Qwen 3.8 (27 billion parameters)**, renowned for its strong agentic capabilities and native tool-calling features.
+
+Since running the model at full precision (Bfloat 16) would require over 56 GB of VRAM—well beyond the card's capacity—various quantization techniques are explored:
+- **Standard Uniform Quantization**: approximates all network parameters equally to reduce memory usage.
+- **Dynamic Non-Uniform Quantization (IQ3_S)**: developed by specialized research labs, it differentiates quantization across network layers (applying heavier compression to layers carrying less information while preserving precision where it matters most), shrinking the memory footprint to roughly 24–29 GB while keeping performance virtually intact.
+
+---
+
+# 2. Real-World Use Cases: Web Search, Data Analysis, and Coding
+
+During the test, the workstation handles intense workloads (including recording the screen in 5K resolution), achieving generation speeds ranging between 40 and 60 tokens per second.
+
+1. **Web Search and Agentic Tool Use**: By enabling real-time search modules and Chain of Thought reasoning, the model analyzes complex regulatory frameworks (such as the European AI Act) and provides detailed answers supported by citations and verifiable sources.
+2. **Sensitive Business Data Analysis**: By loading a CSV file containing hundreds of sales and inventory records directly in a local environment, the agent writes Python code on the fly (using the `pandas` library) to query the data, identify top-selling products, analyze margins, and generate an interactive HTML dashboard complete with charts and business metrics, ensuring zero data leakage.
+3. **Complex 3D Simulations (One-shot Coding)**: Challenging the model with an advanced creative task — building an interactive 3D simulation of the solar system complete with orbital controls and adjustable parameters — the model autonomously generates a fully functional HTML/JS file following deep reasoning steps.
+
+---
+
+# 3. Beyond Text: Image Generation and Multimedia
+
+The hardware's versatility goes far beyond text-based language models. Within AnyLocal Studio's hub, users can download and manage modules for:
+- **Image generation and editing** (using diffusion models like Qwen Image / FLUX), leveraging real-time denoising steps and local training capabilities.
+- **Video and audio generation** (Text-to-Speech and voice cloning), paving the way for a fully autonomous local multimedia ecosystem.
+
+> [!consiglio]
+> The primary benefit of an abundant VRAM setup (such as the tested 32 GB) isn't just loading the model, but rather the luxury of running massive context windows (up to 260,000+ tokens), which are essential when working across extensive codebases, long documents, and complex agentic workflows without hitting hardware bottlenecks.
