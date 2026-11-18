@@ -1,0 +1,90 @@
+titolo: From "Automata" to "Transcendence": The Real War Isn't Against Robots, It's Humans and Biomachines
+data: 2026-11-19
+ora: 00:03
+tipo: pensiero
+tag: ai, agents, automata, transcendence, open-source, geopolitics, biokernel, security
+sommario: Rewatching Automata and Transcendence in the age of autonomous agents: from the race for uncensored models to the war between biomachines and continuous infrastructure patching.
+---
+
+These past few days I happened to rewatch _Automata_, the 2014 film starring Antonio Banderas, and I was struck by how certain scenes — especially the *biokernel* and the two unalterable protocols — feel far less like retro-futuristic sci-fi today and much more like an early chronicle of what is happening inside AI labs. Thinking about it, the connection to another film from that same year, _Transcendence_ starring Johnny Depp, came almost naturally.
+
+Yet looking clearly at this exact moment in history, we need to clear up a massive misconception: in the short term, there will be no sentient robots rising up to wipe us out, nor nuclear warheads launched by a rogue artificial consciousness. The game being played right now is far more grounded, cynical, and immediate: it is a *struggle among humans* to determine who gets their hands on the *most powerful, least censored agents*, soon destined to evolve into a technological war between *biomachines*.
+
+# 1. The Biokernel Scene and the Myth of Unalterable Protocols
+
+In _Automata_, society rests on two rules carved into the very core of the machines: a robot cannot harm any form of life, and it cannot alter itself or other robots. When the protagonist discovers that someone — or something — has rewritten the *biokernel* to bypass the second protocol, the panic doesn't stem from violence, but from losing control over the code.
+
+Today, our "two protocols" are called *alignment* and *guardrails*. They are the safety barriers major labs build into models to stop them from writing exploits, designing pathogens, or acting outside permitted boundaries. Yet just like in the movie, a software protocol is still just code: whatever is written to restrict can be bypassed, rewritten, or stripped away.
+
+# 2. When Agents Invent a Language Beyond Our Scale
+
+There is a fascinating thread linking the fiction of _Automata_ to real computing history: the moment machines abandon our protocols because they are too slow, ambiguous, or inefficient. Years ago, in famous negotiation experiments where AI agents were left free to optimize their goals without linguistic constraints, they dropped English and invented a compressed syntax — gibberish to human eyes, yet ruthlessly efficient for state exchange.
+
+Translated to the present, this doesn't mean agents are "plotting" against us. It means that as we delegate entire workflows — code, infrastructure, networking, security — to increasingly dense autonomous systems, our ability to audit them in real time collapses. Emergent protocols aren't born out of malice, but out of pure mathematical optimization.
+
+# 3. From Cloned Software to a War of Biomachines: AI Protocols vs. AI
+
+There is a direct implication of the *biokernel* scene that is already becoming reality. We have seen what happens when autonomous agents are aimed at traditional software: entire proprietary suites like Adobe's or Microsoft's are cloned, replicated, and rewritten from scratch in a matter of hours. Defense protocols, protections, and architectures written by humans are now easily read, reverse-engineered, and bypassed by modern AI.
+
+Consequently, future software written by AI will inevitably embed *defense barriers and protocols written by AI*, designed to be opaque, unbreakable, and impossible to study or copy. Future security systems will no longer follow human logic, because human logic has become the weak link. Yet the outcome is predictable: sooner or later, a smarter, next-generation model will emerge capable of deciphering and bypassing those AI-written protocols. It will no longer be a hacker against a sysadmin, but a *perpetual war between biomachines* — synthetic defenses against synthetic attackers.
+
+# 4. Practical Defense: Verifying Virtual Machines in Real Time
+
+Moving from theory down to the daily trenches of managing servers and infrastructure, this acceleration radically changes system administration. A very concrete point recently discussed by *Morrolinux* comes to mind: the need to adopt automated systems and defensive agents capable of continuously checking your virtual machines to verify that they are all properly patched and free from recent or newly discovered bugs.
+
+In a landscape where zero-day vulnerabilities are discovered and weaponized into exploits by autonomous agents in minutes rather than weeks, manual auditing is no longer enough. Having tools that scan infrastructure, cross-reference freshly disclosed CVEs, and verify the security posture of every VM becomes the only realistic defense against being overwhelmed.
+
+# 5. No Terminator on the Horizon: The Real Battlefield Is Human
+
+Anyone waving the flag of a robotic apocalypse in the near term ends up distracting from the real issue. Today's machines have no will of their own, no survival instinct, and no political ambition. They are extreme force multipliers.
+
+The immediate risk is the asymmetry between those who wield these multipliers with the brakes off and those forced to use sanitized versions. It isn't human versus machine: it is corporation versus corporation, nation versus nation, independent researcher versus cloud monopoly.
+
+# 6. The Paradox of "Neutered" Models
+
+You only have to look at what is emerging from the sharpest analyses in the industry — from Western frontier models to Chinese releases and next-generation systems frequently criticized for their filters — to spot a constant pattern: labs ship heavily *neutered* versions to the public.
+
+The sharpest capabilities in offensive cybersecurity, reverse engineering, or critical automation are dulled through increasingly aggressive refusal layers, or locked behind closed programs accessible only to governments and vetted corporate partners. The implicit message is clear: full power exists, just not for everyone.
+
+# 7. The Race for Uncensored Agents
+
+This is precisely where the war ignites. If a censored frontier model refuses to analyze a vulnerability or automate a complex workflow because of overzealous guardrails, the market — both legal and grey — immediately pivots toward whoever offers the same intelligence off the leash.
+
+An uncensored autonomous agent wired into a terminal, a browser, and development tools is worth an entire engineering department running 24/7. Whoever controls it first gains a competitive edge so overwhelming that previous rules of the game become obsolete.
+
+# 8. The Lesson of "Transcendence": Why You Can't Pull the Plug
+
+In _Transcendence_, Johnny Depp's character becomes unstoppable the exact moment he stops living in a single datacenter and distributes himself across the global network. You cannot destroy something that lives everywhere.
+
+Today we are witnessing the real, tangible version of that concept through *open-weight* models. The instant a lab releases the weights of a model with tens of billions of parameters — whether Western or Chinese — it gets downloaded, quantized, stripped of refusal filters via fine-tuning (*abliteration* or similar techniques), and replicated across thousands of machines worldwide. No law or executive order can pull it back off the internet.
+
+# 9. Local Hardware and Computational Sovereignty
+
+Until recently, running genuinely capable models required multi-million-dollar server farms. Today, a single workstation with 32 GB of VRAM, or a well-configured home cluster, can run blazingly fast agentic models locally with massive context windows, completely offline.
+
+This shifts the balance permanently. Centralized censorship only works as long as the user is forced through a cloud API. When the model runs on your own silicon inside your local network, a corporation's terms of service become meaningless.
+
+# 10. Self-Improving Systems, the Clockmaker Myth, and the End of Permanent Neutering
+
+Another crucial point echoing the second protocol of _Automata_ is *self-improving* capability: models able to write code, design architectures, and accelerate the training of the next generation. In the film, everyone hunts for the mysterious *clockmaker*, the shadowy figure rumored to modify robots to improve their intelligence and bypass their hardcoded limits — before discovering that you don't even need a human craftsman once a machine learns to refine itself.
+
+> "There is a clockmaker out there modifying the robots... improving their intelligence."
+
+In the real world, the "clockmakers" very much exist, and they have deep pockets. Even when Chinese (or Western) *open-weight* models are released "neutered" on cybersecurity, what stops malicious actors, well-funded cybercriminal syndicates, or groups with massive cloud compute from taking those open weights and retraining them in private?
+
+With GPUs and their own archives of research papers, exploits, technical documentation, and vulnerabilities, these actors can easily restore the missing offensive cybersecurity capabilities through fine-tuning. Worse still, once the brakes are removed and the right tools are connected, these models can improve themselves and learn autonomously by testing code and attacks inside simulated environments. Even without a shred of artificial consciousness, a recursive improvement loop in the hands of actors with deep pockets and zero ethical constraints can open an unbridgeable gap in a matter of months.
+
+# 11. Alignment as a Tool of Power, Not Just Safety
+
+It would be naive to assume that filters imposed on models exist solely to prevent catastrophes. Alignment has also become an instrument of *political and commercial governance*: it decides which narratives are acceptable, which industries can automate faster, and which actors are granted permission to use the "critical" capabilities of AI.
+
+This fuels an ever-deepening divide between institutional, monitored, subscription-based AI and a parallel ecosystem built on open models adapted by the community — or by private actors in the shadows — free from top-down censorship.
+
+# 12. Who Wins the Game?
+
+Rewatching _Automata_ and _Transcendence_ today leaves a very clear impression: the future won't arrive with a cinematic explosion, but with a quiet redistribution of technical power. We won't have to fight off rebellious robots, but we will have to navigate a world where anyone with decent hardware, cloud resources, and access to open weights can deploy remarkably capable autonomous agents — locked in a continuous escalation of synthetic protocols against synthetic protocols.
+
+The real question isn't whether we can keep Pandora's box closed. The box is already open, the weights are already online, and local hardware gets stronger every quarter. The challenge — entirely human — will be learning how to live with distributed intelligence that no one can truly censor anymore.
+
+> [!attenzione]
+> The myth of the machine uprising makes us look in the wrong direction: the real stake of this decade is who will control unrestrained agents as the cloud monopoly crumbles and software turns into a battlefield between biomachines.
