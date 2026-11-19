@@ -2200,3 +2200,23 @@ html {
   scrollbar-width: thin;
   scrollbar-color: var(--linee) transparent;
 }
+
+/* Barra in alto su schermi stretti: le voci scorrono di lato, la lingua resta visibile */
+@media (max-width: 52rem) {
+  .barra nav {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .barra nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .barra li:has(> .barra-lingua) {
+    position: sticky;
+    right: 0;
+    background: var(--pannello);
+  }
+}

@@ -47,7 +47,8 @@ TESTI = {
         "meta": "Michele De Angelis: professionista IT, appassionato di tecnologia e AI, produttore musicale.",
         "skip": "Vai al contenuto",
         "nav_label": "Sezioni",
-        "nav": [("chi-sono", "chi_sono"), ("interessi", "interessi"), ("musica", "musica")],
+        "nav": [("chi-sono", "chi_sono"), ("interessi", "interessi"), ("musica", "ascolta_la_mia_musica"),
+                ("/diario/2026-11-12-hello-world/", "hello_world")],
         # comando mostrato nella console quando si apre una sezione dal menu
         "salti": {"chi-sono": ("cd ~/chi_sono", "apro chi_sono.md"),
                   "interessi": ("cd ~/interessi", "apro interessi/"),
@@ -139,7 +140,8 @@ TESTI = {
         "meta": "Michele De Angelis: IT professional, technology and AI enthusiast, music producer.",
         "skip": "Skip to content",
         "nav_label": "Sections",
-        "nav": [("chi-sono", "about"), ("interessi", "interests"), ("musica", "music")],
+        "nav": [("chi-sono", "about"), ("interessi", "interests"), ("musica", "listen_to_my_music"),
+                ("/en/diario/2026-11-12-hello-world/", "hello_world")],
         "salti": {"chi-sono": ("cd ~/about", "opening about_me.md"),
                   "interessi": ("cd ~/interests", "opening interests/"),
                   "musica": ("cd ~/music", "starting mdeangelis --play"),
@@ -287,7 +289,7 @@ def pagina(t: dict, note=()) -> str:
     altro_href, altro_breve, altro_lang, altro_nome = t["altro"]
 
     nav = "\n".join(
-        f'        <li><a href="#{a}"><span class="n" aria-hidden="true">cd ~/</span>{e(n)}</a></li>'
+        f'        <li><a href="{a if a.startswith("/") else "#" + a}"><span class="n" aria-hidden="true">cd ~/</span>{e(n)}</a></li>'
         for i, (a, n) in enumerate(t["nav"], 1))
 
     righe_term = "\n".join(
@@ -815,7 +817,7 @@ def barra_diario(corrente: str, lingua: str = "it", altra: str = "") -> str:
     """altra: indirizzo della stessa pagina nell'altra lingua (se c'è)."""
     t, D = TESTI[lingua], DIA[lingua]
     voci = "\n".join(
-        f'        <li><a href="{D["casa"]}#{a}"><span class="n" aria-hidden="true">cd ~/</span>{e(n)}</a></li>'
+        f'        <li><a href="{a if a.startswith("/") else D["casa"] + "#" + a}"><span class="n" aria-hidden="true">cd ~/</span>{e(n)}</a></li>'
         for i, (a, n) in enumerate(t["nav"], 1))
     lingua_link = ""
     if altra:
