@@ -614,7 +614,7 @@ DIA = {
         "a_tipi": "Post types", "a_argomenti": "Topics", "a_tag_post": "Tags of this post",
         "a_simili": "Similar posts", "a_altri": "More posts",
         "feed": "MDEANGELIS's journal", "feed_link": "atom feed",
-        "altra": "Leggi in italiano", "altra_lingua": "it",
+        "altra": "Read in Italian", "altra_lingua": "it",
         "skip": "Skip to content", "nav_label": "Sections",
     },
 }

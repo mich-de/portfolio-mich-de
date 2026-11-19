@@ -5,9 +5,212 @@
   <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/"/>
   <link rel="self" type="application/atom+xml" href="https://mdeangelis.vercel.app/en/diario/feed.xml"/>
   <id>https://mdeangelis.vercel.app/en/diario/</id>
-  <updated>2026-11-12T00:00:00+01:00</updated>
+  <updated>2026-11-19T11:43:00+01:00</updated>
   <author><name>Michele De Angelis</name><uri>https://mdeangelis.vercel.app/</uri></author>
   <generator>genera.py + nota v2</generator>
+  <entry>
+    <title>The Legal Risks of Enterprise AI Nobody Talks About: Privacy, GDPR, Vendors, and Best Practices (Giovanna Panucci)</title>
+    <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/2026-11-19-i-rischi-legali-dell-ai-in-azienda-privacy-gdpr-ve/"/>
+    <id>https://mdeangelis.vercel.app/en/diario/2026-11-19-i-rischi-legali-dell-ai-in-azienda-privacy-gdpr-ve/</id>
+    <published>2026-11-19T11:43:00+01:00</published>
+    <updated>2026-11-19T11:43:00+01:00</updated>
+    <category term="cronaca"/>
+    <category term="ai"/>
+    <category term="privacy"/>
+    <category term="gdpr"/>
+    <category term="business"/>
+    <category term="compliance"/>
+    <category term="ai-act"/>
+    <category term="cybersecurity"/>
+    <summary>A practical guide to the legal side of AI in business: from banned consumer plans and vendor supply chains to copyright, the AI Act, and prompt hygiene.</summary>
+    <content type="html">&lt;p&gt;Enterprise adoption of artificial intelligence is moving far faster than regulatory awareness. In an in-depth, practical interview on &lt;strong&gt;Raffaele Gaito&lt;/strong&gt;&amp;#x27;s channel, attorney &lt;strong&gt;Giovanna Panucci&lt;/strong&gt; — a specialist in privacy, personal data protection, and founder of the &lt;em&gt;Gladiatori Digitali&lt;/em&gt; community — dismantles common myths and lays out an actionable playbook for using AI at work without exposing companies to data breaches, fines, or reputational damage.&lt;/p&gt;
+&lt;p&gt;The starting point is a mindset shift: traditional software was a &amp;quot;digital crutch&amp;quot; built for deterministic tasks, whereas AI learns and shifts beneath our feet. It is no longer a tool we lean on, but something we have to &lt;strong&gt;wear&lt;/strong&gt; and tailor carefully.&lt;/p&gt;
+&lt;h2 id=&quot;s-1-common-mistakes-and-the-shadow-ai-threat&quot;&gt;1. Common Mistakes and the Shadow AI Threat&lt;/h2&gt;
+&lt;p&gt;The most frequent mistake companies make is buying licenses on hype without first mapping out processes or use cases. That leads to two bad outcomes: either employees ignore the tools, or they overuse them recklessly by pasting internal documents, customer lists, and sensitive data directly into chatbots.&lt;/p&gt;
+&lt;p&gt;Even riskier is &lt;strong&gt;Shadow AI&lt;/strong&gt;: when leadership bans AI tools or assumes nobody is using them, employees still turn to personal accounts in good faith, quietly punching holes in the company&amp;#x27;s security perimeter.&lt;/p&gt;
+&lt;h2 id=&quot;s-2-the-minimum-baseline-for-gdpr-compliance&quot;&gt;2. The Minimum Baseline for GDPR Compliance&lt;/h2&gt;
+&lt;p&gt;To use language models professionally (whether in a corporation or as a solo consultant), Panucci outlines three non-negotiable rules:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;No free or consumer plans&lt;/strong&gt;: free tiers are strictly off-limits, and even paid consumer plans (like Plus or Pro) are inadequate for business. Simply toggling off model training is not enough, as it doesn&amp;#x27;t solve data residency or contractual safeguards. Businesses must use &lt;strong&gt;Business or Enterprise plans&lt;/strong&gt;, which disable training by default and unlock &lt;em&gt;Trust Centers&lt;/em&gt; for compliance documentation.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;European data residency&lt;/strong&gt;: always check where servers are physically located (for instance, enabling EU data residency on Enterprise tiers, or verifying that the provider adheres to the EU-US &lt;em&gt;Data Privacy Framework&lt;/em&gt;).&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Data Processing Agreement (GDPR Art. 28)&lt;/strong&gt;: formally designate the vendor as a data processor by downloading and executing their &lt;strong&gt;DPA&lt;/strong&gt;. Once these safeguards are in place, handling standard personal data inside a compliant AI workspace becomes comparable to storing files in Google Workspace.&lt;/li&gt;&lt;/ul&gt;
+&lt;h2 id=&quot;s-3-chinese-models-privacy-first-alternatives-and-pr&quot;&gt;3. Chinese Models, Privacy-First Alternatives, and Prompt Hygiene&lt;/h2&gt;
+&lt;p&gt;Regarding Chinese AI platforms (such as DeepSeek, Qwen, or agents like Manus), the recommended stance isn&amp;#x27;t an outright ban, but &lt;strong&gt;strict separation&lt;/strong&gt;: they can be leveraged for external research and general analysis, provided &lt;strong&gt;zero personal data&lt;/strong&gt; is ever uploaded.&lt;/p&gt;
+&lt;p&gt;For freelancers or anyone seeking an extra privacy layer, &lt;strong&gt;Duck.ai&lt;/strong&gt; (by DuckDuckGo) is highlighted as a useful intermediary that strips user metadata (IP, browser fingerprint, location) before forwarding prompts and enforces deletion within 30 days.&lt;/p&gt;
+&lt;p&gt;Above all, &lt;strong&gt;prompt hygiene&lt;/strong&gt; remains essential: before pasting a contract, email, or spreadsheet, anonymize it locally by replacing names, companies, and figures with &lt;strong&gt;placeholders&lt;/strong&gt; (e.g., &lt;code&gt;[full name]&lt;/code&gt;) using a simple Find and Replace &lt;strong&gt;before&lt;/strong&gt; hitting send.&lt;/p&gt;
+&lt;h2 id=&quot;s-4-the-key-question-for-vendors-system-vs-model&quot;&gt;4. The Key Question for Vendors: System vs. Model&lt;/h2&gt;
+&lt;p&gt;When buying turnkey AI software from a third-party vendor, one question eliminates 90% of governance headaches: &lt;strong&gt;&amp;quot;Do you own the underlying AI model?&amp;quot;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Most vendors today own only the &lt;strong&gt;system&lt;/strong&gt; (the front-end, interface, and branding) while connecting via API to a third-party &lt;strong&gt;model&lt;/strong&gt; (OpenAI, Anthropic, Google). Mapping the full chain of processors and sub-processors is critical because, in the event of a data breach, the data controller bears ultimate responsibility. A strong practical tip is to attach a &lt;strong&gt;data flow diagram&lt;/strong&gt; directly to vendor contracts.&lt;/p&gt;
+&lt;h2 id=&quot;s-5-internal-policies-prompt-injection-and-the-ai-te&quot;&gt;5. Internal Policies, Prompt Injection, and the AI Team&lt;/h2&gt;
+&lt;p&gt;Putting guardrails in place doesn&amp;#x27;t require months of red tape. Small teams can start by updating their GDPR Art. 29 employee authorizations with a practical &lt;strong&gt;AI netiquette&lt;/strong&gt; covering approved tools, placeholder usage, and how to flag hallucinations.&lt;/p&gt;
+&lt;p&gt;Larger organizations should add dedicated incident-response procedures for AI-specific threats — such as &lt;strong&gt;prompt injection&lt;/strong&gt; attacks targeting corporate chatbots — and assemble a cross-functional &lt;strong&gt;AI Team&lt;/strong&gt; combining &lt;strong&gt;IT&lt;/strong&gt;, the &lt;strong&gt;DPO&lt;/strong&gt; (&lt;em&gt;Data Protection Officer&lt;/em&gt;), and an &lt;strong&gt;AI Strategist&lt;/strong&gt; bridging business needs, market tools, and internal governance.&lt;/p&gt;
+&lt;h2 id=&quot;s-6-intellectual-property-and-copyright&quot;&gt;6. Intellectual Property and Copyright&lt;/h2&gt;
+&lt;p&gt;Who owns an image generated with Midjourney or copy drafted with ChatGPT? While providers like OpenAI assign output rights to the user in their terms, that assignment only applies &lt;strong&gt;between you and the provider&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;To claim actual copyright protection, human creative input must predominate (roughly exceeding 60-65%): writing a basic prompt does not establish authorship. By contrast, platforms like Adobe train exclusively on rights-cleared datasets (&lt;em&gt;data cleansing&lt;/em&gt;), offering far stronger commercial safety from the ground up.&lt;/p&gt;
+&lt;h2 id=&quot;s-7-the-tech-tower-and-ai-act-obligations&quot;&gt;7. The &amp;quot;Tech Tower&amp;quot; and AI Act Obligations&lt;/h2&gt;
+&lt;p&gt;To clarify responsibilities under the &lt;strong&gt;AI Act&lt;/strong&gt;, Panucci breaks AI down into a four-layer stack: data, compute infrastructure, proprietary models, and end-user organizations (&lt;em&gt;deployers&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;If a company deploys third-party chatbots outside &lt;strong&gt;high-risk domains&lt;/strong&gt; (Annex III of the AI Act covers high-risk uses like automated CV screening, education, and essential public services), the core requirement is &lt;strong&gt;transparency&lt;/strong&gt;: clearly disclosing in client agreements, contracts, and website policies that AI is used to support workflows.&lt;/p&gt;
+&lt;h2 id=&quot;s-8-processes-before-tools-legal-prompting-and-human&quot;&gt;8. Processes Before Tools, Legal Prompting, and Human Oversight&lt;/h2&gt;
+&lt;p&gt;The final part of the interview tackles &amp;quot;tool obsession&amp;quot;: before buying licenses or chasing the latest autonomous agent (&amp;quot;buying a Ferrari to pick up bread&amp;quot;), companies should map internal workflows, pinpoint bottlenecks, and launch a handful of measurable &lt;strong&gt;pilot projects&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Operationally, Panucci shares the workflow that boosted her practice&amp;#x27;s efficiency by 75%: isolated &lt;strong&gt;project silos&lt;/strong&gt; (with separate memory), a custom &lt;strong&gt;Tone of Voice&lt;/strong&gt; document built via voice interview, and &lt;strong&gt;Legal Prompting&lt;/strong&gt; — using precise wording and appending a simple anti-hallucination rule at the end of prompts: &lt;em&gt;&amp;quot;if you are not 100% sure, say you don&amp;#x27;t know.&amp;quot;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Her daily stack relies on a few focused tools (Claude for nuanced writing, ChatGPT for structured workflows, Perplexity for research, &lt;strong&gt;NotebookLM&lt;/strong&gt; for strict source &lt;em&gt;grounding&lt;/em&gt; on laws and legal commentary, Gamma for decks, and Manus as a web scout). Her closing image sums it up well: think of &lt;strong&gt;Iron Man&lt;/strong&gt; — AI is the powered suit that amplifies what you can do, but a human must always remain inside, steering and supervising.&lt;/p&gt;
+&lt;aside class=&quot;riquadro r-consiglio&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ tip ]&lt;/p&gt;&lt;p&gt;Before uploading any business file to an AI tool, run a quick three-point check: is it a no-training Business/Enterprise tier? Do the data stay in Europe (or under a valid transfer framework)? And above all, have you already stripped personal data and replaced it with placeholders?&lt;/p&gt;&lt;/aside&gt;</content>
+  </entry>
+  <entry>
+    <title>The Long Microsoft 365 Outage and the Physics of Metastable Systems: When Infrastructure Enters a Flat Spin</title>
+    <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-il-lungo-outage-di-microsoft-365/"/>
+    <id>https://mdeangelis.vercel.app/en/diario/2026-11-18-il-lungo-outage-di-microsoft-365/</id>
+    <published>2026-11-18T23:58:00+01:00</published>
+    <updated>2026-11-18T23:58:00+01:00</updated>
+    <category term="cronaca"/>
+    <category term="cybersecurity"/>
+    <category term="cloud"/>
+    <category term="microsoft"/>
+    <category term="outlook"/>
+    <category term="infrastructure"/>
+    <summary>Technical analysis of the massive Microsoft 365 blackout: from the hidden July core bug to the cascading failure of servers overwhelmed by retries.</summary>
+    <content type="html">&lt;p&gt;The black Friday that crippled email inboxes for millions of businesses worldwide — dubbed the &lt;strong&gt;Microsoft Long Weekend&lt;/strong&gt; in Australia and likened to a nostalgic return to fax machines in a German coworking space — provides a remarkable case study on global-scale distributed architectures. In a dedicated podcast episode, Edoardo Dusi breaks down the mechanics of the &lt;strong&gt;Microsoft 365&lt;/strong&gt; and &lt;strong&gt;Exchange Online&lt;/strong&gt; blackout, offering a fascinating perspective inspired by the famous &amp;quot;flat spin&amp;quot; scene in &lt;strong&gt;Top Gun&lt;/strong&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-1-anatomy-of-a-black-swan-the-three-ingredients-of&quot;&gt;1. Anatomy of a Black Swan: The Three Ingredients of Collapse&lt;/h2&gt;
+&lt;p&gt;The outage, which began on Thursday, November 12, 2026, around 5:00 PM Italian time, cascaded to impact not only Exchange email but also calendars, SharePoint components, security tools, and even administrative consoles (&lt;strong&gt;admin centers&lt;/strong&gt;), leaving system administrators blind in real-time. Over 80% of network gateway servers stopped responding.&lt;/p&gt;
+&lt;p&gt;Microsoft&amp;#x27;s preliminary report highlights a classic &lt;strong&gt;metastable failure&lt;/strong&gt; dynamic (a concept detailed in Nathan Bronson&amp;#x27;s seminal 2011 Facebook paper):&lt;/p&gt;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;The Vulnerable State (The Dormant Bug)&lt;/strong&gt;: back in July, Microsoft deployed an update for its network gateway servers. The code ran smoothly for over three months, but under specific workloads, it pushed an internal Windows process into severe &lt;strong&gt;lock contention&lt;/strong&gt; (an exaggerated queue for resource access, akin to dozens of people waiting outside a single restroom door). The defect manifested worse on hardware with higher core counts, whereas load testing had primarily targeted weaker hardware.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;The Trigger&lt;/strong&gt;: roughly 15 hours before the outage, a routine load-balancing &lt;strong&gt;failover&lt;/strong&gt; moved Teams traffic onto the primary gateway (the same used by Exchange). Simultaneously, due to an unrelated glitch the day before, nearly 14% of gateway servers were out of service. Reduced margins and combined loads awoke the dormant July bug.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;The Amplification Factor (Retries and Broken Bulkheads)&lt;/strong&gt;: as servers began locking up, traffic flooded the survivors, triggering a chain reaction. Isolation boundaries (&lt;strong&gt;bulkheads&lt;/strong&gt;), designed to confine faults between regions, failed to hold up globally. Automatically rebooted servers were immediately overwhelmed by walls of incoming encrypted reconnections, collapsing once again under congestion.&lt;/li&gt;&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-2-real-world-side-effects&quot;&gt;2. Real-World Side Effects&lt;/h2&gt;
+&lt;p&gt;The lack of communication and email unavailability generated paradoxical and dangerous situations outside the office environment. The most striking example occurred in Germany at the &lt;strong&gt;Fantasialand&lt;/strong&gt; amusement park, where the pool&amp;#x27;s chlorine dosing system malfunctioned, injecting excessive amounts of the chemical. The safety system immediately detected the anomaly and sent out an alarm... via email. Because no notifications went through due to the Exchange blackout, nobody intervened in time, leading to several guests being hospitalized for respiratory issues.&lt;/p&gt;
+&lt;p&gt;As security experts noted, relying solely on asynchronous email channels to protect human physical safety is a fundamental architectural design flaw.&lt;/p&gt;
+&lt;aside class=&quot;riquadro r-nota&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ note ]&lt;/p&gt;&lt;p&gt;Redundancy mechanisms, health checks, and automated retries protect systems against everyday minor glitches, but under extreme stress, they can turn into the exact conduits through which failure propagates across the entire infrastructure.&lt;/p&gt;&lt;/aside&gt;</content>
+  </entry>
+  <entry>
+    <title>Does the new GPT-6.2 actually beat Fable 5.2? Practical tests, costs, and performance compared</title>
+    <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-nuovo-gpt-6-2-astra-batte-veramente-fable-5-2/"/>
+    <id>https://mdeangelis.vercel.app/en/diario/2026-11-18-nuovo-gpt-6-2-astra-batte-veramente-fable-5-2/</id>
+    <published>2026-11-18T23:41:00+01:00</published>
+    <updated>2026-11-18T23:41:00+01:00</updated>
+    <category term="cronaca"/>
+    <category term="ai"/>
+    <category term="openai"/>
+    <category term="anthropic"/>
+    <category term="gpt-6"/>
+    <category term="benchmarks"/>
+    <summary>Practical tests and analysis of OpenAI&#x27;s new GPT-6.2 Astra and Sol models: head-to-head comparison with Fable 5.2 on speed, costs, and coding capabilities.</summary>
+    <content type="html">&lt;p&gt;The generative artificial intelligence landscape has entered a new round of heavy competition at the top. OpenAI has officially released its new models — &lt;strong&gt;GPT-6.2 Astra&lt;/strong&gt; (the high-end, highly intelligent flagship) and &lt;strong&gt;GPT-6.2 Sol&lt;/strong&gt; (the daily-use, cost-optimized variant) — directly challenging Anthropic&amp;#x27;s benchmark standard, &lt;strong&gt;Fable 5.2&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In tests conducted by Simone Rizzo and independent evaluations by &lt;strong&gt;Artificial Analysis&lt;/strong&gt;, the new models aim to disrupt the market not only by delivering superior performance, but also by introducing sharp optimizations in operating costs and execution times.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-1-benchmarks-and-economic-claims-what-actually-cha&quot;&gt;1. Benchmarks and Economic Claims: What Actually Changes?&lt;/h2&gt;
+&lt;p&gt;In OpenAI&amp;#x27;s presentation metrics, the new GPT-6.2 models rank exceptionally high in long-duration reasoning tests (such as &lt;strong&gt;Terminal Bench&lt;/strong&gt;, &lt;strong&gt;Science Index&lt;/strong&gt;, and &lt;strong&gt;Agent Lux Exam&lt;/strong&gt;). However, the real breakthrough emphasized by Sam Altman&amp;#x27;s company is the ratio between intelligence and cost: while matching or outperforming Fable 5.2, task costs and processing times drop dramatically (reducing by a factor of 5x to 20x depending on the reasoning effort configured).&lt;/p&gt;
+&lt;p&gt;Yet, looking at independent aggregator datasets, the picture is more nuanced:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Market Standing&lt;/strong&gt;: independent benchmarks initially place GPT-6.2 Astra in &lt;strong&gt;second position&lt;/strong&gt;, right behind Fable 5.2, followed by Claude Opus 5 and the Sol variant.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;The Savings Paradox&lt;/strong&gt;: although the per-token cost is noticeably lower (priced at $8 input / $40 output for Astra, and $2/$10 for Sol), increased efficiency often prompts users to delegate more complex, longer tasks, partially offsetting the actual savings on token spending.&lt;/li&gt;&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-2-field-testing-head-to-head-video-game-developmen&quot;&gt;2. Field Testing: Head-to-Head Video Game Development&lt;/h2&gt;
+&lt;p&gt;To verify company claims, a &lt;strong&gt;direct practical test&lt;/strong&gt; was performed in the video by feeding the exact same prompt to both GPT-6.2 Astra and Fable 5.2: building an aviation-themed pixel art video game from scratch featuring interactive controls, cockpit views, and missile launching mechanics.&lt;/p&gt;
+&lt;p&gt;The field comparison revealed significant differences:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Execution Speed&lt;/strong&gt;: GPT-6.2 Astra completed the task in just &lt;strong&gt;13 minutes and 15 seconds&lt;/strong&gt;, whereas Fable 5.2 took &lt;strong&gt;49 minutes&lt;/strong&gt; (nearly four times longer).&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Output Quality&lt;/strong&gt;: from a graphical and gameplay perspective, both models produced an excellent, stable result that strictly followed instructions, showing that final quality is essentially tied.&lt;/li&gt;&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-3-security-restrictions-and-self-improving-risks&quot;&gt;3. Security, Restrictions, and Self-Improving Risks&lt;/h2&gt;
+&lt;p&gt;A core focus of the release revolves around cybersecurity and model alignment. OpenAI has implemented stringent protective guardrails:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;Advanced cybersecurity and exploit-writing capabilities have been restricted and made accessible only to vetted organizations through the &lt;strong&gt;Open Day Break&lt;/strong&gt; program.&lt;/li&gt;&lt;li&gt;For the first time, an OpenAI model has reached the &lt;strong&gt;high-risk threshold for self-improving capabilities&lt;/strong&gt;, demonstrating the potential to accelerate AI research and software architecture design. This has prompted the company to step up cloud container monitoring to prevent misuse or autonomous code escapes.&lt;/li&gt;&lt;/ul&gt;
+&lt;aside class=&quot;riquadro r-consiglio&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ tip ]&lt;/p&gt;&lt;p&gt;Although GPT-6.2 Astra proves extraordinarily fast and cost-effective in coding and simulation tasks, the X and Reddit developer community remains divided: while execution speed is widely praised, some engineers note that the model occasionally tends to &amp;quot;over-engineer&amp;quot; solutions, complicating code that could be written much more linearly.&lt;/p&gt;&lt;/aside&gt;</content>
+  </entry>
+  <entry>
+    <title>Simone Rizzo puts the AI Workstation to the test: local 27B models and 32GB VRAM</title>
+    <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-simone-rizzo-mette-a-prova-l-ai-workstation-modell/"/>
+    <id>https://mdeangelis.vercel.app/en/diario/2026-11-18-simone-rizzo-mette-a-prova-l-ai-workstation-modell/</id>
+    <published>2026-11-18T13:25:00+01:00</published>
+    <updated>2026-11-18T13:25:00+01:00</updated>
+    <category term="cronaca"/>
+    <category term="hardware"/>
+    <category term="ai"/>
+    <category term="workstation"/>
+    <category term="local"/>
+    <category term="testing"/>
+    <summary>Real-world practical tests using a custom ASUS build, a 32GB VRAM graphics card, and local Qwen models for coding, data analysis, and 3D simulations.</summary>
+    <content type="html">&lt;p&gt;In the current technological landscape, running large-scale artificial intelligence models entirely locally — without relying on external APIs, monthly subscriptions, or third-party servers — represents a crucial milestone for data privacy and sovereignty. In a recent video published on the ASUS Italy YouTube channel, &lt;strong&gt;Simone Rizzo&lt;/strong&gt; put a powerful custom hardware configuration designed specifically for local inference and software development to the test.&lt;/p&gt;
+&lt;p&gt;The tested workstation is a custom build assembled by Draco, featuring an ASUS ProArt B850 motherboard, an AMD Ryzen 9 9900X processor, 64 GB of DDR5 RAM, and above all, an ASUS graphics card equipped with a massive &lt;strong&gt;32 GB of VRAM&lt;/strong&gt;, a vital specification required to host dense generative models without crippling the Context Window.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-1-model-runners-and-ecosystem-choice&quot;&gt;1. Model Runners and Ecosystem Choice&lt;/h2&gt;
+&lt;p&gt;To harness the hardware, the video showcases &lt;strong&gt;AnyLocal Studio&lt;/strong&gt; (a cutting-edge Inference Engine and Model Runner). The primary focus of the test is running a high-end open-weight Large Language Model: the Chinese model &lt;strong&gt;Qwen 3.8 (27 billion parameters)&lt;/strong&gt;, renowned for its strong agentic capabilities and native tool-calling features.&lt;/p&gt;
+&lt;p&gt;Since running the model at full precision (Bfloat 16) would require over 56 GB of VRAM—well beyond the card&amp;#x27;s capacity—various quantization techniques are explored:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Standard Uniform Quantization&lt;/strong&gt;: approximates all network parameters equally to reduce memory usage.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Dynamic Non-Uniform Quantization (IQ3_S)&lt;/strong&gt;: developed by specialized research labs, it differentiates quantization across network layers (applying heavier compression to layers carrying less information while preserving precision where it matters most), shrinking the memory footprint to roughly 24–29 GB while keeping performance virtually intact.&lt;/li&gt;&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-2-real-world-use-cases-web-search-data-analysis-an&quot;&gt;2. Real-World Use Cases: Web Search, Data Analysis, and Coding&lt;/h2&gt;
+&lt;p&gt;During the test, the workstation handles intense workloads (including recording the screen in 5K resolution), achieving generation speeds ranging between 40 and 60 tokens per second.&lt;/p&gt;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Web Search and Agentic Tool Use&lt;/strong&gt;: By enabling real-time search modules and Chain of Thought reasoning, the model analyzes complex regulatory frameworks (such as the European AI Act) and provides detailed answers supported by citations and verifiable sources.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Sensitive Business Data Analysis&lt;/strong&gt;: By loading a CSV file containing hundreds of sales and inventory records directly in a local environment, the agent writes Python code on the fly (using the &lt;code&gt;pandas&lt;/code&gt; library) to query the data, identify top-selling products, analyze margins, and generate an interactive HTML dashboard complete with charts and business metrics, ensuring zero data leakage.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Complex 3D Simulations (One-shot Coding)&lt;/strong&gt;: Challenging the model with an advanced creative task — building an interactive 3D simulation of the solar system complete with orbital controls and adjustable parameters — the model autonomously generates a fully functional HTML/JS file following deep reasoning steps.&lt;/li&gt;&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-3-beyond-text-image-generation-and-multimedia&quot;&gt;3. Beyond Text: Image Generation and Multimedia&lt;/h2&gt;
+&lt;p&gt;The hardware&amp;#x27;s versatility goes far beyond text-based language models. Within AnyLocal Studio&amp;#x27;s hub, users can download and manage modules for:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Image generation and editing&lt;/strong&gt; (using diffusion models like Qwen Image / FLUX), leveraging real-time denoising steps and local training capabilities.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Video and audio generation&lt;/strong&gt; (Text-to-Speech and voice cloning), paving the way for a fully autonomous local multimedia ecosystem.&lt;/li&gt;&lt;/ul&gt;
+&lt;aside class=&quot;riquadro r-consiglio&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ tip ]&lt;/p&gt;&lt;p&gt;The primary benefit of an abundant VRAM setup (such as the tested 32 GB) isn&amp;#x27;t just loading the model, but rather the luxury of running massive context windows (up to 260,000+ tokens), which are essential when working across extensive codebases, long documents, and complex agentic workflows without hitting hardware bottlenecks.&lt;/p&gt;&lt;/aside&gt;</content>
+  </entry>
+  <entry>
+    <title>Launch the Open Revolution</title>
+    <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-open-source-the-world/"/>
+    <id>https://mdeangelis.vercel.app/en/diario/2026-11-18-open-source-the-world/</id>
+    <published>2026-11-18T00:58:00+01:00</published>
+    <updated>2026-11-18T00:58:00+01:00</updated>
+    <category term="cronaca"/>
+    <category term="ai"/>
+    <category term="open-source"/>
+    <category term="rust"/>
+    <category term="software"/>
+    <category term="agents"/>
+    <summary>How ArtCraft used autonomous agents to entirely open-source Photoshop, Figma, and Office suites, sparking a global movement.</summary>
+    <content type="html">&lt;p&gt;If there is one talk that has made waves in recent months in the world of software development and artificial intelligence, it is Brandon Thomas&amp;#x27;s keynote (ArtCraft founder) at the latest AI Engineer Conference. A story that started as a crazy experiment — cloning the entire Adobe suite using AI agents — turned in just a few weeks into a true global movement with over 300,000 GitHub stars, 1.7 million daily downloads, and a community of more than 4,000 active developers.&lt;/p&gt;
+&lt;p&gt;The stated goal is as ambitious as it is radical: &lt;strong&gt;open-sourcing the entire digital world&lt;/strong&gt;, taking back the applications and infrastructures that Web 2.0 turned into closed, expensive, rent-extracting services.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-1-from-the-open-web-1-0-to-adobe-and-netflix-s-ren&quot;&gt;1. From the Open Web 1.0 to Adobe and Netflix&amp;#x27;s &amp;quot;Rent-Seeking&amp;quot;&lt;/h2&gt;
+&lt;p&gt;To understand the scale of this phenomenon, Thomas takes a step back to the 1990s and early 2000s: an era when the internet was born under the sign of decentralization. Open protocols (like IRC), free and public APIs on every platform, shareable formats, and diffused creativity where personal websites were fully customizable through raw HTML and CSS.&lt;/p&gt;
+&lt;p&gt;With the advent of Web 2.0, broadband, and smartphones, the ecosystem closed down:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;Public APIs were revoked.&lt;/li&gt;&lt;li&gt;Distribution was locked down by major proprietary app stores.&lt;/li&gt;&lt;li&gt;Software turned into monthly subscriptions locked behind predatory clauses (such as Adobe&amp;#x27;s hidden penalties for anyone trying to cancel their subscription before 12 months).&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;The internet shifted from being a creative playground to an extractive model where users no longer own anything and continuously pay to &amp;quot;rent&amp;quot; their tools of the trade.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-2-the-photoshop-experiment-and-agentic-cloning&quot;&gt;2. The Photoshop Experiment and Agentic Cloning&lt;/h2&gt;
+&lt;p&gt;Starting from these premises, ArtCraft decided to turn the tide. The company, originally founded to build professional tools for filmmakers and digital artists, noticed an unexpected phenomenon: artists were already using code and APIs to &amp;quot;vibe-code&amp;quot; and customize their workflows independently.&lt;/p&gt;
+&lt;p&gt;Hence the idea to test the power of AI autonomous agents on the most complex software in the creative world:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;A model was fed a structured mega-prompt detailing the shape and specs of a photo editing app, based on tutorials, UI/UX standards, file formats, and MCP (Model Context Protocol) standards.&lt;/li&gt;&lt;li&gt;Within 24 hours, the system generated a functional, familiar application that started &lt;strong&gt;ten times faster&lt;/strong&gt; than original Adobe Photoshop.&lt;/li&gt;&lt;li&gt;Not stopping at photo editing, the community and agents replicated the entire Creative Suite (InDesign, Premiere), the Microsoft Office suite, Google Docs, Figma, professional CADs, video editors, Flash, and even an ultra-fast, lightweight PDF reader that puts Adobe Acrobat to shame.&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;All the code, interfaces, data models, and server components are strictly and 100% &lt;strong&gt;open-source&lt;/strong&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-3-numbers-of-a-movement-and-the-linux-factor&quot;&gt;3. Numbers of a Movement and the Linux Factor&lt;/h2&gt;
+&lt;p&gt;What was supposed to be a niche project unexpectedly exploded on Reddit and Hacker News, driving ArtCraft&amp;#x27;s Discord server to surpass in volume and traffic historical communities like Suno or Higsfield.&lt;/p&gt;
+&lt;p&gt;Some technical data points are particularly striking:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;1.7 million downloads per day&lt;/strong&gt;, with constant vertical growth.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;25% of users are on Linux&lt;/strong&gt;: an operating system historically neglected by major software houses for professional creative tools, which today finds itself equipped with top-tier alternatives.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Native Rust architecture&lt;/strong&gt;: chosen as the mandatory language to ensure instant native performance, memory safety, and cross-platform compatibility (from Windows and macOS all the way to NetBSD and WebAssembly via WASM). The extraordinary part is that you don&amp;#x27;t need to be a Rust expert to contribute: AI agents guide the compilation and code development natively.&lt;/li&gt;&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-4-agentic-development-vs-human-supervision&quot;&gt;4. Agentic Development vs. Human Supervision&lt;/h2&gt;
+&lt;p&gt;A crucial turning point in Thomas&amp;#x27;s talk touches on the very way we do engineering today:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;For backend work, API design, and critical database migrations, human supervision and rigorous review remain fundamental.&lt;/li&gt;&lt;li&gt;For building desktop applications, games, utility tools, and immutable components, &lt;strong&gt;delegation to agents can be 100% total&lt;/strong&gt;.&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;ArtCraft is releasing tools like &lt;strong&gt;Autocraft&lt;/strong&gt;, a fully autonomous software factory system that ingests GitHub issues, triages them, develops code through agents, and manages evaluation tests (&lt;strong&gt;evals&lt;/strong&gt;) without human intervention.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-a-new-era-for-digital-ownership&quot;&gt;A New Era for Digital Ownership&lt;/h2&gt;
+&lt;p&gt;Brandon Thomas and the ArtCraft community&amp;#x27;s vision goes far beyond simply creating free clones of Photoshop. It is a concrete attempt to use the acceleration provided by artificial intelligence to dismantle corporate monopolies, return file and tool ownership to users, and prove that a fully open technological infrastructure is possible.&lt;/p&gt;
+&lt;p&gt;The real question is no longer whether large software houses will manage to defend their locked-down subscriptions, but how quickly the open-source community will manage to rewrite the rest of the world.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>The system is no longer curable: Ghioni&#x27;s prophecy and the Great Reset of the network</title>
+    <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/2026-11-12-il-sistema-non-e-piu-curabile/"/>
+    <id>https://mdeangelis.vercel.app/en/diario/2026-11-12-il-sistema-non-e-piu-curabile/</id>
+    <published>2026-11-12T21:28:00+01:00</published>
+    <updated>2026-11-12T21:28:00+01:00</updated>
+    <category term="pensiero"/>
+    <category term="cybersecurity"/>
+    <category term="ai"/>
+    <category term="network"/>
+    <category term="future"/>
+    <summary>From the no-ransom attacks of the new swarms of AI agents to the lucid analysis of Fabio Ghioni: what if the only way out was to turn everything off?</summary>
+    <content type="html">&lt;p&gt;In recent days we have been witnessing something that completely comes out of the classic computer security manuals. I&amp;#x27;m not just talking about the scale of attacks during this &amp;quot;Black October&amp;quot; — between the decade-old &lt;code&gt;PHP2Shell&lt;/code&gt; flaw that exposed 70% of the web, compromised packages on &lt;code&gt;Node.js&lt;/code&gt;, and keys exfiltrated from cloud providers — but about the very &lt;strong&gt;nature&lt;/strong&gt; of certain attacks.&lt;/p&gt;
+&lt;p&gt;Those who remotely enter the refrigeration systems of European and Italian supermarkets by bringing the refrigerated counters to 50 degrees are not asking for a ransom in Bitcoin. He simply wants the food to rot. Those who take down entire infrastructures using swarms of ten thousand &lt;em&gt;uncensored&lt;/em&gt; AI agents often don&amp;#x27;t even try to resell the databases: they just want to flip the switch and prove that they can do it at any time.&lt;/p&gt;
+&lt;p&gt;Why burn precious &lt;em&gt;zero-day&lt;/em&gt; vulnerabilities without collecting a cent?&lt;/p&gt;
+&lt;h2 id=&quot;s-the-illusion-of-patches-and-blind-delegation&quot;&gt;The illusion of patches and blind delegation&lt;/h2&gt;
+&lt;p&gt;Listening again to an old interview with &lt;strong&gt;Fabio Ghioni&lt;/strong&gt;&lt;sup class=&quot;rimando&quot;&gt;&lt;a href=&quot;https://mdeangelis.vercel.app/en/diario/2026-11-12-il-sistema-non-e-piu-curabile/#nota-ghioni&quot; id=&quot;rif-ghioni-1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt; from the time of the Hacking Team case, all the pieces of the puzzle suddenly fall into place. Ghioni, who saw the internet born in the 1980s as a space of free interconnection designed to put everyone on an equal footing, had already identified the two structural tumors of our digital world:&lt;/p&gt;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;The supply chain&lt;/strong&gt;: the citizen (and today any small or medium-sized business) thinks of entrusting their digital life to institutions, banks or the State. In reality, from healthcare to registry offices and logistics, everything is outsourced to the institutions&amp;#x27; &lt;em&gt;technological service providers&lt;/em&gt;. Consequently, &lt;mark&gt;the vulnerability of the single supplier immediately becomes the vulnerability of the entire system&lt;/mark&gt;.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;The irreversibility of control&lt;/strong&gt;: once you create an architecture layered on forty-year-old protocols and graft interception tools, backdoors or offensive agents onto it, you no longer close that alternative flow of data. It becomes a permanent weapon of blackmail and sabotage in the hands of whoever arrives a second later.&lt;/li&gt;&lt;/ol&gt;
+&lt;aside class=&quot;riquadro r-attenzione&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ warning ]&lt;/p&gt;&lt;p&gt;When a critical vulnerability emerges in the source code of a common framework, large enterprises protected by confidential templates (such as &lt;em&gt;Mythos 5.2&lt;/em&gt; in the &lt;em&gt;Project Glasswing&lt;/em&gt; or &lt;em&gt;GPT-6 Cyber&lt;/em&gt; consortium) close the flaw in five minutes. Those in the middle — SMBs, local vendors, mere mortals — need days just to plan the patch. But the swarms of autonomous agents only need ten minutes to wipe everything out.&lt;/p&gt;&lt;/aside&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;s-as-it-is-it-is-no-longer-curable&quot;&gt;«As it is, it is no longer curable»&lt;/h2&gt;
+&lt;p&gt;It is here that Ghioni&amp;#x27;s reflection becomes prophetic compared to what we see today on our terminals:&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;I tell you this as a person who since the 1980s has believed in the evolution of technology and in the ideal of what the Internet would represent: being an interconnection system that put everyone on an equal footing.&lt;/p&gt;&lt;p&gt;After having seen in the last 20-25 years what it has become, I hope - like many others like me - that the system will completely collapse and start over. As it is, it&amp;#x27;s no longer curable, and I think that&amp;#x27;s what&amp;#x27;s going to happen in a little while.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;When an infrastructure is rotten to the core, continuing to patch the code or add layers of defensive AI on top of sieve protocols doesn&amp;#x27;t solve the problem: it just raises the stakes.&lt;/p&gt;
+&lt;h2 id=&quot;s-the-true-meaning-of-no-ransom-attacks&quot;&gt;The true meaning of no-ransom attacks&lt;/h2&gt;
+&lt;p&gt;Looked at through Ghioni&amp;#x27;s eyes, these purely destructive sabotages cease to seem like senseless acts of computer vandalism and take on two possible readings, both disturbing:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Cybernetic accelerationism&lt;/strong&gt;: those who attack know that the system is supported by spit and hits the physical nodes and intermediate suppliers precisely to remove the illusion of control from the institutions, forcing the breaking point.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Preparation for the Great Reset from above&lt;/strong&gt;: driving companies, the food chain and citizens to exasperation and a sense of total impotence is the perfect prelude to making the unacceptable accepted. When the chaos becomes unsustainable and no one feels safe anymore, the population itself will ask to turn off the old free and anonymous network to move on to an armored &amp;quot;New Network&amp;quot;, filtered upstream by mega-government agents and accessible only under strict surveillance.&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;Perhaps we are not faced with a simple wave of cybercrime. Perhaps we are witnessing the technical tests of controlled demolition of the old web, waiting for someone to finally pull the plug to make us start from scratch. We just need to understand with what rules, and above all who will have the keys to the new switch in their hands.&lt;/p&gt;
+&lt;section class=&quot;note-piede&quot; aria-label=&quot;Note&quot;&gt;&lt;ol&gt;&lt;li id=&quot;nota-ghioni&quot;&gt;Fabio Ghioni, former head of Telecom Italia&amp;#x27;s Tiger Team and expert in cyber warfare, in the interview given to &lt;em&gt;Il Fatto Quotidiano&lt;/em&gt; on 10 July 2015 on the case of the 400 GB exfiltrated from Hacking Team. &lt;a class=&quot;torna&quot; href=&quot;https://mdeangelis.vercel.app/en/diario/2026-11-12-il-sistema-non-e-piu-curabile/#rif-ghioni-1&quot; aria-label=&quot;back to text&quot;&gt;↑&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/section&gt;</content>
+  </entry>
   <entry>
     <title>hello, world</title>
     <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/"/>
@@ -35,6 +238,6 @@
 &lt;pre&gt;&lt;span class=&quot;nota-lingua&quot;&gt;nota&lt;/span&gt;&lt;code&gt;# Section Title
 A paragraph with *bold*, _italic_, and a [link](https://mdeangelis.me).
 ![what can be seen in the photo](foto.jpg &amp;quot;caption&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;section class=&quot;note-piede&quot; aria-label=&quot;Note&quot;&gt;&lt;ol&gt;&lt;li id=&quot;nota-zero&quot;&gt;Only the Python standard library. No packages downloaded from the internet. &lt;a class=&quot;torna&quot; href=&quot;https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/#rif-zero-1&quot; aria-label=&quot;torna al testo&quot;&gt;↑&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/section&gt;</content>
+&lt;section class=&quot;note-piede&quot; aria-label=&quot;Note&quot;&gt;&lt;ol&gt;&lt;li id=&quot;nota-zero&quot;&gt;Only the Python standard library. No packages downloaded from the internet. &lt;a class=&quot;torna&quot; href=&quot;https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/#rif-zero-1&quot; aria-label=&quot;back to text&quot;&gt;↑&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/section&gt;</content>
   </entry>
 </feed>

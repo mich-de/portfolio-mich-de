@@ -64,6 +64,7 @@ CLASSI = {"nota-lingua", "spunta", "spunta-si", "riquadro", "riquadro-tipo", "r-
 RIQUADRI = {"nota": ("r-nota", "nota"), "consiglio": ("r-consiglio", "consiglio"),
             "attenzione": ("r-attenzione", "attenzione"),
             "curiosita": ("r-curiosita", "curiosità"), "curiosità": ("r-curiosita", "curiosità")}
+TORNA_AL_TESTO = {"it": "torna al testo", "en": "back to text"}   # etichetta accessibile della freccia ↑
 # etichetta mostrata nel riquadro, per lingua della nota (la sintassi [!tipo] resta la stessa)
 ETICHETTE_RIQUADRI = {
     "it": {"r-nota": "nota", "r-consiglio": "consiglio", "r-attenzione": "attenzione",
@@ -673,7 +674,7 @@ def _corpo(ctx: _Contesto, righe: list, inizio: int) -> tuple:
             etichetta = ctx.ordine[j]
             testo, rn = ctx.note[etichetta]
             voci.append(f'<li id="nota-{etichetta}">{_in_linea(testo, ctx, rn)} '
-                        f'<a class="torna" href="#rif-{etichetta}-1" aria-label="torna al testo">↑</a></li>')
+                        f'<a class="torna" href="#rif-{etichetta}-1" aria-label="{TORNA_AL_TESTO[ctx.lingua]}">↑</a></li>')
             j += 1
         blocchi.append('<section class="note-piede" aria-label="Note"><ol>'
                        + "".join(voci) + "</ol></section>")

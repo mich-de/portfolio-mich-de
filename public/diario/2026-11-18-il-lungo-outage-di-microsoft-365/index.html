@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Il lungo outage di Microsoft 365 e la fisica dei sistemi metastabili: quando l&#x27;infrastruttura va in «vite piatta» | Diario | MDEANGELIS</title>
+  <meta name="description" content="Analisi tecnica del massiccio blackout di Microsoft 365: dal bug di luglio nascosto nei core alla reazione a catena dei server travolti dai retry.">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#14181e">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://mdeangelis.vercel.app/diario/2026-11-18-il-lungo-outage-di-microsoft-365/">
+  <link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-18-il-lungo-outage-di-microsoft-365/">
+  <link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-il-lungo-outage-di-microsoft-365/">
+  <link rel="alternate" hreflang="x-default" href="https://mdeangelis.vercel.app/diario/2026-11-18-il-lungo-outage-di-microsoft-365/">
+  <link rel="alternate" type="application/atom+xml" title="Diario di MDEANGELIS" href="/diario/feed.xml">
+  <link rel="icon" href="/img/icona.png" type="image/png">
+  <link rel="apple-touch-icon" href="/img/icona.png">
+  <link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/stile.css">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="MDEANGELIS">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:title" content="Il lungo outage di Microsoft 365 e la fisica dei sistemi metastabili: quando l&#x27;infrastruttura va in «vite piatta» | Diario | MDEANGELIS">
+  <meta property="og:description" content="Analisi tecnica del massiccio blackout di Microsoft 365: dal bug di luglio nascosto nei core alla reazione a catena dei server travolti dai retry.">
+  <meta property="og:url" content="https://mdeangelis.vercel.app/diario/2026-11-18-il-lungo-outage-di-microsoft-365/">
+  <meta property="og:image" content="https://mdeangelis.vercel.app/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="article:published_time" content="2026-11-18T23:50:00+01:00">
+  <meta property="article:author" content="Michele De Angelis">
+</head>
+<body>
+  <a class="salta" href="#contenuto">Vai al contenuto</a>
+
+  <header class="barra">
+    <a class="barra-casa" href="/" aria-label="MDEANGELIS, home">
+      <img src="/img/icona.png" alt="" width="28" height="28">
+      <span class="barra-sessione" aria-hidden="true">[mde] 4:diario</span>
+    </a>
+    <nav aria-label="Sezioni">
+      <ul>
+        <li><a href="/#chi-sono"><span class="n" aria-hidden="true">1:</span>chi_sono</a></li>
+        <li><a href="/#interessi"><span class="n" aria-hidden="true">2:</span>interessi</a></li>
+        <li><a href="/#musica"><span class="n" aria-hidden="true">3:</span>musica</a></li>
+        <li><a class="barra-qui" href="/diario/" aria-current="true"><span class="n" aria-hidden="true">4:</span>diario</a></li>
+        <li><a class="barra-lingua" href="/en/diario/2026-11-18-il-lungo-outage-di-microsoft-365/" hreflang="en" lang="en" aria-label="English">EN</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenuto" class="diario">
+    <div class="salto salto-subito" aria-hidden="true"><div class="salto-term"><div class="term-barra"><i></i><i></i><i></i><span>mdeangelis — zsh</span></div><div class="salto-corpo"><p><span class="term-prompt">m@deangelis:~$</span> <span class="salto-scrive">git show 611e711</span></p><p class="salto-log"><span class="term-ok">[ ok ]</span> 582 parole, ~3 min</p><p class="salto-avanza"><span class="salto-barra"></span><span class="salto-pct"></span></p></div></div></div>
+    <p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span><span class="ps-sep">:</span><span class="cwd">~/diario</span><span class="ps-sep">$</span> git show 611e711</p>
+    <dl class="commit">
+      <div><dt>commit</dt><dd class="log-hash">611e711423170ec96a61746d1d0181acb8cde70d</dd></div>
+      <div><dt>Author:</dt><dd>Michele De Angelis</dd></div>
+      <div><dt>Date:</dt><dd><time datetime="2026-11-18T23:50:00+01:00">mercoledì 18 novembre 2026, ore 23:50</time></dd></div>
+      <div><dt>Ramo:</dt><dd><a class="ref-ramo" href="/diario/cronache/">cronache</a> <span class="commento"># storie che stanno succedendo adesso</span></dd></div>
+        <div><dt>Tag:</dt><dd><a class="ref-tag" href="/diario/tag/cybersecurity/">#cybersecurity</a> <a class="ref-tag" href="/diario/tag/cloud/">#cloud</a> <a class="ref-tag" href="/diario/tag/microsoft/">#microsoft</a> <a class="ref-tag" href="/diario/tag/outlook/">#outlook</a> <a class="ref-tag" href="/diario/tag/infrastruttura/">#infrastruttura</a></dd></div>
+      <div><dt>Lettura:</dt><dd>~3 min</dd></div>
+    </dl>
+    <p class="lingua-post"><a href="/en/diario/2026-11-18-il-lungo-outage-di-microsoft-365/" hreflang="en" lang="en">Read in English</a></p>
+
+    <article class="nota" aria-labelledby="t-nota">
+      <h1 id="t-nota" class="nota-titolo">Il lungo outage di Microsoft 365 e la fisica dei sistemi metastabili: quando l&#x27;infrastruttura va in «vite piatta»</h1>
+<p>Il venerdì nero che ha paralizzato le caselle di posta elettronica di milioni di aziende in tutto il mondo — definito in Australia il <strong>Microsoft Long Weekend</strong> e descritto in un coworking tedesco come un ritorno nostalgico al fax — offre uno spunto di studio formidabile sulle architetture distribuite su scala globale. Nel podcast dedicato all&#x27;incidente, Edoardo Dusi analizza le dinamiche del blackout di <strong>Microsoft 365</strong> e del motore di <strong>Exchange Online</strong>, offrendo una chiave di lettura affascinante ispirata alla celebre scena della «vite piatta» di <strong>Top Gun</strong>.</p>
+<hr>
+<h2 id="s-1-anatomia-di-un-cigno-nero-i-tre-ingredienti-del-">1. Anatomia di un cigno nero: i tre ingredienti del collasso</h2>
+<p>L&#x27;interruzione, iniziata giovedì 12 novembre 2026 intorno alle 17:00 ora italiana, ha colpito a cascata non solo la posta di Exchange, ma anche i calendari, i pezzi di SharePoint, gli strumenti di sicurezza e persino le console di amministrazione (<strong>admin center</strong>), impedendo ai sistemisti di diagnosticare il problema in tempo reale. Più dell&#x27;80% dei server del gateway di rete ha smesso di rispondere.</p>
+<p>Il report preliminare diffuso da Microsoft evidenzia una classica dinamica da <strong>fallimento metastabile</strong> (concetto descritto nel celebre paper del 2011 di Nathan Bronson su Facebook):</p>
+<ol><li><strong>Lo stato vulnerabile (Il bug dormiente)</strong>: a luglio Microsoft aveva distribuito un aggiornamento per i server del gateway di rete. Il codice è rimasto in esecuzione per oltre tre mesi senza problemi, ma sotto particolari carichi induceva un processo di Windows in una situazione di <strong>lock contention</strong> (una coda esasperata per l&#x27;accesso alle risorse, paragonabile a decine di persone in fila per un&#x27;unica chiave del bagno). Il difetto si manifestava in modo più grave sulle macchine con più core, mentre i test di carico erano stati eseguiti su hardware più debole.</li><li><strong>La spinta (Il trigger)</strong>: circa 15 ore prima del blackout, un normale bilanciamento del carico (<strong>failover</strong>) aveva spostato il traffico di Teams sul gateway principale (lo stesso di Exchange). Contemporaneamente, per un disservizio indipendente avvenuto il giorno prima, quasi il 14% dei server del gateway era fuori servizio. Margini ridotti e carichi combinati hanno risvegliato il bug di luglio.</li><li><strong>Il fattore di amplificazione (I retry e i bulkhead rotti)</strong>: quando i server hanno iniziato a bloccarsi, il traffico si è riversato sui superstiti, provocando una reazione a catena. Le paratie di isolamento (<strong>bulkhead</strong>), pensate per confinare i guasti tra le varie regioni, non hanno retto a livello sistemico. I server riavviati venivano immediatamente travolti da muri di riconnessioni cifrate in attesa, crollando nuovamente sotto il peso della congestione.</li></ol>
+<hr>
+<h2 id="s-2-gli-effetti-collaterali-nel-mondo-reale">2. Gli effetti collaterali nel mondo reale</h2>
+<p>L&#x27;assenza di comunicazioni e l&#x27;irraggiungibilità della posta hanno generato situazioni paradossali e rischiose al di fuori del perimetro strettamente d&#x27;ufficio. L&#x27;esempio più eclatante si è registrato in Germania, presso il parco divertimenti <strong>Fantasialand</strong>, dove l&#x27;impianto di dosaggio del cloro della piscina si è guastato immettendo quantità eccessive della sostanza chimica. Il sistema di sicurezza ha rilevato l&#x27;anomalia inviando immediatamente un allarme... via email. Non arrivando alcuna notifica a causa del blocco di Exchange, nessuno è intervenuto tempestivamente, costringendo al ricovero in ospedale diversi ospiti per problemi respiratori.</p>
+<p>Come sottolineato dagli esperti di sicurezza, affidare la protezione fisica delle persone esclusivamente a un canale di posta elettronica asincrono rappresenta un errore di progettazione fondamentale.</p>
+<aside class="riquadro r-nota"><p class="riquadro-tipo">[ nota ]</p><p>I meccanismi di ridondanza, i controlli di stato (<strong>health check</strong>) e i tentativi automatici (<strong>retry</strong>) proteggono i sistemi dai piccoli guasti quotidiani, ma in caso di stress estremo possono trasformarsi nella strada attraverso cui il collasso si propaga a tutta l&#x27;infrastruttura.</p></aside>
+    </article>
+
+    <p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span><span class="ps-sep">:</span><span class="cwd">~/diario</span><span class="ps-sep">$</span> git tag --contains 611e711</p>
+    <nav aria-label="Tag di questo post"><ul class="tag-lista"><li><a href="/diario/tag/cybersecurity/">#cybersecurity <span class="tag-conta">5</span></a></li><li><a href="/diario/tag/cloud/">#cloud <span class="tag-conta">1</span></a></li><li><a href="/diario/tag/microsoft/">#microsoft <span class="tag-conta">1</span></a></li><li><a href="/diario/tag/outlook/">#outlook <span class="tag-conta">1</span></a></li><li><a href="/diario/tag/infrastruttura/">#infrastruttura <span class="tag-conta">1</span></a></li></ul></nav>
+    <p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span><span class="ps-sep">:</span><span class="cwd">~/diario</span><span class="ps-sep">$</span> git log --oneline -E --grep=&quot;#cybersecurity|#cloud|#microsoft&quot; -3</p>
+    <nav aria-label="Post simili">
+      <ul class="vicini oneline">
+        <li><a href="/diario/2026-11-19-i-rischi-legali-dell-ai-in-azienda-privacy-gdpr-ve/"><span class="log-hash" aria-hidden="true">e2298da</span><span class="vic-titolo">I rischi legali dell&#x27;AI in azienda: privacy, GDPR, vendor e buone pratiche (intervista a Giovanna Panucci)</span><time class="commento" datetime="2026-11-19">19 nov</time></a></li>
+        <li><a href="/diario/2026-11-12-gamer-hanno-vinto/"><span class="log-hash" aria-hidden="true">5268dbf</span><span class="vic-titolo">I gamer hanno vinto? Switch 2 e PS5 aperte dagli agenti AI e la fine dei monopoli hardware</span><time class="commento" datetime="2026-11-12">12 nov</time></a></li>
+        <li><a href="/diario/2026-11-12-frigoriferi-ai-senza-freni/"><span class="log-hash" aria-hidden="true">32aa025</span><span class="vic-titolo">Frigoriferi a 50 gradi e AI senza freni: chi protegge chi sta nel mezzo?</span><time class="commento" datetime="2026-11-12">12 nov</time></a></li>
+      </ul>
+    </nav>
+    <p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span><span class="ps-sep">:</span><span class="cwd">~/diario</span><span class="ps-sep">$</span> git log --oneline -1 HEAD~1</p>
+    <nav aria-label="Altri post">
+      <ul class="vicini">
+        <li><a href="/diario/2026-11-19-da-automata-a-transcendence/"><span class="vic-dove">successivo</span><span class="log-hash" aria-hidden="true">10c531f</span><span class="vic-titolo">From &quot;Automata&quot; to &quot;Transcendence&quot;: The Real War Isn&#x27;t Against Robots, It&#x27;s Humans and Biomachines</span></a></li>
+        <li><a href="/diario/2026-11-18-nuovo-gpt-6-2-astra-batte-veramente-fable-5-2/"><span class="vic-dove">precedente</span><span class="log-hash" aria-hidden="true">7e938ea</span><span class="vic-titolo">Nuovo GPT-6.2 Astra batte veramente Fable 5.2? Test pratici, costi e performance a confronto</span></a></li>
+      </ul>
+    </nav>
+
+    <p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span><span class="ps-sep">:</span><span class="cwd">~/diario</span><span class="ps-sep">$</span> cd .. <span class="cursore"></span></p>
+    <p class="azioni"><a class="bottone bottone-linea" href="/diario/"><span aria-hidden="true">cd </span>~/diario</a></p>
+  </main>
+
+  <footer class="stato">
+    <p class="stato-riga" aria-hidden="true">
+      <span class="stato-modo">NORMALE</span>
+      <span class="stato-file">~/mdeangelis/diario/2026-11-18-il-lungo-outage-di-microsoft-365.nota</span>
+      <span class="stato-info">nota v2  0 js  utf-8</span>
+      <span class="stato-pos">100%</span>
+    </p>
+    <p class="stato-note">© 2026 Michele De Angelis. Sito statico: nessun cookie, nessun tracciamento.
+      <a href="/diario/feed.xml">feed atom</a>
+      <a href="/">home</a></p>
+  </footer>
+</body>
+</html>

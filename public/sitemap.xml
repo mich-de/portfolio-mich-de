@@ -14,6 +14,40 @@
     <loc>https://mdeangelis.vercel.app/diario/</loc>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/diario/2026-11-19-i-rischi-legali-dell-ai-in-azienda-privacy-gdpr-ve/</loc>
+    <lastmod>2026-11-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-19-i-rischi-legali-dell-ai-in-azienda-privacy-gdpr-ve/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-19-i-rischi-legali-dell-ai-in-azienda-privacy-gdpr-ve/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/2026-11-19-da-automata-a-transcendence/</loc>
+    <lastmod>2026-11-19</lastmod>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/2026-11-18-il-lungo-outage-di-microsoft-365/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-18-il-lungo-outage-di-microsoft-365/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-il-lungo-outage-di-microsoft-365/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/2026-11-18-nuovo-gpt-6-2-astra-batte-veramente-fable-5-2/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-18-nuovo-gpt-6-2-astra-batte-veramente-fable-5-2/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-nuovo-gpt-6-2-astra-batte-veramente-fable-5-2/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/2026-11-18-simone-rizzo-mette-a-prova-l-ai-workstation-modell/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-18-simone-rizzo-mette-a-prova-l-ai-workstation-modell/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-simone-rizzo-mette-a-prova-l-ai-workstation-modell/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/2026-11-18-open-source-the-world/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-18-open-source-the-world/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-open-source-the-world/"/>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/diario/2026-11-12-gamer-hanno-vinto/</loc>
     <lastmod>2026-11-12</lastmod>
   </url>
@@ -28,6 +62,8 @@
   <url>
     <loc>https://mdeangelis.vercel.app/diario/2026-11-12-il-sistema-non-e-piu-curabile/</loc>
     <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-12-il-sistema-non-e-piu-curabile/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-12-il-sistema-non-e-piu-curabile/"/>
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/diario/2026-11-12-hello-world/</loc>
@@ -45,37 +81,151 @@
     <loc>https://mdeangelis.vercel.app/diario/tag/futuro/</loc>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/hardware/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/open-source/</loc>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/reti/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/agenti/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/agents/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/ai-act/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/anthropic/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/automata/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/azienda/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/benchmark/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/biokernel/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/cloud/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/compliance/</loc>
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/diario/</loc>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/gdpr/</loc>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/geopolitica/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/geopolitics/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/gpt-6/</loc>
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/hacking/</loc>
   </url>
   <url>
-    <loc>https://mdeangelis.vercel.app/diario/tag/hardware/</loc>
+    <loc>https://mdeangelis.vercel.app/diario/tag/infrastruttura/</loc>
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/lavoro/</loc>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/locale/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/microsoft/</loc>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/nerd/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/openai/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/outlook/</loc>
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/pmi/</loc>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/privacy/</loc>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/programmazione/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/rust/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/security/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/software/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/test/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/transcendence/</loc>
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/videogame/</loc>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/diario/tag/workstation/</loc>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/en/diario/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/2026-11-19-i-rischi-legali-dell-ai-in-azienda-privacy-gdpr-ve/</loc>
+    <lastmod>2026-11-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-19-i-rischi-legali-dell-ai-in-azienda-privacy-gdpr-ve/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-19-i-rischi-legali-dell-ai-in-azienda-privacy-gdpr-ve/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/2026-11-18-il-lungo-outage-di-microsoft-365/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-18-il-lungo-outage-di-microsoft-365/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-il-lungo-outage-di-microsoft-365/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/2026-11-18-nuovo-gpt-6-2-astra-batte-veramente-fable-5-2/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-18-nuovo-gpt-6-2-astra-batte-veramente-fable-5-2/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-nuovo-gpt-6-2-astra-batte-veramente-fable-5-2/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/2026-11-18-simone-rizzo-mette-a-prova-l-ai-workstation-modell/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-18-simone-rizzo-mette-a-prova-l-ai-workstation-modell/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-simone-rizzo-mette-a-prova-l-ai-workstation-modell/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/2026-11-18-open-source-the-world/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-18-open-source-the-world/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-18-open-source-the-world/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/2026-11-12-il-sistema-non-e-piu-curabile/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-12-il-sistema-non-e-piu-curabile/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-12-il-sistema-non-e-piu-curabile/"/>
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/</loc>
@@ -84,9 +234,84 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/"/>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/ai/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/cybersecurity/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/agents/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/ai-act/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/anthropic/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/benchmarks/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/business/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/cloud/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/compliance/</loc>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/en/diario/tag/diario/</loc>
   </url>
   <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/future/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/gdpr/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/gpt-6/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/hardware/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/infrastructure/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/local/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/microsoft/</loc>
+  </url>
+  <url>
     <loc>https://mdeangelis.vercel.app/en/diario/tag/nerd/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/network/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/open-source/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/openai/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/outlook/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/privacy/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/rust/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/software/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/testing/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/workstation/</loc>
   </url>
 </urlset>

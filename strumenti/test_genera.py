@@ -152,7 +152,7 @@ class Traduzioni(unittest.TestCase):
         self.assertIn('class="lingua-post"><a href="/en/diario/2026-11-12-ciao/"', it_html)
         en_html = genera.pagina_post(en, None, None, [en], self.IT)
         self.assertIn('<html lang="en">', en_html)
-        self.assertIn('Leggi in italiano', en_html)
+        self.assertIn('Read in Italian', en_html)
         self.assertIn('href="/en/diario/thoughts/"', en_html)
         # l'altro post non è tradotto: il link resta all'italiano
         self.assertIn('href="/diario/2026-11-10-altro/"', en_html)
