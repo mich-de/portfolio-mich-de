@@ -1,0 +1,68 @@
+titolo: I rischi legali dell'AI in azienda: privacy, GDPR, vendor e buone pratiche (intervista a Giovanna Panucci)
+data: 2026-11-19
+ora: 11:43
+tipo: cronaca
+tag: ai, privacy, gdpr, azienda, compliance, ai-act, cybersecurity
+sommario: Guida pratica agli aspetti legali dell'intelligenza artificiale in azienda: dai piani consumer vietati alla filiera dei vendor, fino al copyright e all'AI Act.
+---
+
+L'adozione dell'intelligenza artificiale nelle imprese e negli studi professionali sta correndo molto più velocemente della consapevolezza normativa. In una lunga e concreta intervista sul canale di *Raffaele Gaito*, l'avvocato *Giovanna Panucci* — esperta di privacy, protezione dei dati personali e fondatrice della community _Gladiatori Digitali_ — smonta i falsi miti e delinea un vademecum operativo per utilizzare l'AI in azienda senza esporsi a data breach, sanzioni o incidenti reputazionali.
+
+Il punto di partenza è un cambio di paradigma: il software tradizionale era una "stampella digitale" a cui ci si appoggiava per eseguire compiti deterministici; l'AI, invece, apprende e si muove sotto i nostri piedi, diventando uno strumento da *indossare* su misura, non da adottare alla cieca.
+
+# 1. Gli errori più frequenti e il pericolo dello Shadow AI
+
+Il primo sbaglio che molte aziende commettono è acquistare licenze sull'onda dell'entusiasmo senza aver definito processi e casi d'uso. Il risultato si divide in due scenari opposti: o i dipendenti non usano gli strumenti, oppure li usano in modo caotico caricandoci documenti interni, elenchi clienti e dati sensibili.
+
+Ancora più insidioso è il fenomeno della *Shadow AI*: quando il management vieta l'uso dei chatbot o pensa che nessuno li utilizzi, i dipendenti continuano comunque a servirsene in buona fede tramite account personali, aprendo vere e proprie falle nel perimetro di sicurezza aziendale.
+
+# 2. Il "pavimento minimo" per la compliance GDPR
+
+Per usare i modelli linguistici in ambito lavorativo (sia per grandi aziende che per liberi professionisti), Giovanna Panucci indica tre pilastri inderogabili:
+
+- *Vietati i piani consumer e gratuiti*: non basta usare versioni free e non vanno bene nemmeno i piani Plus o Pro pensati per uso domestico. Anche spuntare l'opzione di _opt-out_ dal training non è sufficiente, perché non risolve dove finiscono i dati né offre le garanzie contrattuali richieste. Servono *piani Business o Enterprise*, gli unici che escludono il training sui dati e danno accesso ai _Trust Center_ per scaricare la documentazione di conformità.
+- *Residenza dei dati in Europa*: bisogna sempre verificare geograficamente dove vengono ospitati i server (ad esempio attivando la residenza europea nei piani Enterprise, o verificando l'adesione del fornitore al _Data Privacy Framework_ tra USA e UE).
+- *Nomina a responsabile esterno (Art. 28 GDPR)*: scaricare e sottoscrivere il *DPA* (_Data Protection Agreement_) dal portale del fornitore. Una volta messo in sicurezza questo perimetro, trattare dati personali comuni su un chatbot aziendale diventa analogo al caricare un documento su Google Workspace.
+
+# 3. Modelli cinesi, alternative privacy-first e "igiene dei prompt"
+
+Sul fronte dei modelli provenienti dalla Cina (come DeepSeek, Qwen o agenti come Manus), l'approccio suggerito non è il divieto assoluto ma la *separazione netta*: si possono usare per ricerche esterne o analisi generiche, ma *senza mai inserirvi dati personali*.
+
+Per chi lavora da solo o cerca un livello intermedio di tutela, viene citato *Duck.ai* (di DuckDuckGo), che funge da intermediario rimuovendo i metadati dell'utente (IP, browser, geolocalizzazione) prima di inoltrare il prompt ai modelli e garantendo la cancellazione entro 30 giorni.
+
+La regola d'oro trasversale resta comunque l'*igiene dei prompt*: prima di incollare un contratto, una mail o un Excel, è necessario anonimizzare il documento sostituendo nomi, cognomi, aziende e importi con dei *placeholder* (es. `[nome cognome]`), usando banalmente il "Trova e sostituisci" in locale *prima* di premere invio.
+
+# 4. La domanda chiave da fare ai vendor: Sistema vs. Modello
+
+Quando un'azienda acquista un software "chiavi in mano" che integra funzionalità AI da un fornitore terzo, esiste una domanda che da sola risolve il 90% dei problemi di governance: *"Tu sei il proprietario del modello di intelligenza artificiale?"*
+
+Nella stragrande maggioranza dei casi, il vendor è proprietario solo del *sistema* (l'interfaccia, il brand, il front-end), ma si appoggia via API al *modello* di un altro colosso (OpenAI, Anthropic, Google). Conoscere l'intera filiera tra responsabile e sub-responsabili è essenziale perché, in caso di data breach, il titolare del trattamento resta sempre l'ultimo a risponderne. Il consiglio pratico è allegare al contratto un vero e proprio *diagramma di flusso del dato* che chiarisca ogni passaggio tecnico.
+
+# 5. Policy interne, Prompt Injection e AI Team
+
+Mettere ordine in azienda non richiede mesi di burocrazia: si può partire aggiornando le nomine degli autorizzati al trattamento (ex Art. 29 GDPR) con una *netiquette* pratica su quali tool usare, come usare i placeholder e come segnalare le allucinazioni.
+
+Per realtà più strutturate servono policy dedicate alla gestione degli incidenti di sicurezza specifici dell'AI — come gli attacchi di *prompt injection* volti a estrarre dati aziendali dai chatbot — e la creazione di un *AI Team* multidisciplinare che unisca tre figure: il referente *IT/CED*, il *DPO* (_Data Protection Officer_) e un *AI Strategist* capace di allineare mercato, business e governance.
+
+# 6. Proprietà intellettuale e copyright degli output
+
+Un'immagine generata con Midjourney o un testo scritto con ChatGPT sono davvero nostri? Dal punto di vista contrattuale, provider come OpenAI cedono all'utente i diritti sull'output, ma *solo nei loro confronti*.
+
+Per ottenere una reale tutela sul diritto d'autore occorre dimostrare un *apporto creativo umano prevalente* (indicativamente superiore al 60-65%): un semplice prompt non conferisce paternità. Discorso diverso per piattaforme come Adobe, che addestrando i propri modelli esclusivamente su database di immagini libere da diritti (_data cleansing_) offrono garanzie commerciali molto più solide fin dall'origine.
+
+# 7. La "torre tecnologica" e gli obblighi dell'AI Act
+
+Per orientarsi tra le responsabilità previste dall'*AI Act*, Panucci richiama la metafora della torre a quattro livelli: dati, infrastruttura di calcolo, modelli proprietari e utilizzatori finali (_deployer_).
+
+Se un'azienda usa chatbot di terze parti in contesti *non ad alto rischio* (restano invece ad alto rischio gli ambiti dell'Allegato III, come lo screening automatizzato dei CV, la valutazione scolastica o l'accesso a servizi pubblici essenziali), l'obbligo principale è la *trasparenza*: dichiarare apertamente nei mandati, nei contratti e nelle policy dei siti che si utilizza l'intelligenza artificiale per supportare i processi.
+
+# 8. Processi prima dei tool, Legal Prompting e supervisione
+
+L'ultima parte dell'intervista smonta "l'ossessione per il tool": prima di comprare licenze o rincorrere l'ultimo agente di moda ("comprare la Ferrari per andare a prendere il pane"), bisogna mappare i processi interni, individuare i colli di bottiglia e partire con pochi *progetti pilota* misurabili.
+
+Sul piano operativo, Panucci condivide il proprio metodo di lavoro — che le ha permesso di ottimizzare del 75% i processi di studio — basato su *progetti isolati* (silos con memoria separata), la costruzione di un documento di *Tone of Voice* (ottenuto dettando la propria identità professionale) e il *Legal Prompting*: usare il linguaggio con precisione chirurgica e aggiungere una regola semplicissima alla fine del prompt per abbattere le allucinazioni: _"se non sei sicuro al 100%, rispondi non lo so"_.
+
+Lo stack quotidiano si chiude con pochi strumenti mirati (Claude per la scrittura empatica, ChatGPT per i flussi strutturati, Perplexity per la ricerca, *NotebookLM* per il _grounding_ rigoroso sulle fonti normative e di dottrina, Gamma per le presentazioni e Manus come esploratore web). La sintesi finale è l'immagine di *Iron Man*: l'AI è una corazza che amplifica le capacità, ma dentro deve restare sempre l'essere umano a guidare e supervisionare.
+
+> [!consiglio]
+> Prima di caricare qualsiasi file aziendale su uno strumento AI, fai sempre tre verifiche rapide: è un piano Business/Enterprise senza training? I dati restano in Europa (o sotto accordo valido)? E soprattutto: hai già rimosso i dati personali sostituendoli con dei placeholder?
