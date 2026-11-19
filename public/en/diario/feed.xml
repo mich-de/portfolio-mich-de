@@ -5,8 +5,36 @@
   <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/"/>
   <link rel="self" type="application/atom+xml" href="https://mdeangelis.vercel.app/en/diario/feed.xml"/>
   <id>https://mdeangelis.vercel.app/en/diario/</id>
-  <updated>2026-11-12T08:00:00+01:00</updated>
+  <updated>2026-11-12T00:00:00+01:00</updated>
   <author><name>Michele De Angelis</name><uri>https://mdeangelis.vercel.app/</uri></author>
   <generator>genera.py + nota v2</generator>
-
+  <entry>
+    <title>hello, world</title>
+    <link rel="alternate" type="text/html" href="https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/"/>
+    <id>https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/</id>
+    <published>2026-11-12T00:00:00+01:00</published>
+    <updated>2026-11-12T00:00:00+01:00</updated>
+    <category term="pensiero"/>
+    <category term="diario"/>
+    <category term="nerd"/>
+    <summary>The first commit of this diary: what you&#x27;ll find here and why it&#x27;s written in a homemade language.</summary>
+    <content type="html">&lt;p&gt;Every programmer starts with &lt;code&gt;hello, world&lt;/code&gt;. This diary starts the same way.&lt;/p&gt;
+&lt;p&gt;I write three kinds of things here, and each has its own branch:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;thoughts&lt;/strong&gt;: whatever is going through my head during the day&lt;/li&gt;&lt;li&gt;&lt;strong&gt;chronicles&lt;/strong&gt;: stories that are happening right now&lt;/li&gt;&lt;li&gt;&lt;strong&gt;past&lt;/strong&gt;: how things used to work, explained properly&lt;/li&gt;&lt;/ul&gt;
+&lt;aside class=&quot;riquadro r-curiosita&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ did you know ]&lt;/p&gt;&lt;p&gt;&lt;code&gt;hello, world&lt;/code&gt; became famous in 1978 with Kernighan and Ritchie&amp;#x27;s book on the C programming language, but Kernighan had already used it a few years earlier in a tutorial for the B language.&lt;/p&gt;&lt;/aside&gt;
+&lt;h2 id=&quot;s-why-a-homemade-language&quot;&gt;Why a Homemade Language&lt;/h2&gt;
+&lt;p&gt;No WordPress, no off-the-shelf engine. Posts are plain text files written in a format called &lt;em&gt;Nota&lt;/em&gt;, built from scratch for this website&lt;sup class=&quot;rimando&quot;&gt;&lt;a href=&quot;https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/#nota-zero&quot; id=&quot;rif-zero-1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;. A small program turns them into static HTML pages: no code runs on the server, so there&amp;#x27;s nothing to exploit.&lt;/p&gt;
+&lt;div class=&quot;tabella&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;a typical blog&lt;/th&gt;&lt;th&gt;this diary&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;server-side code&lt;/td&gt;&lt;td&gt;PHP and database&lt;/td&gt;&lt;td&gt;none&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;JavaScript&lt;/td&gt;&lt;td&gt;quite a lot&lt;/td&gt;&lt;td&gt;0 lines&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;security updates&lt;/td&gt;&lt;td&gt;&lt;del&gt;constant&lt;/del&gt;&lt;/td&gt;&lt;td&gt;none required&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;blockquote&gt;&lt;p&gt;Fewer moving parts, fewer things that can break.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&quot;s-photos-and-audio&quot;&gt;Photos and Audio&lt;/h2&gt;
+&lt;p&gt;Images are added one per line. When they are adjacent, they automatically become a gallery; a click opens them at full size.&lt;/p&gt;
+&lt;figure class=&quot;nota-img&quot;&gt;&lt;a class=&quot;apri&quot; href=&quot;https://mdeangelis.vercel.app/diario/media/musica-eza.webp&quot;&gt;&lt;img src=&quot;https://mdeangelis.vercel.app/diario/media/musica-eza.webp&quot; alt=&quot;The music section of the website: equalizer and list of platforms&quot; width=&quot;1280&quot; height=&quot;800&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;The &lt;mark&gt;music&lt;/mark&gt; section, inspired by eza -l --icons&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;aside class=&quot;riquadro r-nota&quot;&gt;&lt;p class=&quot;riquadro-tipo&quot;&gt;[ note ]&lt;/p&gt;&lt;p&gt;Before going online, metadata is removed from photos: GPS location, phone model, and capture date.&lt;/p&gt;&lt;/aside&gt;
+&lt;h2 id=&quot;s-how-it-is-written&quot;&gt;How It Is Written&lt;/h2&gt;
+&lt;p&gt;The format is intentionally small:&lt;/p&gt;
+&lt;pre&gt;&lt;span class=&quot;nota-lingua&quot;&gt;nota&lt;/span&gt;&lt;code&gt;# Section Title
+A paragraph with *bold*, _italic_, and a [link](https://mdeangelis.me).
+![what can be seen in the photo](foto.jpg &amp;quot;caption&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;section class=&quot;note-piede&quot; aria-label=&quot;Note&quot;&gt;&lt;ol&gt;&lt;li id=&quot;nota-zero&quot;&gt;Only the Python standard library. No packages downloaded from the internet. &lt;a class=&quot;torna&quot; href=&quot;https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/#rif-zero-1&quot; aria-label=&quot;torna al testo&quot;&gt;↑&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/section&gt;</content>
+  </entry>
 </feed>

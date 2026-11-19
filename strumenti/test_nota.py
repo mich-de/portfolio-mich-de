@@ -314,6 +314,13 @@ class NuoviBlocchi(unittest.TestCase):
         self.assertIn("vuoto", errore("> [!nota]").messaggio)
         self.assertEqual(corpo("> [!x] non è un riquadro"), "<blockquote><p>[!x] non è un riquadro</p></blockquote>")
 
+    def test_riquadri_in_inglese(self):
+        html = nota.leggi("2026-11-12-prova.en.nota", TESTA + "> [!attenzione]\n> Hot.", MEDIA).html
+        self.assertIn('<p class="riquadro-tipo">[ warning ]</p>', html)
+        self.assertNotIn("[ attenzione ]", html)
+        html = nota.leggi("2026-11-12-prova.en.nota", TESTA + "> [!curiosita]\n> Fact.", MEDIA).html
+        self.assertIn("[ did you know ]", html)
+
     def test_note_a_pie_di_pagina(self):
         out = corpo("Testo[^a] e ancora[^b], di nuovo[^a].\n\n[^b]: Seconda.\n[^a]: Prima, con *stile*.")
         self.assertIn('<a href="#nota-a" id="rif-a-1">[1]</a>', out)

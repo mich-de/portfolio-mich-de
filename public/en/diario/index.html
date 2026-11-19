@@ -48,23 +48,38 @@
   </header>
 
   <main id="contenuto" class="diario">
-    <div class="salto salto-subito" aria-hidden="true"><div class="salto-term"><div class="term-barra"><i></i><i></i><i></i><span>mdeangelis — zsh</span></div><div class="salto-corpo"><p><span class="term-prompt">m@deangelis:~$</span> <span class="salto-scrive">cd ~/diario &amp;&amp; git log</span></p><p class="salto-log"><span class="term-ok">[ ok ]</span> 0 commits, branch main</p><p class="salto-avanza"><span class="salto-barra"></span><span class="salto-pct"></span></p></div></div></div>
+    <div class="salto salto-subito" aria-hidden="true"><div class="salto-term"><div class="term-barra"><i></i><i></i><i></i><span>mdeangelis — zsh</span></div><div class="salto-corpo"><p><span class="term-prompt">m@deangelis:~$</span> <span class="salto-scrive">cd ~/diario &amp;&amp; git log</span></p><p class="salto-log"><span class="term-ok">[ ok ]</span> 1 commits, branch main</p><p class="salto-avanza"><span class="salto-barra"></span><span class="salto-pct"></span></p></div></div></div>
     <h1 class="titolo"><span class="hash" aria-hidden="true">~/</span>diario</h1>
     <p class="commento intro"><span aria-hidden="true"># </span>thoughts of the day, stories from right now and how things used to work, explained by a nerd.</p>
 
     <p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span><span class="ps-sep">:</span><span class="cwd">~/diario</span><span class="ps-sep">$</span> git branch</p>
     <nav aria-label="Post types">
       <ul class="rami">
-        <li><a href="/en/diario/" aria-current="page"><span class="rami-segno" aria-hidden="true">*</span>main</a> <span class="commento"><span aria-hidden="true"># </span>everything (0)</span></li>
-        <li><a href="/en/diario/thoughts/"><span class="rami-segno" aria-hidden="true"> </span>thoughts</a> <span class="commento"><span aria-hidden="true"># </span>thoughts of the day (0)</span></li>
+        <li><a href="/en/diario/" aria-current="page"><span class="rami-segno" aria-hidden="true">*</span>main</a> <span class="commento"><span aria-hidden="true"># </span>everything (1)</span></li>
+        <li><a href="/en/diario/thoughts/"><span class="rami-segno" aria-hidden="true"> </span>thoughts</a> <span class="commento"><span aria-hidden="true"># </span>thoughts of the day (1)</span></li>
         <li><a href="/en/diario/stories/"><span class="rami-segno" aria-hidden="true"> </span>stories</a> <span class="commento"><span aria-hidden="true"># </span>stories happening right now (0)</span></li>
         <li><a href="/en/diario/past/"><span class="rami-segno" aria-hidden="true"> </span>past</a> <span class="commento"><span aria-hidden="true"># </span>how things used to work (0)</span></li>
       </ul>
     </nav>
 
+    <p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span><span class="ps-sep">:</span><span class="cwd">~/diario</span><span class="ps-sep">$</span> git tag -l</p>
+    <nav aria-label="Topics"><ul class="tag-lista"><li><a href="/en/diario/tag/diario/">#diario <span class="tag-conta">1</span></a></li><li><a href="/en/diario/tag/nerd/">#nerd <span class="tag-conta">1</span></a></li></ul></nav>
+
     <p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span><span class="ps-sep">:</span><span class="cwd">~/diario</span><span class="ps-sep">$</span> git log</p>
-      <p class="errore-msg">fatal: your current branch &#x27;main&#x27; does not have any commits yet</p>
-      <p class="commento"><span aria-hidden="true"># </span>no posts translated into English yet: the Italian journal is at /diario/.</p>
+      <ol class="log">
+        <li class="log-voce">
+          <p class="log-commit"><span class="log-parola" aria-hidden="true">commit </span><span class="log-hash" aria-hidden="true">2cb3dbe</span> <span class="log-ref">(<span class="ref-head">HEAD -&gt; main</span>, <a class="ref-ramo" href="/en/diario/thoughts/">thoughts</a>, <a class="ref-tag" href="/en/diario/tag/diario/">tag: diario</a>, <a class="ref-tag" href="/en/diario/tag/nerd/">tag: nerd</a>)</span></p>
+          <p class="log-meta"><span class="log-chiave" aria-hidden="true">Date:   </span><time datetime="2026-11-12T00:00:00+01:00">Thu 12 Nov 2026 00:00</time>, 1 min read</p>
+          <article class="log-scheda con-mini">
+            <div class="log-testo">
+              <h2 class="log-titolo"><a href="/en/diario/2026-11-12-hello-world/">hello, world</a></h2>
+              <p class="log-sommario">The first commit of this diary: what you&#x27;ll find here and why it&#x27;s written in a homemade language.</p>
+              <p class="log-apri" aria-hidden="true"><span class="log-cmd">$ git show 2cb3dbe</span><span class="log-leggi">read the article <span class="log-freccia">-&gt;</span></span></p>
+            </div>
+            <img class="log-mini" src="/diario/media/home-terminale.webp" alt="" width="1280" height="800" loading="lazy" decoding="async">
+          </article>
+        </li>
+      </ol>
 
     <p class="cmd" aria-hidden="true"><span class="ps1">m@deangelis</span><span class="ps-sep">:</span><span class="cwd">~/diario</span><span class="ps-sep">$</span> <span class="cursore"></span></p>
   </main>

@@ -32,6 +32,8 @@
   <url>
     <loc>https://mdeangelis.vercel.app/diario/2026-11-12-hello-world/</loc>
     <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-12-hello-world/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/"/>
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/ai/</loc>
@@ -71,5 +73,20 @@
   </url>
   <url>
     <loc>https://mdeangelis.vercel.app/diario/tag/videogame/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://mdeangelis.vercel.app/diario/2026-11-12-hello-world/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mdeangelis.vercel.app/en/diario/2026-11-12-hello-world/"/>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/diario/</loc>
+  </url>
+  <url>
+    <loc>https://mdeangelis.vercel.app/en/diario/tag/nerd/</loc>
   </url>
 </urlset>

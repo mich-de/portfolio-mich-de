@@ -64,6 +64,13 @@ CLASSI = {"nota-lingua", "spunta", "spunta-si", "riquadro", "riquadro-tipo", "r-
 RIQUADRI = {"nota": ("r-nota", "nota"), "consiglio": ("r-consiglio", "consiglio"),
             "attenzione": ("r-attenzione", "attenzione"),
             "curiosita": ("r-curiosita", "curiosità"), "curiosità": ("r-curiosita", "curiosità")}
+# etichetta mostrata nel riquadro, per lingua della nota (la sintassi [!tipo] resta la stessa)
+ETICHETTE_RIQUADRI = {
+    "it": {"r-nota": "nota", "r-consiglio": "consiglio", "r-attenzione": "attenzione",
+           "r-curiosita": "curiosità"},
+    "en": {"r-nota": "note", "r-consiglio": "tip", "r-attenzione": "warning",
+           "r-curiosita": "did you know"},
+}
 
 _RE_NOME_FILE = re.compile(r"^(\d{4}-\d{2}-\d{2})-([a-z0-9]+(?:-[a-z0-9]+)*)(\.en)?\.nota$")
 LINGUE = ("it", "en")          # AAAA-MM-GG-titolo.nota e la sua traduzione AAAA-MM-GG-titolo.en.nota
@@ -137,8 +144,9 @@ def _e(testo: str) -> str:
 class _Contesto:
     """Quello che serve ricordare mentre si legge una nota."""
 
-    def __init__(self, file: str, media, righe: bool = False):
+    def __init__(self, file: str, media, righe: bool = False, lingua: str = "it"):
         self.file = file
+        self.lingua = lingua        # "it" o "en": decide le etichette dei riquadri
         self.righe = righe          # solo per l'anteprima dell'editor: data-riga sui blocchi
         self.media = media          # nome -> (tipo, larghezza, altezza), o None
         self.note = {}              # etichetta -> (testo, riga)
@@ -495,7 +503,8 @@ def _corpo(ctx: _Contesto, righe: list, inizio: int) -> tuple:
             gruppi.append(corrente)
         interno = "".join("<p>" + " ".join(g) + "</p>" for g in gruppi)
         if riquadro:
-            classe, etichetta = riquadro
+            classe, _ = riquadro
+            etichetta = ETICHETTE_RIQUADRI[ctx.lingua][classe]
             blocchi.append(f'<aside class="riquadro {classe}"><p class="riquadro-tipo">'
                            f'[ {etichetta} ]</p>{interno}</aside>')
         else:
@@ -701,7 +710,7 @@ def leggi(nome_file: str, contenuto: str, media=None, numeri_riga: bool = False)
     contenuto = contenuto.lstrip("﻿").replace("\r\n", "\n").replace("\r", "\n")
     righe = contenuto.split("\n")
     _controlla_caratteri(nome_file, righe)
-    ctx = _Contesto(nome_file, media, numeri_riga)
+    ctx = _Contesto(nome_file, media, numeri_riga, lingua)
 
     campi, fine_testa = _intestazione(nome_file, righe)
     for chiave in OBBLIGATORIE:
