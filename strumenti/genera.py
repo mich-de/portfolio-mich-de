@@ -1117,13 +1117,26 @@ def pagina_post(n, piu_nuovo, piu_vecchio, tutte=(), altra=None) -> str:
 """
 
 
+# post che restano in home anche quando non sono tra gli ultimi (in fondo alla lista)
+IN_HOME = ("2026-11-12-hello-world",)
+
+
+def in_home(note) -> list:
+    """Gli ultimi tre post, più quelli in IN_HOME."""
+    scelti = list(note[:3])
+    for n in note:
+        if n.slug in IN_HOME and all(n.slug != s.slug for s in scelti):
+            scelti.append(n)
+    return scelti
+
+
 def blocco_diario(t: dict, note) -> str:
-    """Sezione in home con gli ultimi tre post (solo se ce ne sono).
+    """Sezione in home con gli ultimi tre post e quelli in IN_HOME (solo se ce ne sono).
     In inglese: la traduzione quando c'è, se no il post italiano (segnato come tale)."""
     if not note:
         return ""
     lingua = t["lang"]
-    scelti = [TRADUZIONI.get(n.slug, n) if lingua == "en" else n for n in note[:3]]
+    scelti = [TRADUZIONI.get(n.slug, n) if lingua == "en" else n for n in in_home(note)]
     voci = "\n".join(
         f'        <li><a href="{indirizzo(n)}" lang="{n.lingua}"><span class="log-hash" aria-hidden="true">{n.hash[:7]}</span>'
         f'<span class="vic-titolo">{e(n.titolo)}</span>'
@@ -1135,7 +1148,7 @@ def blocco_diario(t: dict, note) -> str:
       {salto(t, "diario")}
       <h2 id="t-dia" class="titolo"><span class="hash" aria-hidden="true">## </span>{e(t["dia_titolo"])}</h2>
       <p class="commento"><span aria-hidden="true"># </span>{e(t["dia_intro"] + nota_lingua)}</p>
-      {prompt("git log --oneline -3", "~/diario")}
+      {prompt(f"git log --oneline -{len(scelti)}", "~/diario")}
       <ul class="vicini oneline">
 {voci}
       </ul>
