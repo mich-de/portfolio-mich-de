@@ -2293,7 +2293,7 @@ html {
     transform: translateY(-6px) rotate(-45deg);
   }
 
-  .barra-voci {
+  .barra .barra-voci {
     display: none;
     position: absolute;
     top: var(--barra);
@@ -2308,7 +2308,7 @@ html {
     box-shadow: 0 14px 28px rgb(0 0 0 / 0.4);
   }
 
-  .barra-check:checked ~ .barra-voci {
+  .barra .barra-check:checked ~ .barra-voci {
     display: flex;
   }
 
