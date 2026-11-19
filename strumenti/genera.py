@@ -287,7 +287,7 @@ def pagina(t: dict, note=()) -> str:
     altro_href, altro_breve, altro_lang, altro_nome = t["altro"]
 
     nav = "\n".join(
-        f'        <li><a href="#{a}"><span class="n" aria-hidden="true">{i}:</span>{e(n)}</a></li>'
+        f'        <li><a href="#{a}"><span class="n" aria-hidden="true">cd ~/</span>{e(n)}</a></li>'
         for i, (a, n) in enumerate(t["nav"], 1))
 
     righe_term = "\n".join(
@@ -414,7 +414,7 @@ def pagina(t: dict, note=()) -> str:
     <nav aria-label="{e(t["nav_label"])}">
       <ul>
 {nav}
-        <li><a href="{diario_di(t["lang"])}"><span class="n" aria-hidden="true">{len(t["nav"]) + 1}:</span>{e(t["nav_diario"])}</a></li>
+        <li><a href="{diario_di(t["lang"])}"><span class="n" aria-hidden="true">cd ~/</span>{e(t["nav_diario"])}</a></li>
         <li><a class="barra-lingua" href="{altro_href}" hreflang="{altro_lang}" lang="{altro_lang}" aria-label="{e(altro_nome)}">{altro_breve}</a></li>
       </ul>
     </nav>
@@ -815,7 +815,7 @@ def barra_diario(corrente: str, lingua: str = "it", altra: str = "") -> str:
     """altra: indirizzo della stessa pagina nell'altra lingua (se c'è)."""
     t, D = TESTI[lingua], DIA[lingua]
     voci = "\n".join(
-        f'        <li><a href="{D["casa"]}#{a}"><span class="n" aria-hidden="true">{i}:</span>{e(n)}</a></li>'
+        f'        <li><a href="{D["casa"]}#{a}"><span class="n" aria-hidden="true">cd ~/</span>{e(n)}</a></li>'
         for i, (a, n) in enumerate(t["nav"], 1))
     lingua_link = ""
     if altra:
@@ -833,7 +833,7 @@ def barra_diario(corrente: str, lingua: str = "it", altra: str = "") -> str:
     <nav aria-label="{e(t["nav_label"])}">
       <ul>
 {voci}
-        <li><a class="barra-qui" href="{D["base"]}" aria-current="{corrente}"><span class="n" aria-hidden="true">{len(t["nav"]) + 1}:</span>{e(t["nav_diario"])}</a></li>{lingua_link}
+        <li><a class="barra-qui" href="{D["base"]}" aria-current="{corrente}"><span class="n" aria-hidden="true">cd ~/</span>{e(t["nav_diario"])}</a></li>{lingua_link}
       </ul>
     </nav>
   </header>"""
