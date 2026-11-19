@@ -186,9 +186,23 @@ p {
 }
 
 .barra-lingua {
+  display: flex;
+  align-items: center;
+  padding: 0 0.85rem;
   border-left: 1px solid var(--bordo);
   font-weight: 700;
   color: var(--rame) !important;
+  text-decoration: none;
+}
+
+.barra-lingua:hover {
+  background: var(--pannello-alto);
+}
+
+/* menu da shell: su desktop le voci sono in riga, il comando "ls ~/" serve solo su telefono */
+.barra-check,
+.barra-etichetta {
+  display: none;
 }
 
 /* ---------- Pagina ---------- */
@@ -2205,35 +2219,73 @@ html {
   scrollbar-color: var(--linee) transparent;
 }
 
-/* Barra in alto su schermi stretti: le voci scorrono di lato, la lingua resta visibile */
+/* Telefono e tablet: "ls ~/" apre l'elenco delle sezioni sotto la barra, tutte raggiungibili */
 @media (max-width: 52rem) {
-  .barra .lungo {
-    display: none;
+  .barra nav {
+    position: static;
   }
 
-  .barra .corto {
+  .barra-etichetta {
+    display: flex;
+    align-items: center;
+    padding: 0 0.85rem;
+    color: var(--rame-chiaro);
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .barra-etichetta:hover {
+    background: var(--pannello-alto);
+  }
+
+  .barra-check:checked ~ .barra-etichetta {
+    background: var(--pannello-alto);
+    color: var(--rame);
+  }
+
+  .barra-check:focus-visible ~ .barra-etichetta {
+    outline: 2px solid var(--rame);
+    outline-offset: -2px;
+  }
+
+  .barra-voci {
+    display: none;
+    position: absolute;
+    top: var(--barra);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0;
+    padding: 0.4rem 0;
+    background: rgb(26 31 38 / 0.98);
+    border-bottom: 1px solid var(--bordo);
+    box-shadow: 0 14px 28px rgb(0 0 0 / 0.4);
+  }
+
+  .barra-check:checked ~ .barra-voci {
+    display: flex;
+  }
+
+  .barra .barra-voci a {
+    height: auto;
+    padding: 0.6rem 1.1rem;
+  }
+
+  .barra .barra-voci .n {
     display: inline;
   }
 
-  .barra nav a {
-    padding: 0 0.4rem;
-    font-size: 0.75rem;
+  .barra .barra-voci .lungo {
+    display: inline;
   }
 
-  .barra nav {
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .barra nav::-webkit-scrollbar {
+  .barra .barra-voci .corto {
     display: none;
   }
 
-  .barra li:has(> .barra-lingua) {
-    position: sticky;
-    right: 0;
-    background: var(--pannello);
+  .barra .barra-voci [aria-current] {
+    box-shadow: inset 3px 0 0 var(--rame);
   }
 }

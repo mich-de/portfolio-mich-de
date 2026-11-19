@@ -431,12 +431,14 @@ def pagina(t: dict, note=()) -> str:
       <span class="barra-sessione" aria-hidden="true">[mde] 0:zsh</span>
     </a>
     <nav aria-label="{e(t["nav_label"])}">
-      <ul>
+      <input type="checkbox" id="menu-barra" class="barra-check" aria-label="{e(t["nav_label"])}">
+      <label for="menu-barra" class="barra-etichetta">ls ~/</label>
+      <ul class="barra-voci">
 {nav}
         <li><a href="{diario_di(t["lang"])}"><span class="n" aria-hidden="true">cd ~/</span>{e(t["nav_diario"])}</a></li>
-        <li><a class="barra-lingua" href="{altro_href}" hreflang="{altro_lang}" lang="{altro_lang}" aria-label="{e(altro_nome)}">{altro_breve}</a></li>
       </ul>
     </nav>
+    <a class="barra-lingua" href="{altro_href}" hreflang="{altro_lang}" lang="{altro_lang}" aria-label="{e(altro_nome)}">{altro_breve}</a>
   </header>
 
   <main id="contenuto">
@@ -840,8 +842,10 @@ def barra_diario(corrente: str, lingua: str = "it", altra: str = "") -> str:
     if altra:
         l2 = D["altra_lingua"]
         nome2 = TESTI[l2]["altro"][3] if l2 == "it" else "English"
-        lingua_link = (f'\n        <li><a class="barra-lingua" href="{altra}" hreflang="{l2}" lang="{l2}" '
-                       f'aria-label="{e(nome2)}">{l2.upper()}</a></li>')
+        lingua_link = (f'<a class="barra-lingua" href="{altra}" hreflang="{l2}" lang="{l2}" '
+                       f'aria-label="{e(nome2)}">{l2.upper()}</a>')
+    # "diario" nella pagina dell'indice non porta altrove: torna in cima alla lista
+    diario_href = "#contenuto" if corrente == "page" else D["base"]
     return f"""  <a class="salta" href="#contenuto">{e(t["skip"])}</a>
 
   <header class="barra">
@@ -850,11 +854,14 @@ def barra_diario(corrente: str, lingua: str = "it", altra: str = "") -> str:
       <span class="barra-sessione" aria-hidden="true">[mde] {len(t["nav"]) + 1}:diario</span>
     </a>
     <nav aria-label="{e(t["nav_label"])}">
-      <ul>
+      <input type="checkbox" id="menu-barra" class="barra-check" aria-label="{e(t["nav_label"])}">
+      <label for="menu-barra" class="barra-etichetta">ls ~/</label>
+      <ul class="barra-voci">
 {voci}
-        <li><a class="barra-qui" href="{D["base"]}" aria-current="{corrente}"><span class="n" aria-hidden="true">cd ~/</span>{e(t["nav_diario"])}</a></li>{lingua_link}
+        <li><a class="barra-qui" href="{diario_href}" aria-current="{corrente}"><span class="n" aria-hidden="true">cd ~/</span>{e(t["nav_diario"])}</a></li>
       </ul>
     </nav>
+    {lingua_link}
   </header>"""
 
 

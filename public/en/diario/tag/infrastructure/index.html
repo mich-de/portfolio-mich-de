@@ -34,7 +34,9 @@
       <span class="barra-sessione" aria-hidden="true">[mde] 5:diario</span>
     </a>
     <nav aria-label="Sections">
-      <ul>
+      <input type="checkbox" id="menu-barra" class="barra-check" aria-label="Sections">
+      <label for="menu-barra" class="barra-etichetta">ls ~/</label>
+      <ul class="barra-voci">
         <li><a href="/en/#chi-sono"><span class="n" aria-hidden="true">cd ~/</span>about</a></li>
         <li><a href="/en/#interessi"><span class="n" aria-hidden="true">cd ~/</span>interests</a></li>
         <li><a href="/en/#musica"><span class="n" aria-hidden="true">cd ~/</span><span class="lungo">listen_to_my_music</span><span class="corto" aria-hidden="true">music</span></a></li>
@@ -42,6 +44,7 @@
         <li><a class="barra-qui" href="/en/diario/" aria-current="true"><span class="n" aria-hidden="true">cd ~/</span>journal</a></li>
       </ul>
     </nav>
+    
   </header>
 
   <main id="contenuto" class="diario">
