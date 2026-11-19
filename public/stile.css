@@ -2017,6 +2017,18 @@ a.ref-tag:hover {
     font-size: 0.8125rem;
   }
 
+  .nota pre {
+    padding: 0.7rem 0.8rem 0.8rem;
+  }
+
+  .nota pre code {
+    font-size: 0.8125rem;
+  }
+
+  .nota blockquote {
+    padding-left: 0.9rem;
+  }
+
   .nota th {
     white-space: normal;
   }
