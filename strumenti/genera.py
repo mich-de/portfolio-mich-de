@@ -432,7 +432,7 @@ def pagina(t: dict, note=()) -> str:
     </a>
     <nav aria-label="{e(t["nav_label"])}">
       <input type="checkbox" id="menu-barra" class="barra-check" aria-label="{e(t["nav_label"])}">
-      <label for="menu-barra" class="barra-etichetta">ls ~/</label>
+      <label for="menu-barra" class="barra-etichetta" title="menu"><span class="hamb" aria-hidden="true"></span></label>
       <ul class="barra-voci">
 {nav}
         <li><a href="{diario_di(t["lang"])}"><span class="n" aria-hidden="true">cd ~/</span>{e(t["nav_diario"])}</a></li>
@@ -855,7 +855,7 @@ def barra_diario(corrente: str, lingua: str = "it", altra: str = "") -> str:
     </a>
     <nav aria-label="{e(t["nav_label"])}">
       <input type="checkbox" id="menu-barra" class="barra-check" aria-label="{e(t["nav_label"])}">
-      <label for="menu-barra" class="barra-etichetta">ls ~/</label>
+      <label for="menu-barra" class="barra-etichetta" title="menu"><span class="hamb" aria-hidden="true"></span></label>
       <ul class="barra-voci">
 {voci}
         <li><a class="barra-qui" href="{diario_href}" aria-current="{corrente}"><span class="n" aria-hidden="true">cd ~/</span>{e(t["nav_diario"])}</a></li>
