@@ -644,6 +644,11 @@ RAMI = DIA["it"]["rami"]
 RAMI_DESCR = {r: d for r, d in RAMI.values()}
 
 
+def cartella(lingua: str) -> str:
+    """La cartella del diario nel menu di quella lingua: ~/diario oppure ~/journal."""
+    return "~/" + TESTI[lingua]["nav_diario"]
+
+
 def data_breve(d: datetime.date, lingua: str = "it") -> str:
     return f"{DIA[lingua]['giorni'][d.weekday()]} {d.day} {MESI[lingua][d.month - 1]} {d.year}"
 
@@ -851,7 +856,7 @@ def barra_diario(corrente: str, lingua: str = "it", altra: str = "") -> str:
   <header class="barra">
     <a class="barra-casa" href="{D["casa"]}" aria-label="MDEANGELIS, home">
       <img src="/img/icona.png" alt="" width="28" height="28">
-      <span class="barra-sessione" aria-hidden="true">[mde] {len(t["nav"]) + 1}:diario</span>
+      <span class="barra-sessione" aria-hidden="true">[mde] {len(t["nav"]) + 1}:{e(t["nav_diario"])}</span>
     </a>
     <nav aria-label="{e(t["nav_label"])}">
       <input type="checkbox" id="menu-barra" class="barra-check" aria-label="{e(t["nav_label"])}">
@@ -957,14 +962,14 @@ def pagina_tag_indice(tutte: list, lingua: str = "it") -> str:
 {barra_diario("true", lingua, altre[D["altra_lingua"]])}
 
   <main id="contenuto" class="diario">
-    {apertura("cd ~/diario && git tag -l", D["tag_n"].format(len(conti)))}
-    <h1 class="titolo"><span class="hash" aria-hidden="true">~/diario/</span>tag</h1>
+    {apertura("cd " + cartella(lingua) + " && git tag -l", D["tag_n"].format(len(conti)))}
+    <h1 class="titolo"><span class="hash" aria-hidden="true">{cartella(lingua)}/</span>tag</h1>
     <p class="commento intro"><span aria-hidden="true"># </span>{e(D["tag_intro"])}</p>
 
-    {prompt("git tag -l --sort=-count", "~/diario")}
+    {prompt("git tag -l --sort=-count", cartella(lingua))}
 {corpo}
 
-    {prompt('<span class="cursore"></span>', "~/diario")}
+    {prompt('<span class="cursore"></span>', cartella(lingua))}
   </main>
 
 {piede_diario(D["base"].lstrip("/") + "tag/", lingua)}
@@ -1007,12 +1012,12 @@ def pagina_indice(note: list, tutte: list, ramo=None, tag=None, lingua: str = "i
         titolo_pag = f"#{tag} | {D['nome']} | MDEANGELIS"
         descr_pag = D["descr_tag"].format(tag)
         log = D["commit_tag"].format(len(note), tag)
-        h1 = f'<span class="hash" aria-hidden="true">~/diario/tag/</span>#{e(tag)}'
+        h1 = f'<span class="hash" aria-hidden="true">{cartella(lingua)}/tag/</span>#{e(tag)}'
     elif ramo:
         titolo_pag = f"{ramo} | {D['nome']} | MDEANGELIS"
         descr_pag = D["descr_ramo"].format(descr_rami[ramo].capitalize())
         log = D["commit_ramo"].format(len(note), ramo)
-        h1 = f'<span class="hash" aria-hidden="true">~/diario/</span>{e(ramo)}'
+        h1 = f'<span class="hash" aria-hidden="true">{cartella(lingua)}/</span>{e(ramo)}'
     else:
         titolo_pag = f"{D['nome']} | MDEANGELIS"
         descr_pag = D["descr"] + D["intro"]
@@ -1023,7 +1028,7 @@ def pagina_indice(note: list, tutte: list, ramo=None, tag=None, lingua: str = "i
     conti = conta_tag(tutte)
     blocco_tag = ""
     if conti:
-        blocco_tag = (f'\n    {prompt("git tag -l", "~/diario")}\n'
+        blocco_tag = (f'\n    {prompt("git tag -l", cartella(lingua))}\n'
                       f'    <nav aria-label="{e(D["a_argomenti"])}">{lista_tag(conti, tag or "", lingua=lingua)}</nav>\n')
     # la stessa pagina nell'altra lingua (i rami hanno nomi diversi: si passa per il tipo)
     l2 = D["altra_lingua"]
@@ -1040,21 +1045,21 @@ def pagina_indice(note: list, tutte: list, ramo=None, tag=None, lingua: str = "i
 {barra_diario("page" if not ramo and not tag else "true", lingua, altra)}
 
   <main id="contenuto" class="diario">
-    {apertura("cd ~/diario && " + comando, log)}
+    {apertura("cd " + cartella(lingua) + " && " + comando, log)}
     <h1 class="titolo">{h1}</h1>
     <p class="commento intro"><span aria-hidden="true"># </span>{e(intro)}</p>
 
-    {prompt("git branch", "~/diario")}
+    {prompt("git branch", cartella(lingua))}
     <nav aria-label="{e(D["a_tipi"])}">
       <ul class="rami">
 {righe_rami}
       </ul>
     </nav>
 {blocco_tag}
-    {prompt(e(comando), "~/diario")}
+    {prompt(e(comando), cartella(lingua))}
 {corpo}
 
-    {prompt('<span class="cursore"></span>', "~/diario")}
+    {prompt('<span class="cursore"></span>', cartella(lingua))}
   </main>
 
 {piede_diario(percorso.lstrip("/"), lingua)}
@@ -1072,13 +1077,13 @@ def pagina_post(n, piu_nuovo, piu_vecchio, tutte=(), altra=None) -> str:
     conti = dict(conta_tag(tutte or [n]))
     fine_tag = ""
     if n.tag:
-        fine_tag = (f'\n    {prompt("git tag --contains " + n.hash[:7], "~/diario")}\n'
+        fine_tag = (f'\n    {prompt("git tag --contains " + n.hash[:7], cartella(n.lingua))}\n'
                     f'    <nav aria-label="{e(D["a_tag_post"])}">'
                     f'{lista_tag([(x, conti.get(x, 1)) for x in n.tag], lingua=n.lingua)}</nav>')
         simili = correlati(n, list(tutte))
         if simili:
             griglia = "|".join("#" + x for x in n.tag[:3])
-            fine_tag += (f'\n    {prompt(e(f"git log --oneline -E --grep={chr(34)}{griglia}{chr(34)} -3"), "~/diario")}\n'
+            fine_tag += (f'\n    {prompt(e(f"git log --oneline -E --grep={chr(34)}{griglia}{chr(34)} -3"), cartella(n.lingua))}\n'
                          f'    <nav aria-label="{e(D["a_simili"])}">\n      <ul class="vicini oneline">\n'
                          + "\n".join(voce_oneline(a) for a in simili) + "\n      </ul>\n    </nav>")
     riga_tag = (f'\n        <div><dt>{D["tag"]}</dt><dd>{tag}</dd></div>' if n.tag else "")
@@ -1092,7 +1097,7 @@ def pagina_post(n, piu_nuovo, piu_vecchio, tutte=(), altra=None) -> str:
                 f'<span class="vic-titolo">{e(vicino.titolo)}</span></a></li>')
     vicini_html = ""
     if vicini:
-        vicini_html = (f'\n    {prompt("git log --oneline -1 HEAD~1", "~/diario")}\n'
+        vicini_html = (f'\n    {prompt("git log --oneline -1 HEAD~1", cartella(n.lingua))}\n'
                        f'    <nav aria-label="{e(D["a_altri"])}">\n      <ul class="vicini">\n'
                        + "\n".join(vicini) + "\n      </ul>\n    </nav>")
     immagine = ("/img/og.jpg", 1200, 630)
@@ -1118,7 +1123,7 @@ def pagina_post(n, piu_nuovo, piu_vecchio, tutte=(), altra=None) -> str:
 
   <main id="contenuto" class="diario">
     {apertura("git show " + n.hash[:7], D["parole"].format(n.parole, n.minuti))}{avviso}
-    {prompt("git show " + n.hash[:7], "~/diario")}
+    {prompt("git show " + n.hash[:7], cartella(n.lingua))}
     <dl class="commit">
       <div><dt>commit</dt><dd class="log-hash">{n.hash}</dd></div>
       <div><dt>Author:</dt><dd>{AUTORE}</dd></div>
@@ -1133,8 +1138,8 @@ def pagina_post(n, piu_nuovo, piu_vecchio, tutte=(), altra=None) -> str:
     </article>
 {fine_tag}{vicini_html}
 
-    {prompt('cd .. <span class="cursore"></span>', "~/diario")}
-    <p class="azioni"><a class="bottone bottone-linea" href="{base}"><span aria-hidden="true">cd </span>~/diario</a></p>
+    {prompt('cd .. <span class="cursore"></span>', cartella(n.lingua))}
+    <p class="azioni"><a class="bottone bottone-linea" href="{base}"><span aria-hidden="true">cd </span>{cartella(n.lingua)}</a></p>
   </main>
 
 {piede_diario("diario/" + n.file, n.lingua)}
@@ -1177,11 +1182,11 @@ def blocco_diario(t: dict, note) -> str:
       {salto(t, "diario")}
       <h2 id="t-dia" class="titolo"><span class="hash" aria-hidden="true">## </span>{e(t["dia_titolo"])}</h2>
       <p class="commento"><span aria-hidden="true"># </span>{e(t["dia_intro"] + nota_lingua)}</p>
-      {prompt(f"git log --oneline -{len(scelti)}", "~/diario")}
+      {prompt(f"git log --oneline -{len(scelti)}", cartella(lingua))}
       <ul class="vicini oneline">
 {voci}
       </ul>
-      <p class="azioni"><a class="bottone bottone-linea" href="{diario_di(lingua)}"><span aria-hidden="true">cd </span>~/diario<span class="visivamente-nascosto">: {e(t["dia_tutto"])}</span></a></p>
+      <p class="azioni"><a class="bottone bottone-linea" href="{diario_di(lingua)}"><span aria-hidden="true">cd </span>{cartella(lingua)}<span class="visivamente-nascosto">: {e(t["dia_tutto"])}</span></a></p>
     </section>"""
 
 
