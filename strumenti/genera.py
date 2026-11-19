@@ -1121,8 +1121,10 @@ def pagina_post(n, piu_nuovo, piu_vecchio, tutte=(), altra=None) -> str:
 IN_HOME = ("2026-11-12-hello-world",)
 
 
-def in_home(note) -> list:
-    """Gli ultimi tre post, più quelli in IN_HOME."""
+def in_home(note, lingua: str = "it") -> list:
+    """Gli ultimi tre post, più quelli in IN_HOME. In inglese solo i post che hanno la traduzione."""
+    if lingua == "en":
+        note = [n for n in note if n.slug in TRADUZIONI]
     scelti = list(note[:3])
     for n in note:
         if n.slug in IN_HOME and all(n.slug != s.slug for s in scelti):
@@ -1132,11 +1134,12 @@ def in_home(note) -> list:
 
 def blocco_diario(t: dict, note) -> str:
     """Sezione in home con gli ultimi tre post e quelli in IN_HOME (solo se ce ne sono).
-    In inglese: la traduzione quando c'è, se no il post italiano (segnato come tale)."""
-    if not note:
-        return ""
+    In inglese compaiono solo i post tradotti, e con il titolo inglese."""
     lingua = t["lang"]
-    scelti = [TRADUZIONI.get(n.slug, n) if lingua == "en" else n for n in in_home(note)]
+    visti = in_home(note, lingua) if note else []
+    if not visti:
+        return ""
+    scelti = [TRADUZIONI.get(n.slug, n) if lingua == "en" else n for n in visti]
     voci = "\n".join(
         f'        <li><a href="{indirizzo(n)}" lang="{n.lingua}"><span class="log-hash" aria-hidden="true">{n.hash[:7]}</span>'
         f'<span class="vic-titolo">{e(n.titolo)}</span>'
