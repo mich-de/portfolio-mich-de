@@ -264,6 +264,23 @@ MARCHIO = ('<span class="m-scrive"><span class="m-forte">MDE</span>'
            '<span class="m-cursore" aria-hidden="true"></span>')
 
 
+# nomi più corti per il menu su telefono (dove il menu deve stare tutto in una riga)
+NAV_CORTI = {
+    "it": {"musica": "musica", "/diario/2026-11-12-hello-world/": "hello"},
+    "en": {"musica": "music", "/en/diario/2026-11-12-hello-world/": "hello"},
+}
+
+
+def voce_nav(a: str, n: str, lingua: str, href: str) -> str:
+    corto = NAV_CORTI.get(lingua, {}).get(a)
+    testo = e(n)
+    if corto:
+        testo = (f'<span class="lungo">{e(n)}</span>'
+                 f'<span class="corto" aria-hidden="true">{e(corto)}</span>')
+    return (f'        <li><a href="{href}"><span class="n" aria-hidden="true">cd ~/</span>'
+            f'{testo}</a></li>')
+
+
 def salto(t: dict, sezione: str) -> str:
     """Console che 'esegue' il comando quando si arriva alla sezione dal menu (solo CSS, :target)."""
     cmd, log = t["salti"][sezione]
@@ -289,8 +306,8 @@ def pagina(t: dict, note=()) -> str:
     altro_href, altro_breve, altro_lang, altro_nome = t["altro"]
 
     nav = "\n".join(
-        f'        <li><a href="{a if a.startswith("/") else "#" + a}"><span class="n" aria-hidden="true">cd ~/</span>{e(n)}</a></li>'
-        for i, (a, n) in enumerate(t["nav"], 1))
+        voce_nav(a, n, t["lang"], a if a.startswith("/") else "#" + a)
+        for a, n in t["nav"])
 
     righe_term = "\n".join(
         f'        <p class="term-log l{i}"><span class="term-ok">[ ok ]</span> {e(r)}</p>'
@@ -817,8 +834,8 @@ def barra_diario(corrente: str, lingua: str = "it", altra: str = "") -> str:
     """altra: indirizzo della stessa pagina nell'altra lingua (se c'è)."""
     t, D = TESTI[lingua], DIA[lingua]
     voci = "\n".join(
-        f'        <li><a href="{a if a.startswith("/") else D["casa"] + "#" + a}"><span class="n" aria-hidden="true">cd ~/</span>{e(n)}</a></li>'
-        for i, (a, n) in enumerate(t["nav"], 1))
+        voce_nav(a, n, lingua, a if a.startswith("/") else D["casa"] + "#" + a)
+        for a, n in t["nav"])
     lingua_link = ""
     if altra:
         l2 = D["altra_lingua"]

@@ -181,6 +181,10 @@ p {
   color: var(--tenue);
 }
 
+.barra .corto {
+  display: none;
+}
+
 .barra-lingua {
   border-left: 1px solid var(--bordo);
   font-weight: 700;
@@ -2078,8 +2082,8 @@ a.ref-tag:hover {
   }
 
   .barra nav a {
-    padding: 0 0.55rem;
-    font-size: 0.75rem;
+    padding: 0 0.35rem;
+    font-size: 0.7rem;
   }
 
   .barra .n {
@@ -2203,6 +2207,19 @@ html {
 
 /* Barra in alto su schermi stretti: le voci scorrono di lato, la lingua resta visibile */
 @media (max-width: 52rem) {
+  .barra .lungo {
+    display: none;
+  }
+
+  .barra .corto {
+    display: inline;
+  }
+
+  .barra nav a {
+    padding: 0 0.4rem;
+    font-size: 0.75rem;
+  }
+
   .barra nav {
     flex: 1 1 auto;
     min-width: 0;
